@@ -1,0 +1,62 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "⬆ Push (feltöltés GitHubra)",
+      "type": "shell",
+      "command": "git add . && git diff --cached --quiet && echo 'Nincs változás.' || (git commit -m \"Mentés — $(Get-Date -Format 'yyyy.MM.dd HH:mm')\" && git push && echo 'Kész!')",
+      "options": { "cwd": "${workspaceFolder}" },
+      "group": { "kind": "build", "isDefault": true },
+      "presentation": { "reveal": "always", "panel": "shared", "clear": true },
+      "problemMatcher": []
+    },
+    {
+      "label": "⬇ Pull (letöltés GitHubról)",
+      "type": "shell",
+      "command": "git pull && echo 'Frissítés kész!'",
+      "options": { "cwd": "${workspaceFolder}" },
+      "group": "none",
+      "presentation": { "reveal": "always", "panel": "shared", "clear": true },
+      "problemMatcher": []
+    },
+    {
+      "label": "↩ Visszagörgetés (undo napra/verzióra)",
+      "type": "shell",
+      "command": "powershell -ExecutionPolicy Bypass -Command \"$c=git log --oneline -20;$i=0;$c|%{$i++;Write-Host \\\"[$i] $_\\\"};$v=Read-Host 'Sorszám';$h=($c[([int]$v)-1] -split ' ')[0];$m=Read-Host 'Visszaállítás $h ? (i/n)';if($m -eq 'i'){git checkout $h -- .;git add .;git commit -m \\\"Visszaallitas $h\\\";Write-Host 'Kész!' -ForegroundColor Green}\"",
+      "options": { "cwd": "${workspaceFolder}" },
+      "group": "none",
+      "presentation": { "reveal": "always", "panel": "shared", "clear": true },
+      "problemMatcher": []
+    },
+    {
+      "label": "▶ Napló Watcher (percenkénti auto-napló)",
+      "type": "shell",
+      "command": "powershell -ExecutionPolicy Bypass -File .vscode/naplo-watcher.ps1",
+      "options": { "cwd": "${workspaceFolder}" },
+      "group": "none",
+      "isBackground": true,
+      "runOptions": { "runOn": "folderOpen" },
+      "presentation": { "reveal": "silent", "panel": "dedicated", "clear": true },
+      "problemMatcher": []
+    },
+    {
+      "label": "🌐 Browser Sync (live reload)",
+      "type": "shell",
+      "command": "npx browser-sync start --proxy \"localhost\" --files \"**/*.css,**/*.php,**/*.js\" --port 3000",
+      "options": { "cwd": "${workspaceFolder}" },
+      "group": "none",
+      "isBackground": true,
+      "presentation": { "reveal": "always", "panel": "dedicated", "clear": true },
+      "problemMatcher": []
+    },
+    {
+      "label": "🌿 Branch váltás / merge",
+      "type": "shell",
+      "command": "powershell -ExecutionPolicy Bypass -Command \"Write-Host 'Branch:' (git branch --show-current) -ForegroundColor Cyan;$a=git branch --format='%(refname:short)';$i=0;$a|%{$i++;Write-Host \\\"  [$i] $_\\\"};Write-Host '  [m] Merge → staging';Write-Host '  [M] Merge staging → main';$v=Read-Host 'Választás';if($v -eq 'm'){git checkout staging;git merge (git branch --show-current);git push;git checkout develop}elseif($v -eq 'M'){git checkout main;git merge staging;git push;git checkout develop}else{git checkout ($a[([int]$v)-1])}\"",
+      "options": { "cwd": "${workspaceFolder}" },
+      "group": "none",
+      "presentation": { "reveal": "always", "panel": "shared", "clear": true },
+      "problemMatcher": []
+    }
+  ]
+}
