@@ -83,6 +83,22 @@ pre.exp{max-height:none}
 .sc-head h3{font-size:16px;font-weight:700}
 .tag{display:inline-block;background:rgba(255,0,0,.1);color:var(--red);font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:3px 10px;border:1px solid rgba(255,0,0,.2)}
 .sc-desc{color:var(--text);font-size:13px;margin-bottom:12px}
+.paste-tabs{display:flex;gap:0;margin-top:40px;flex-wrap:wrap}
+.paste-tab{flex:1;min-width:180px;padding:16px 20px 14px;background:var(--card);border:1px solid var(--border);cursor:pointer;text-align:left;transition:all .2s;font-family:inherit;min-height:60px}
+.paste-tab.active{background:rgba(255,0,0,.06);border-color:rgba(255,0,0,.35);border-bottom-color:transparent;position:relative;z-index:2}
+.paste-tab.active::after{content:'';position:absolute;bottom:-1px;left:-1px;right:-1px;height:3px;background:var(--red)}
+.paste-tab-icon{font-size:18px;display:block;margin-bottom:4px}
+.paste-tab-label{font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;display:block;margin-bottom:2px;color:#fff}
+.paste-tab-hint{font-size:10px;color:var(--text)}
+.paste-panel{display:none;border:1px solid var(--border);border-top-color:rgba(255,0,0,.2);margin-top:-1px;background:rgba(255,0,0,.02);padding:24px 28px;position:relative}
+.paste-panel.active{display:block}
+.paste-panel .pcmd{display:flex;align-items:stretch;gap:0;margin-bottom:14px}
+.paste-panel .pcmd code{flex:1;font-family:'Cascadia Code','Fira Code',monospace;font-size:12px;color:#fff;background:rgba(0,0,0,.75);border:1px solid var(--border);border-right:none;padding:14px 18px;word-break:break-all;line-height:1.5}
+.paste-panel .pcmd .pbtn{background:var(--red);border:none;color:#fff;font-size:11px;letter-spacing:2px;padding:0 22px;cursor:pointer;font-weight:700;text-transform:uppercase;transition:all .2s;white-space:nowrap}
+.paste-panel .pcmd .pbtn:hover{background:#cc0000}.paste-panel .pcmd .pbtn.ok{background:#00c864}
+.paste-steps{display:flex;flex-direction:column;gap:6px;margin-top:4px}
+.paste-step{font-size:12px;color:var(--text);line-height:1.6;display:flex;gap:8px}
+.paste-step::before{content:'›';color:rgba(255,0,0,.6);flex-shrink:0}
 footer{text-align:center;padding:60px 24px;border-top:1px solid var(--border);color:var(--text);font-size:12px;position:relative;z-index:1}
 footer strong{color:#fff}footer span{color:var(--red)}
 @media(max-width:768px){nav a{display:none}.makes-grid{grid-template-columns:1fr}.q-item{grid-template-columns:1fr}.q-prompt{border-right:none;border-bottom:1px solid var(--border)}}
@@ -94,6 +110,7 @@ footer strong{color:#fff}footer span{color:var(--red)}
 
 <nav>
   <div class="nav-logo">VS Code<span>Wizard</span></div>
+  <a href="#hova">Beillesztés</a>
   <a href="#wizard">Wizard</a>
   <a href="#kerdesek">Kerdesek</a>
   <a href="#scriptek">Scriptek</a>
@@ -122,10 +139,79 @@ footer strong{color:#fff}footer span{color:var(--red)}
   </div>
 
   <div class="hero-cta">
-    <a href="#wizard" class="btn btn-r">Mit csinál a wizard?</a>
-    <a href="https://github.com/koltainorbert/VisualCode-Munkakornyezet" target="_blank" class="btn btn-g">GitHub repo</a>
+    <a href="#hova" class="btn btn-r">Hova illesztem be?</a>
+    <a href="#wizard" class="btn btn-g">Mit csinál a wizard?</a>
   </div>
 </div>
+
+<hr class="d">
+
+<section id="hova" style="padding:72px 0">
+  <div class="wrap">
+    <div class="sl reveal">Három lehetőség</div>
+    <h2 class="st reveal">Hova másolod a parancsot?</h2>
+    <p class="ss reveal">Ugyanaz a kód – három különböző helyről futtatható. Válaszd amelyik épp nyitva van.</p>
+
+    <div class="paste-tabs reveal" id="pt-tabs">
+      <button class="paste-tab active" onclick="switchTab(0)">
+        <span class="paste-tab-icon">🖥️</span>
+        <span class="paste-tab-label">PowerShell</span>
+        <span class="paste-tab-hint">Win+R → powershell</span>
+      </button>
+      <button class="paste-tab" onclick="switchTab(1)">
+        <span class="paste-tab-icon">⌨️</span>
+        <span class="paste-tab-label">VS Code Terminal</span>
+        <span class="paste-tab-hint">Ctrl+` a VS Code-ban</span>
+      </button>
+      <button class="paste-tab" onclick="switchTab(2)">
+        <span class="paste-tab-icon">🤖</span>
+        <span class="paste-tab-label">Copilot Chat</span>
+        <span class="paste-tab-hint">VS Code Copilot ablak</span>
+      </button>
+    </div>
+
+    <!-- PANEL 0: PowerShell -->
+    <div class="paste-panel active" id="pt-0">
+      <div class="pcmd">
+        <code>irm "https://raw.githubusercontent.com/koltainorbert/VisualCode-Munkakornyezet/main/setup-projekt.ps1" | iex</code>
+        <button class="pbtn" onclick="pcopy(this,'irm &quot;https://raw.githubusercontent.com/koltainorbert/VisualCode-Munkakornyezet/main/setup-projekt.ps1&quot; | iex')">MÁSOLÁS</button>
+      </div>
+      <div class="paste-steps">
+        <div class="paste-step"><strong>Win+R</strong> → gépeld: <code style="color:rgba(255,0,0,.8);font-family:monospace;font-size:11px">powershell</code> → Enter</div>
+        <div class="paste-step">Illeszd be a parancsot (Ctrl+V) → Enter</div>
+        <div class="paste-step">A wizard megkérdez mindent – Enter = alapértelmezett</div>
+      </div>
+    </div>
+
+    <!-- PANEL 1: VS Code Terminal -->
+    <div class="paste-panel" id="pt-1">
+      <div class="pcmd">
+        <code>irm "https://raw.githubusercontent.com/koltainorbert/VisualCode-Munkakornyezet/main/setup-projekt.ps1" | iex</code>
+        <button class="pbtn" onclick="pcopy(this,'irm &quot;https://raw.githubusercontent.com/koltainorbert/VisualCode-Munkakornyezet/main/setup-projekt.ps1&quot; | iex')">MÁSOLÁS</button>
+      </div>
+      <div class="paste-steps">
+        <div class="paste-step">VS Code-ban <strong>Ctrl+`</strong> (backtick) nyit egy terminált</div>
+        <div class="paste-step">Bizonyosodj meg, hogy PowerShell fut (jobb fent a + ikon mellett)</div>
+        <div class="paste-step">Illeszd be (Ctrl+V) → Enter → wizard indul</div>
+      </div>
+    </div>
+
+    <!-- PANEL 2: Copilot Chat -->
+    <div class="paste-panel" id="pt-2">
+      <div class="pcmd">
+        <code>@terminal irm "https://raw.githubusercontent.com/koltainorbert/VisualCode-Munkakornyezet/main/setup-projekt.ps1" | iex</code>
+        <button class="pbtn" onclick="pcopy(this,'@terminal irm &quot;https://raw.githubusercontent.com/koltainorbert/VisualCode-Munkakornyezet/main/setup-projekt.ps1&quot; | iex')">MÁSOLÁS</button>
+      </div>
+      <div class="paste-steps">
+        <div class="paste-step">VS Code-ban <strong>Ctrl+Alt+I</strong> (vagy View → GitHub Copilot Chat)</div>
+        <div class="paste-step">Az <strong>Agent Mode</strong> legyen bekapcsolva (jobb oldalon a lélegeztető ikon)</div>
+        <div class="paste-step">Illeszd be a parancsot → Enter → Copilot futtatja a terminálban</div>
+        <div class="paste-step">Ha kéri a jóváhagyást, kattints <strong>Continue</strong></div>
+      </div>
+    </div>
+
+  </div>
+</section>
 
 <hr class="d">
 
@@ -323,6 +409,21 @@ window.addEventListener('scroll',function(){pb.style.width=(scrollY/(document.bo
 // REVEAL
 const obs=new IntersectionObserver(function(entries){entries.forEach(function(e,i){if(e.isIntersecting){setTimeout(function(){e.target.classList.add('visible')},i*70);obs.unobserve(e.target)}})},{threshold:.08});
 document.querySelectorAll('.reveal').forEach(function(el){obs.observe(el)});
+
+// TAB SWITCHER
+function switchTab(n){
+  document.querySelectorAll('.paste-tab').forEach(function(t,i){t.classList.toggle('active',i===n)});
+  document.querySelectorAll('.paste-panel').forEach(function(p,i){p.classList.toggle('active',i===n)});
+}
+
+// PASTE COPY
+function pcopy(btn,text){
+  var decoded=text.replace(/&quot;/g,'"');
+  navigator.clipboard.writeText(decoded).then(function(){
+    var o=btn.textContent;btn.textContent='MÁSOLVA!';btn.classList.add('ok');
+    setTimeout(function(){btn.textContent=o;btn.classList.remove('ok')},2500);
+  });
+}
 
 // MAGIC COPY
 function copyMagic(btn){
