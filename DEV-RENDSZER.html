@@ -261,12 +261,99 @@ footer a:hover{color:rgba(255,0,0,.75)}
   .tbh{display:none}.mg,.qi{grid-template-columns:1fr}
   .qp{border-right:none;border-bottom:1px solid var(--border)}
 }
+/* ===== PROJEKTLEÍRÁS ===== */
+.pl-actions{display:flex;gap:12px;flex-wrap:wrap;margin:28px 0 0}
+.pl-print-btn,.pl-repo-btn{display:inline-flex;align-items:center;gap:8px;padding:10px 22px;border:1px solid rgba(255,0,0,.35);font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;cursor:pointer;transition:all .2s;font-family:var(--mono)}
+.pl-print-btn{background:rgba(255,0,0,.12);color:#fff}
+.pl-print-btn:hover{background:rgba(255,0,0,.25);border-color:var(--red)}
+.pl-repo-btn{background:transparent;color:rgba(255,255,255,.55);text-decoration:none}
+.pl-repo-btn:hover{color:#fff;border-color:rgba(255,255,255,.35)}
+.pl-meta-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin:32px 0 48px}
+.pl-meta-card{padding:16px 20px;border:1px solid var(--border);background:rgba(255,255,255,.025);font-size:11px;font-family:var(--mono);color:rgba(255,255,255,.55)}
+.pl-meta-card strong{display:block;color:#fff;font-size:12px;margin-bottom:4px}
+.pl-section{margin-bottom:56px}
+.pl-h3{font-size:clamp(14px,2vw,18px);font-weight:700;color:#fff;margin-bottom:20px;display:flex;align-items:center;gap:14px}
+.pl-num{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border:1px solid var(--red);color:var(--red);font-family:var(--mono);font-size:11px;font-weight:700;flex-shrink:0}
+.pl-card{padding:24px;border:1px solid var(--border);background:rgba(255,255,255,.02);line-height:1.7}
+.pl-card p{font-size:13px;color:rgba(255,255,255,.75);margin-bottom:12px}
+.pl-card p:last-child{margin-bottom:0}
+.pl-card ul{padding-left:20px;color:rgba(255,255,255,.65);font-size:12px;line-height:2}
+.pl-card strong{color:#fff}
+.pl-card code{font-family:var(--mono);font-size:11px;color:rgba(255,120,120,.9);background:rgba(255,0,0,.08);padding:1px 6px;border:1px solid rgba(255,0,0,.14)}
+.pl-timeline{position:relative;padding-left:32px}
+.pl-timeline::before{content:'';position:absolute;left:10px;top:0;bottom:0;width:1px;background:linear-gradient(to bottom,var(--red),rgba(255,0,0,.1))}
+.pl-ver{position:relative;margin-bottom:36px}
+.pl-ver-dot{position:absolute;left:-26px;top:4px;width:12px;height:12px;background:var(--red);border:2px solid rgb(6,6,6)}
+.pl-ver-tag{font-family:var(--mono);font-size:11px;color:var(--red);font-weight:700;letter-spacing:1px;margin-bottom:6px}
+.pl-ver h4{font-size:14px;color:#fff;font-weight:700;margin-bottom:8px}
+.pl-ver p{font-size:12px;color:rgba(255,255,255,.65);line-height:1.6;margin-bottom:6px}
+.pl-ver ul{padding-left:18px;font-size:12px;color:rgba(255,255,255,.55);line-height:1.9;margin-bottom:6px}
+.pl-ver-date{font-size:10px;color:rgba(255,255,255,.28);font-family:var(--mono);letter-spacing:1px;margin-top:4px}
+.pl-arch{display:flex;flex-direction:column;gap:0;align-items:center;padding:24px;border:1px solid var(--border);background:rgba(255,255,255,.02)}
+.pl-arch-row{display:flex;gap:12px;align-items:center;justify-content:center;flex-wrap:wrap}
+.pl-arch-box{padding:10px 18px;border:1px solid rgba(255,0,0,.25);background:rgba(255,0,0,.06);font-size:11px;font-family:var(--mono);text-align:center;color:#fff;min-width:120px;line-height:1.5}
+.pl-arch-box.main{border-color:var(--red);background:rgba(255,0,0,.14);font-weight:700}
+.pl-arch-arrow{color:var(--red);font-size:18px;padding:6px 0;text-align:center;width:100%;display:block}
+.pl-arch-label{font-size:9px;color:rgba(255,255,255,.28);font-family:var(--mono);letter-spacing:1px;text-align:center;margin:4px 0 10px}
+.pl-arch-split{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:0}
+.pl-table{width:100%;border-collapse:collapse;font-size:11px;font-family:var(--mono)}
+.pl-table th{background:rgba(255,0,0,.1);color:rgba(255,80,80,.9);padding:10px 14px;text-align:left;font-weight:700;letter-spacing:.5px;border:1px solid rgba(255,0,0,.15)}
+.pl-table td{padding:10px 14px;border:1px solid rgba(255,255,255,.06);color:rgba(255,255,255,.75);vertical-align:top;line-height:1.5}
+.pl-table tr:hover td{background:rgba(255,255,255,.02)}
+.pl-table td code{color:rgba(255,140,140,.9);background:rgba(255,0,0,.07);padding:1px 5px;border:1px solid rgba(255,0,0,.12)}
+.pl-table td strong{color:#fff}
+.pl-badge{display:inline-block;font-size:9px;font-family:var(--mono);padding:1px 7px;letter-spacing:1px;font-weight:700;background:rgba(255,0,0,.1);border:1px solid rgba(255,0,0,.2);color:rgba(255,120,120,.8);text-transform:uppercase;margin-right:4px}
+.pl-badge.opt{background:rgba(255,255,255,.04);border-color:rgba(255,255,255,.1);color:rgba(255,255,255,.35)}
+.pl-steps{display:flex;flex-direction:column;gap:0}
+.pl-step{display:flex;gap:0;padding:0}
+.pl-step-num{display:flex;flex-direction:column;align-items:center;padding-right:20px;flex-shrink:0}
+.pl-step-circle{width:28px;height:28px;border:1px solid var(--red);color:var(--red);font-family:var(--mono);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.pl-step-line{width:1px;background:rgba(255,0,0,.15);flex:1;min-height:20px}
+.pl-step-content{padding-bottom:28px;flex:1}
+.pl-step h4{font-size:13px;color:#fff;font-weight:700;margin-bottom:6px;margin-top:4px}
+.pl-step p{font-size:12px;color:rgba(255,255,255,.6);line-height:1.6;margin-bottom:4px}
+.pl-step code{font-family:var(--mono);font-size:10.5px;color:rgba(255,140,140,.9);background:rgba(255,0,0,.07);padding:1px 5px;border:1px solid rgba(255,0,0,.12)}
+.pl-summary{padding:28px 32px;border:1px solid var(--red);background:rgba(255,0,0,.06);position:relative;overflow:hidden}
+.pl-summary::after{content:'';position:absolute;top:0;right:0;width:30px;height:30px;background:linear-gradient(225deg,var(--red) 50%,transparent 50%)}
+.pl-summary h4{font-size:16px;font-weight:700;color:#fff;margin-bottom:12px}
+.pl-summary p{font-size:12px;color:rgba(255,255,255,.7);line-height:1.7;margin-bottom:8px}
+.pl-summary p:last-child{margin:0}
+.pl-divider{border:none;border-top:1px solid var(--border);margin:48px 0}
+@media(max-width:768px){.pl-arch-split{gap:8px}.pl-arch-box{min-width:90px;font-size:10px}.pl-step-num{padding-right:14px}}
+@media print{
+  body{background:#fff!important;color:#000!important}
+  #cv,nav,#prog,.pl-print-btn,.pl-repo-btn{display:none!important}
+  .hero,#hova,#wizard,#kerdesek,#script,footer{display:none!important}
+  #projektleiras{display:block!important}
+  .pl-card,.pl-summary{border-color:#ddd!important;background:#f9f9f9!important}
+  .pl-card p,.pl-card ul,.pl-ver p,.pl-ver ul,.pl-step p,.pl-summary p{color:#333!important}
+  .pl-table th{background:#eee!important;color:#222!important;border-color:#ccc!important}
+  .pl-table td{color:#333!important;border-color:#ddd!important}
+  .pl-table tr:hover td{background:transparent!important}
+  .pl-num,.pl-step-circle,.pl-ver-tag{color:#c00!important;border-color:#c00!important}
+  .pl-timeline::before{background:#c00!important}
+  .pl-ver-dot{background:#c00!important;border-color:#fff!important}
+  .pl-arch-box{border-color:#ccc!important;background:#f5f5f5!important;color:#000!important}
+  .pl-arch-box.main{border-color:#c00!important;background:#fee!important}
+  .pl-arch-arrow{color:#c00!important}
+  .pl-meta-card{border-color:#ddd!important;background:#fafafa!important;color:#333!important}
+  .pl-meta-card strong{color:#000!important}
+  .pl-badge{background:#eee!important;color:#333!important;border-color:#ccc!important}
+  .pl-summary{background:#fee!important;border-color:#c00!important}
+  .pl-summary h4,.pl-step h4,.pl-ver h4,.pl-h3,.st,.ss,.se{color:#000!important}
+  .pl-section{break-inside:avoid}
+  .rv{opacity:1!important;transform:none!important}
+  .pl-step-line{background:#ddd!important}
+  .pl-ver-date{color:#666!important}
+  a{color:#c00!important}
+  @page{margin:20mm;size:A4}
+}
 </style>
 </head>
 <body>
 <div id="prog"></div>
 <canvas id="cv"></canvas>
-<nav><div class="nl"><div class="nd"></div>VS&nbsp;<span style="color:var(--red)">Wizard</span></div><a href="#hova">Beilllesztés</a><a href="#wizard">Wizard</a><a href="#kerdesek">Kérdések</a><a href="#script">Script</a><div class="nr"><a class="ngh" href="https://github.com/koltainorbert/VisualCode-Munkakornyezet" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.168 6.839 9.49.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.604-3.369-1.34-3.369-1.34-.454-1.154-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836a9.59 9.59 0 012.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.741 0 .267.18.579.688.481C19.138 20.165 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>GitHub</a></div></nav>
+<nav><div class="nl"><div class="nd"></div>VS&nbsp;<span style="color:var(--red)">Wizard</span></div><a href="#hova">Beilllesztés</a><a href="#wizard">Wizard</a><a href="#kerdesek">Kérdések</a><a href="#script">Script</a><a href="#projektleiras">Leírás</a><div class="nr"><a class="ngh" href="https://github.com/koltainorbert/VisualCode-Munkakornyezet" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.168 6.839 9.49.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.604-3.369-1.34-3.369-1.34-.454-1.154-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836a9.59 9.59 0 012.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.741 0 .267.18.579.688.481C19.138 20.165 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>GitHub</a></div></nav>
 <div class="hero"><div class="he"><div class="hel"></div>VS Code Munkaközeg · Wizard v2.0</div><h1 class="ht"><span class="ln"><span class="wd">Egy parancs</span></span><span class="ln"><span class="wd r">— minden</span></span><span class="ln"><span class="wd">kész.</span></span></h1><p class="hs">WordPress, HTML, React, Vue, Node.js, Laravel — bármilyen projekthez. A wizard megkérdez mindent, beállít mindent: Git, auto-mentés, Browser Sync, Task Scheduler, deploy.</p>
 <div class="mb"><div class="mbi"><div class="mbl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>Varázsparancs — másold be és futtasd</div><div class="mbr"><div class="mbc"><span class="kw">irm</span> <span class="str" id="magic-irm">&quot;https://raw.githubusercontent.com/koltainorbert/VisualCode-Munkakornyezet/main/setup-projekt.ps1&quot;</span> <span class="kw">|</span> iex</div><button class="mcp" onclick="copyMagic(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>Másolás</button></div><div class="mbf"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4m0 4h.01"/></svg><span>Win+R → <code style="font-family:var(--mono);color:rgba(255,130,80,.9);font-size:10px">powershell</code> → Enter → fekete ablakba illeszd be | <a href="#hova">Részletes útmutató ↓</a></span></div></div></div>
 <div class="hc"><a href="#hova" class="btn btn-r"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>Hova illesztem be?</a><a href="#wizard" class="btn btn-g"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v8m-4-4h8"/></svg>Mit csinál a wizard?</a><a href="https://github.com/koltainorbert/VisualCode-Munkakornyezet" target="_blank" class="btn btn-g"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.168 6.839 9.49.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.604-3.369-1.34-3.369-1.34-.454-1.154-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836a9.59 9.59 0 012.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.741 0 .267.18.579.688.481C19.138 20.165 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>GitHub repo</a></div>
@@ -1288,7 +1375,438 @@ jobs:
             **/node_modules/**
             **/.vscode/**</pre></div>
 </div></section>
-<footer><div class="wrap"><strong>VS Code Munkaközeg Wizard</strong> &nbsp;&middot;&nbsp; v3.0 &nbsp;&middot;&nbsp; <span style="color:var(--red)">2026</span><br><a href="https://github.com/koltainorbert/VisualCode-Munkakornyezet" target="_blank" style="margin-top:10px;display:inline-block">github.com/koltainorbert/VisualCode-Munkakornyezet</a></div></footer>
+<section id="projektleiras">
+<div class="wrap" style="padding-top:100px;padding-bottom:80px">
+
+  <div class="rv">
+    <div class="se">Dokumentáció &nbsp;·&nbsp; PDF-ready</div>
+    <h2 class="st">Komplett Projektleírás</h2>
+    <p class="ss">Teljes technikai dokumentáció a VS Code Munkaközeg Wizard rendszerről. Nyomtasd ki, mentsd PDF-ként, vagy oszd meg a linket — minden benne van, internet-kapcsolat sem kell.</p>
+    <div class="pl-actions">
+      <button onclick="window.print()" class="pl-print-btn">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-1-9H6v4h12V3z"/></svg>
+        PDF mentés / Nyomtatás
+      </button>
+      <a href="https://github.com/koltainorbert/VisualCode-Munkakornyezet" target="_blank" class="pl-repo-btn">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.168 6.839 9.49.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.604-3.369-1.34-3.369-1.34-.454-1.154-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836a9.59 9.59 0 012.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.741 0 .267.18.579.688.481C19.138 20.165 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
+        GitHub Repo
+      </a>
+    </div>
+  </div>
+
+  <div class="pl-meta-grid rv">
+    <div class="pl-meta-card"><strong>Projekt neve</strong>VS Code Munkaközeg Wizard</div>
+    <div class="pl-meta-card"><strong>Aktuális verzió</strong>v3.1 — 2026</div>
+    <div class="pl-meta-card"><strong>Repo</strong>koltainorbert / VisualCode-Munkakornyezet</div>
+    <div class="pl-meta-card"><strong>Típus</strong>PowerShell 5.1+ · HTML · GitHub Actions</div>
+    <div class="pl-meta-card"><strong>Kompatibilitás</strong>Windows 10/11 · VS Code 1.80+</div>
+    <div class="pl-meta-card"><strong>Telepítés</strong>Egy parancs — irm … | iex</div>
+  </div>
+
+  <!-- 01 -->
+  <div class="pl-section rv">
+    <h3 class="pl-h3"><span class="pl-num">01</span> Rendszer célja és koncepciója</h3>
+    <div class="pl-card">
+      <p>A <strong>VS Code Munkaközeg Wizard</strong> egy interaktív PowerShell-alapú rendszer, amelynek célja, hogy bármilyen típusú fejlesztőprojekthez egyetlen parancs futtatásával felállítson egy teljes, profi munkaközeg-infrastruktúrát. A fejlesztőnek nem kell manuálisan konfigurálni a VS Code taszkokat, a Git repót, az auto-save folyamatokat, a napló rendszert vagy a CI/CD pipeline-t.</p>
+      <p>A wizard egyszer kérdez, aztán mindent automatikusan készít el:</p>
+      <ul>
+        <li><strong>VS Code feladatok</strong> (tasks.json) — Push, Pull, Visszagörgetés, Napló, Browser Sync, Branch kezelés</li>
+        <li><strong>Auto-mentés háttérfolyamat</strong> — Windows Task Schedulerben fut, 15 percenként automatikusan commitol</li>
+        <li><strong>Napló watcher</strong> — FileSystemWatcher alapú, minden mentéskor frissíti a NAPLO.md-t</li>
+        <li><strong>GitHub Copilot instrukciók</strong> — projektspecifikus AI utasítások (.github/copilot-instructions.md)</li>
+        <li><strong>Deploy pipeline</strong> — opcionális GitHub Actions FTP-deploy workflow</li>
+      </ul>
+      <p>A rendszer mottója: <strong>"Egy parancs — minden kész."</strong> Új gépen, új projektnél: beilleszted a varázs-parancsot a PowerShell-be, válaszolsz a kérdésekre, és teljes értékű munkaközeg áll rendelkezésre.</p>
+    </div>
+  </div>
+
+  <!-- 02 -->
+  <div class="pl-section rv">
+    <h3 class="pl-h3"><span class="pl-num">02</span> Verziótörténet</h3>
+    <div class="pl-timeline">
+
+      <div class="pl-ver">
+        <div class="pl-ver-dot"></div>
+        <div class="pl-ver-tag">v1.0</div>
+        <h4>Alaprendszer — WordPress wizard</h4>
+        <p>Az első verzió WordPress-projektekre fókuszált. Elkészítette a tasks.json alapverzióját, a .gitignore-t és a NAPLO.md-t.</p>
+        <ul>
+          <li>WordPress-specifikus tasks.json (Push / Pull feladatok)</li>
+          <li>NAPLO.md alapszintű munkanapló</li>
+          <li>Alapszintű Git integráció, manuális futtatás PowerShell-ből</li>
+        </ul>
+        <div class="pl-ver-date">Repo: VisualCode-Munkakornyezet / main · initial commit</div>
+      </div>
+
+      <div class="pl-ver">
+        <div class="pl-ver-dot"></div>
+        <div class="pl-ver-tag">v2.0</div>
+        <h4>Universális wizard — bármilyen projekt, one-liner telepítés</h4>
+        <p>A wizard bővítve lett 6 projekttípusra. Hozzáadva az auto-save háttérfolyamat, a napló watcher, a deploy.yml generátor és az irm one-liner. DEV-RENDSZER.html dashboard 3 füllel. Win+R hiba javítva.</p>
+        <ul>
+          <li>6 projekttípus: WordPress · HTML/CSS/JS · React/Vue · Node.js · Laravel · Egyéb</li>
+          <li>autosave-background.ps1 + install-autosave-task.ps1 (Task Scheduler)</li>
+          <li>naplo-watcher.ps1 — FileSystemWatcher alapú auto-napló</li>
+          <li>copilot-instructions.md generálás (.github/)</li>
+          <li>Opcionális deploy.yml (GitHub Actions → FTP)</li>
+          <li>irm "URL" | iex one-liner telepítési mód</li>
+          <li>DEV-RENDSZER.html dashboard, Win+R 2-módszeres fix</li>
+        </ul>
+        <div class="pl-ver-date">Commit: 0c5783e · Repo: VisualCode-Munkakornyezet / main</div>
+      </div>
+
+      <div class="pl-ver">
+        <div class="pl-ver-dot"></div>
+        <div class="pl-ver-tag">v3.0</div>
+        <h4>Vizuális redesign — animált dashboard, PS1 inline</h4>
+        <p>Teljes HTML vizuális újratervezés Python build script segítségével. Animált SVG ikonok, particle canvas háttér, scroll-reveal animációk, 4-fülű tab rendszer. A teljes PS1 script beágyazva (GitHub-függőség nélkül).</p>
+        <ul>
+          <li>Animált SVG ikonok minden tabnál (PowerShell · VS Code · Copilot · Kód)</li>
+          <li>Particle canvas háttér (85 pont, piros összekötések)</li>
+          <li>IntersectionObserver scroll-reveal animációk</li>
+          <li>4. fül: teljes 920 soros PS1 inline — MÁSOLÁS + LETÖLTÉS + Kinyit</li>
+          <li>Scroll progress bar, warning box, staggered animációk</li>
+          <li>_build_v3.py Python build script (PS1 tartalom megőrizve)</li>
+        </ul>
+        <div class="pl-ver-date">Commit: 8a90e58 · 2026</div>
+      </div>
+
+      <div class="pl-ver">
+        <div class="pl-ver-dot"></div>
+        <div class="pl-ver-tag">v3.1</div>
+        <h4>Komplett projektleírás — PDF-ready dokumentáció</h4>
+        <p>Ez az oldal. Teljes önálló dokumentáció beágyazva a dashboardba: architektúra, verziótörténet, fájlok, taskok, wizard kérdések, telepítési útmutató. PDF-mentés gomb, print CSS.</p>
+        <ul>
+          <li>Komplett projektleírás szekció (ezt most olvasod)</li>
+          <li>PDF-ready @media print CSS — böngészőből közvetlenül nyomtatható/menthető</li>
+          <li>Nav link: Leírás</li>
+          <li>Architektúra diagram, verziótörténet timeline, táblázatok</li>
+        </ul>
+        <div class="pl-ver-date">2026 · github.com/koltainorbert/VisualCode-Munkakornyezet</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 03 -->
+  <div class="pl-section rv">
+    <h3 class="pl-h3"><span class="pl-num">03</span> Teljes rendszer architektúra</h3>
+    <div class="pl-arch">
+      <div class="pl-arch-row">
+        <div class="pl-arch-box main">setup-projekt.ps1<br><span style="font-size:9px;opacity:.6;font-weight:400">920 sor · interaktív PowerShell wizard</span></div>
+      </div>
+      <span class="pl-arch-arrow">↓</span>
+      <div class="pl-arch-label">kérdések megválaszolása után generálja ezeket a fájlokat:</div>
+      <div class="pl-arch-split">
+        <div class="pl-arch-box">.vscode/tasks.json</div>
+        <div class="pl-arch-box">scripts/naplo-watcher.ps1</div>
+        <div class="pl-arch-box">scripts/autosave-background.ps1</div>
+        <div class="pl-arch-box">scripts/install-autosave-task.ps1</div>
+        <div class="pl-arch-box">.github/copilot-instructions.md</div>
+        <div class="pl-arch-box">NAPLO.md</div>
+        <div class="pl-arch-box">.gitignore</div>
+        <div class="pl-arch-box">.github/workflows/deploy.yml <span style="opacity:.4">(opt.)</span></div>
+      </div>
+      <span class="pl-arch-arrow">↓</span>
+      <div class="pl-arch-row" style="gap:24px;align-items:flex-start">
+        <div style="text-align:center">
+          <div class="pl-arch-box" style="margin-bottom:6px">VS Code Tasks</div>
+          <div class="pl-arch-label">Ctrl+Shift+P → Run Task<br>Push · Pull · Vissza · Sync</div>
+        </div>
+        <div style="text-align:center">
+          <div class="pl-arch-box" style="margin-bottom:6px">Task Scheduler</div>
+          <div class="pl-arch-label">15 perces auto-commit<br>bejelentkezéstől fut</div>
+        </div>
+        <div style="text-align:center">
+          <div class="pl-arch-box" style="margin-bottom:6px">FileSystemWatcher</div>
+          <div class="pl-arch-label">Napló auto-frissítés<br>minden mentésnél</div>
+        </div>
+      </div>
+      <span class="pl-arch-arrow">↓</span>
+      <div class="pl-arch-row" style="gap:24px">
+        <div style="text-align:center">
+          <div class="pl-arch-box" style="margin-bottom:6px">Git (lokális)</div>
+          <div class="pl-arch-label">commit · branch · reset</div>
+        </div>
+        <div style="text-align:center">
+          <div class="pl-arch-box main" style="margin-bottom:6px">GitHub Remote</div>
+          <div class="pl-arch-label">origin · main branch</div>
+        </div>
+      </div>
+      <span class="pl-arch-arrow">↓  <span style="font-size:10px;opacity:.4">(ha deploy.yml generálva lett)</span></span>
+      <div class="pl-arch-row">
+        <div class="pl-arch-box main">GitHub Actions CI/CD → FTP Deploy → Éles szerver</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 04 -->
+  <div class="pl-section rv">
+    <h3 class="pl-h3"><span class="pl-num">04</span> Létrehozott fájlok és funkciójuk</h3>
+    <div style="overflow-x:auto">
+    <table class="pl-table">
+      <tr><th>Fájl</th><th>Elérési út</th><th>Funkció</th><th>Típus</th></tr>
+      <tr>
+        <td><strong>tasks.json</strong></td>
+        <td><code>.vscode/tasks.json</code></td>
+        <td>VS Code feladatok konfigurációja: Git Push (commit+push), Pull, Visszagörgetés (soft reset), Napló Watcher indítás, Browser Sync helyi szerver, Új Branch létrehozás. Ctrl+Shift+P → Run Task menüből érhető el.</td>
+        <td><span class="pl-badge">kötelező</span></td>
+      </tr>
+      <tr>
+        <td><strong>naplo-watcher.ps1</strong></td>
+        <td><code>scripts/naplo-watcher.ps1</code></td>
+        <td>PowerShell FileSystemWatcher alapú folyamat — figyeli a projekt összes fájlját, és minden Created/Changed/Renamed eseményre automatikusan bejegyzi az időbélyeget, fájlnevet és eseménytípust a NAPLO.md-be.</td>
+        <td><span class="pl-badge">kötelező</span></td>
+      </tr>
+      <tr>
+        <td><strong>autosave-background.ps1</strong></td>
+        <td><code>scripts/autosave-background.ps1</code></td>
+        <td>Háttérben futó folyamat: beállított időközönként (alap: 15 perc) automatikusan végrehajtja a git add → git commit "auto: [dátum]" → git push folyamatot. VS Code és internet nélkül is fut, amíg a gép be van kapcsolva.</td>
+        <td><span class="pl-badge">kötelező</span></td>
+      </tr>
+      <tr>
+        <td><strong>install-autosave-task.ps1</strong></td>
+        <td><code>scripts/install-autosave-task.ps1</code></td>
+        <td>Windows Task Schedulerbe regisztrálja az autosave-background.ps1-t, hogy minden bejelentkezéskor automatikusan elinduljon. Egyszer kell futtatni, rendszergazdai jogosultsággal.</td>
+        <td><span class="pl-badge">kötelező</span></td>
+      </tr>
+      <tr>
+        <td><strong>copilot-instructions.md</strong></td>
+        <td><code>.github/copilot-instructions.md</code></td>
+        <td>GitHub Copilot számára projektspecifikus utasítások: technológia stack, kódolási stílus, tiltott minták, preferált megközelítések, projekt kontextus. A VS Code automatikusan betölti és alkalmazza Copilot kérésekre.</td>
+        <td><span class="pl-badge">kötelező</span></td>
+      </tr>
+      <tr>
+        <td><strong>NAPLO.md</strong></td>
+        <td><code>NAPLO.md</code></td>
+        <td>Automatikusan frissülő munkanapló. A naplo-watcher.ps1 minden fájlmentéskor hozzáfűzi: időbélyeg + fájlnév + eseménytípus. Manuálisan is szerkeszthető fejlesztési megjegyzésekkel.</td>
+        <td><span class="pl-badge">kötelező</span></td>
+      </tr>
+      <tr>
+        <td><strong>.gitignore</strong></td>
+        <td><code>.gitignore</code></td>
+        <td>Git kizárások a projekttípusnak megfelelően generálva. WordPress: wp-config.php, /uploads/, node_modules · Node.js: .env, dist, node_modules · React: build/, .env.local · stb.</td>
+        <td><span class="pl-badge">kötelező</span></td>
+      </tr>
+      <tr>
+        <td><strong>deploy.yml</strong></td>
+        <td><code>.github/workflows/deploy.yml</code></td>
+        <td>GitHub Actions workflow: main branchre való push esetén automatikusan FTP-deploy-olja a projektet az éles szerverre. SamKirkland/FTP-Deploy-Action alapú. Szükséges GitHub Secrets: FTP_SERVER, FTP_USERNAME, FTP_PASSWORD, FTP_SERVER_DIR.</td>
+        <td><span class="pl-badge opt">opcionális</span></td>
+      </tr>
+    </table>
+    </div>
+  </div>
+
+  <!-- 05 -->
+  <div class="pl-section rv">
+    <h3 class="pl-h3"><span class="pl-num">05</span> VS Code Taskok részletesen</h3>
+    <div style="overflow-x:auto">
+    <table class="pl-table">
+      <tr><th>Task neve</th><th>Mit csinál pontosan</th><th>Mikor használd</th></tr>
+      <tr>
+        <td><strong>🔴 Git Push</strong></td>
+        <td>Bekéri a commit üzenetet, majd: <code>git add .</code> → <code>git commit -m "..."</code> → <code>git push origin [branch]</code></td>
+        <td>Manuális mentésnél — napi munka végén, fontos mérföldköveknél, release előtt</td>
+      </tr>
+      <tr>
+        <td><strong>⬇ Git Pull</strong></td>
+        <td><code>git pull origin [branch]</code> — letölti a remote repository legújabb változásait</td>
+        <td>Más gépen vagy kollégával végzett munkánál, munka elején szinkronizáláshoz</td>
+      </tr>
+      <tr>
+        <td><strong>↩ Visszagörgetés</strong></td>
+        <td><code>git reset --soft HEAD~1</code> — az utolsó commitot visszavonja, a fájlok változatlanok maradnak, csak az index törlődik</td>
+        <td>Ha rossz commit üzenetet adtál, vagy az utolsó commitot módosítani szeretnéd</td>
+      </tr>
+      <tr>
+        <td><strong>📝 Napló Watcher</strong></td>
+        <td>Elindítja a <code>scripts/naplo-watcher.ps1</code>-t egy új terminálban — FileSystemWatcher figyeli az összes fájlváltozást</td>
+        <td>Munka elején indítsd el — terminálablakot nyit, folyamatosan fut a háttérben</td>
+      </tr>
+      <tr>
+        <td><strong>🌐 Browser Sync</strong></td>
+        <td><code>npx browser-sync start --server --files "**/*"</code> — helyi fejlesztői szerver + automatikus böngésző-reload fájlváltozásnál</td>
+        <td>HTML/CSS/JS fejlesztésnél — böngészőben élőben látod a változásokat mentés után</td>
+      </tr>
+      <tr>
+        <td><strong>🌿 Új Branch</strong></td>
+        <td>Bekéri a branch nevét, majd: <code>git checkout -b [nev]</code> → <code>git push -u origin [nev]</code></td>
+        <td>Új funkció fejlesztésekor — ne main-en dolgozz közvetlen, használj feature branch-et</td>
+      </tr>
+    </table>
+    </div>
+    <div class="pl-card" style="margin-top:16px">
+      <p><strong>Hogyan éred el:</strong> <code>Ctrl+Shift+P</code> → gépeld: <code>Tasks: Run Task</code> → Enter → válaszd ki a listából. Alternatíva: VS Code alsó státuszsor → terminál ikon → Run Task.</p>
+    </div>
+  </div>
+
+  <!-- 06 -->
+  <div class="pl-section rv">
+    <h3 class="pl-h3"><span class="pl-num">06</span> Wizard kérdések és paraméterek</h3>
+    <div style="overflow-x:auto">
+    <table class="pl-table">
+      <tr><th>#</th><th>Kérdés (prompt)</th><th>Alap</th><th>Hatás a generált fájlokra</th></tr>
+      <tr>
+        <td><strong>1</strong></td>
+        <td>Projekt neve</td>
+        <td><span class="pl-badge">aktuális mappa</span></td>
+        <td>NAPLO.md fejléc, tasks.json label-ek, copilot-instructions.md projekt neve ezt kapják</td>
+      </tr>
+      <tr>
+        <td><strong>2</strong></td>
+        <td>Projekt típusa</td>
+        <td><span class="pl-badge">WordPress</span></td>
+        <td><code>1</code> WordPress · <code>2</code> HTML/CSS/JS · <code>3</code> React/Vue · <code>4</code> Node.js · <code>5</code> Laravel · <code>6</code> Egyéb — a .gitignore és copilot-instructions.md tartalma ettől függ</td>
+      </tr>
+      <tr>
+        <td><strong>3</strong></td>
+        <td>GitHub username</td>
+        <td><span class="pl-badge">—</span></td>
+        <td>Remote URL összeállításához: <code>https://github.com/[username]/[repo].git</code></td>
+      </tr>
+      <tr>
+        <td><strong>4</strong></td>
+        <td>Repo neve</td>
+        <td><span class="pl-badge">projekt neve</span></td>
+        <td>Ha a GitHub repository neve eltér a projekt nevétől — remote URL-be kerül</td>
+      </tr>
+      <tr>
+        <td><strong>5</strong></td>
+        <td>Fő branch neve</td>
+        <td><span class="pl-badge">main</span></td>
+        <td>Push / Pull taskok és az auto-commit erre a branchre dolgoznak</td>
+      </tr>
+      <tr>
+        <td><strong>6</strong></td>
+        <td>Browser Sync port</td>
+        <td><span class="pl-badge">3000</span></td>
+        <td>A Browser Sync task ezen a porton indít helyi szervert (<code>localhost:3000</code>)</td>
+      </tr>
+      <tr>
+        <td><strong>7</strong></td>
+        <td>Auto-commit időköz</td>
+        <td><span class="pl-badge">15 perc</span></td>
+        <td>Az autosave-background.ps1-be kerül — ennyire percenként commitol automatikusan</td>
+      </tr>
+      <tr>
+        <td><strong>8</strong></td>
+        <td>Deploy workflow?</td>
+        <td><span class="pl-badge">N</span></td>
+        <td><code>I</code> = generálja a .github/workflows/deploy.yml-t. FTP adatokat GitHub Secrets-be kell beilleszteni (FTP_SERVER, FTP_USERNAME, FTP_PASSWORD, FTP_SERVER_DIR)</td>
+      </tr>
+    </table>
+    </div>
+  </div>
+
+  <!-- 07 -->
+  <div class="pl-section rv">
+    <h3 class="pl-h3"><span class="pl-num">07</span> Telepítési útmutató (új gépen, lépésről lépésre)</h3>
+    <div class="pl-steps">
+      <div class="pl-step">
+        <div class="pl-step-num"><div class="pl-step-circle">1</div><div class="pl-step-line"></div></div>
+        <div class="pl-step-content">
+          <h4>VS Code telepítése</h4>
+          <p>Töltsd le és telepítsd: <strong>code.visualstudio.com</strong></p>
+          <p>Ajánlott kiterjesztések: <code>GitHub Copilot</code>, <code>GitLens</code>, <code>Prettier - Code formatter</code></p>
+        </div>
+      </div>
+      <div class="pl-step">
+        <div class="pl-step-num"><div class="pl-step-circle">2</div><div class="pl-step-line"></div></div>
+        <div class="pl-step-content">
+          <h4>Git telepítése és konfigurálása</h4>
+          <p>Töltsd le: <strong>git-scm.com</strong> — telepítés után konfiguráld:</p>
+          <p><code>git config --global user.name "Neved"</code></p>
+          <p><code>git config --global user.email "email@cim.hu"</code></p>
+        </div>
+      </div>
+      <div class="pl-step">
+        <div class="pl-step-num"><div class="pl-step-circle">3</div><div class="pl-step-line"></div></div>
+        <div class="pl-step-content">
+          <h4>PowerShell futtatási házirend beállítása</h4>
+          <p>Rendszergazdaként nyisd meg a PowerShell-t (Win+X → Windows PowerShell (Admin)) és add ki:</p>
+          <p><code>Set-ExecutionPolicy RemoteSigned -Scope CurrentUser</code></p>
+          <p>Ez engedélyezi a lokálisan letöltött .ps1 szkriptek futtatását.</p>
+        </div>
+      </div>
+      <div class="pl-step">
+        <div class="pl-step-num"><div class="pl-step-circle">4</div><div class="pl-step-line"></div></div>
+        <div class="pl-step-content">
+          <h4>Navigálás a projekt mappájába</h4>
+          <p>Nyiss egy sima (nem admin) PowerShell terminált a projekt mappájában:</p>
+          <p><code>cd D:\Projektek\uj-projektem</code></p>
+          <p>Ha még nincs a mappa: <code>mkdir D:\Projektek\uj-projektem ; cd $_</code></p>
+        </div>
+      </div>
+      <div class="pl-step">
+        <div class="pl-step-num"><div class="pl-step-circle">5</div><div class="pl-step-line"></div></div>
+        <div class="pl-step-content">
+          <h4>A varázs-parancs futtatása</h4>
+          <p>Másold be és futtasd a PowerShell terminálba (nem Win+R, nem CMD!):</p>
+          <p><code>irm "https://raw.githubusercontent.com/koltainorbert/VisualCode-Munkakornyezet/main/setup-projekt.ps1" | iex</code></p>
+          <p>Ha PS terminál nem elérhető, használd: <code>powershell -ExecutionPolicy Bypass -Command "irm 'URL' | iex"</code></p>
+        </div>
+      </div>
+      <div class="pl-step">
+        <div class="pl-step-num"><div class="pl-step-circle">6</div><div class="pl-step-line"></div></div>
+        <div class="pl-step-content">
+          <h4>Wizard kérdések megválaszolása</h4>
+          <p>A wizard sorra megkérdez mindent (ld. 06. fejezet). Ha megfelel az alapértelmezett érték, csak nyomj <strong>Enter</strong>-t.</p>
+          <p>A folyamat kb. 1-2 percet vesz igénybe — a végén az összes fájl kész a projekt mappában.</p>
+        </div>
+      </div>
+      <div class="pl-step">
+        <div class="pl-step-num"><div class="pl-step-circle">7</div><div class="pl-step-line"></div></div>
+        <div class="pl-step-content">
+          <h4>Auto-save Task Scheduler regisztráció (opcionális)</h4>
+          <p>Ha szeretnéd, hogy 15 percenként automatikusan commitoljon, futtasd <strong>rendszergazdaként</strong>:</p>
+          <p><code>scripts\install-autosave-task.ps1</code></p>
+          <p>Ez regisztrálja a feladatot a Windows Task Schedulerbe — bejelentkezéstől fut.</p>
+        </div>
+      </div>
+      <div class="pl-step">
+        <div class="pl-step-num"><div class="pl-step-circle">8</div></div>
+        <div class="pl-step-content">
+          <h4>VS Code megnyitása és munka</h4>
+          <p>Nyisd meg a projektmappát VS Code-ban: <code>code .</code></p>
+          <p><code>Ctrl+Shift+P</code> → <code>Tasks: Run Task</code> → az összes wizard által létrehozott feladat elérhető.</p>
+          <p>Napló-watcher indításához válaszd: <code>📝 Napló Watcher</code> — ez fut, amíg a terminál nyitva van.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 08 -->
+  <div class="pl-section rv">
+    <h3 class="pl-h3"><span class="pl-num">08</span> Repo fájljainak áttekintése</h3>
+    <div style="overflow-x:auto">
+    <table class="pl-table">
+      <tr><th>Fájl / Mappa</th><th>Leírás</th></tr>
+      <tr><td><code>setup-projekt.ps1</code></td><td>A fő wizard script (920 sor) — ez fut le az irm parancs hatására. Tartalmazza az összes kérdést, generáló logikát, fájlíró funkciókat.</td></tr>
+      <tr><td><code>DEV-RENDSZER.html</code></td><td>Ez az oldal — önálló share-elhető dashboard: 4-fülű telepítési segéd + wizard dokumentáció + inline PS1 (letölthető) + teljes projektleírás.</td></tr>
+      <tr><td><code>_build_v3.py</code></td><td>Python build script — generálja a DEV-RENDSZER.html-t. A PS1 inline tartalmat regex-szel megőrzi. Módosítások után ezzel kell újra buildelni.</td></tr>
+      <tr><td><code>README.md</code></td><td>GitHub repo főoldal leírása — gyors összefoglaló és az irm parancs.</td></tr>
+      <tr><td><code>.github/workflows/</code></td><td>GitHub Actions workflow fájlok (ha deployt generált a wizard).</td></tr>
+    </table>
+    </div>
+  </div>
+
+  <hr class="pl-divider">
+
+  <!-- 09 -->
+  <div class="pl-section rv">
+    <h3 class="pl-h3"><span class="pl-num">09</span> Összefoglalás</h3>
+    <div class="pl-summary">
+      <h4>Ez a HTML önálló dokumentum — minden benne van.</h4>
+      <p>A <strong>DEV-RENDSZER.html</strong> fájl tartalmaz mindent, ami a rendszer használatához kell: a teljes PS1 wizard scriptet (4. fül — letölthető), a telepítési útmutatót, az összes VS Code feladat leírását és ezt a komplett dokumentációt. Ha elveszíted a linket, megtalálod a GitHub repóban.</p>
+      <p>Nincs szükség internet-kapcsolatra a dokumentum megtekintéséhez — egy link megosztásával (GitHub raw vagy GitHub Pages) bárki megnyithatja böngészőből. A <strong>"PDF mentés / Nyomtatás"</strong> gomb a böngésző nyomtatási dialógusát nyitja meg (Ctrl+P is működik), ahol PDF-ként menthető — a fekete háttér, az animációk elrejtve, A4 méretű fehér oldalon jelenik meg a tartalom.</p>
+      <p>A rendszer open-source, szabadon bővíthető. Az irm URL mindig a main branch legfrissebb verzióját futtatja automatikusan.</p>
+    </div>
+  </div>
+
+</div>
+</section>
+<footer><div class="wrap"><strong>VS Code Munkaközeg Wizard</strong> &nbsp;&middot;&nbsp; v3.1 &nbsp;&middot;&nbsp; <span style="color:var(--red)">2026</span><br><a href="https://github.com/koltainorbert/VisualCode-Munkakornyezet" target="_blank" style="margin-top:10px;display:inline-block">github.com/koltainorbert/VisualCode-Munkakornyezet</a></div></footer>
 <script>
 const cv=document.getElementById('cv'),cx=cv.getContext('2d');
 let W,H,pts=[];
