@@ -2,110 +2,90 @@
 <html lang="hu">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SDH2026 — Fejlesztői Rendszer</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>VS Code Munkaközeg – Wizard</title>
 <style>
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{--red:#ff0000;--bg:rgb(6,6,6);--card:rgba(255,255,255,0.03);--border:rgba(255,255,255,0.08);--text:rgba(255,255,255,0.55)}
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--red:#ff0000;--bg:rgb(6,6,6);--card:rgba(255,255,255,.03);--border:rgba(255,255,255,.07);--text:rgba(255,255,255,.5)}
 html{scroll-behavior:smooth}
-body{background:var(--bg);background-image:radial-gradient(rgba(255,255,255,0.04) 1px,transparent 1px);background-size:30px 30px;color:#fff;font-family:'Segoe UI',system-ui,sans-serif;min-height:100vh;overflow-x:hidden}
-#progress{position:fixed;top:0;left:0;height:3px;background:var(--red);width:0%;z-index:1000;transition:width .1s}
-nav{position:fixed;top:0;left:0;right:0;background:rgba(6,6,6,0.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);z-index:999;display:flex;align-items:center;padding:0 32px;height:56px;gap:28px}
-.nav-logo{font-weight:800;font-size:14px;letter-spacing:2px}.nav-logo span{color:var(--red)}
-nav a{font-size:12px;color:var(--text);text-decoration:none;letter-spacing:1px;transition:color .2s}nav a:hover{color:#fff}
-.nav-right{margin-left:auto}
-.nav-btn{background:var(--red);color:#fff;font-size:11px;font-weight:700;letter-spacing:1px;padding:8px 18px;text-decoration:none;transition:opacity .2s}
-.nav-btn:hover{opacity:.8;color:#fff}
-#particles{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;opacity:.5}
-.wrap{max-width:1100px;margin:0 auto;padding:0 24px;position:relative;z-index:1}
-section{padding:80px 0}
-.sl{font-size:10px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--red);margin-bottom:10px}
-.st{font-size:clamp(24px,3.5vw,42px);font-weight:800;margin-bottom:16px;line-height:1.1}
-.ss{color:var(--text);font-size:15px;max-width:600px;line-height:1.7;margin-bottom:48px}
+body{background:var(--bg);background-image:radial-gradient(rgba(255,255,255,0.04) 1px,transparent 1px);background-size:30px 30px;color:#fff;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;min-height:100vh}
+canvas{position:fixed;top:0;left:0;pointer-events:none;z-index:0}
+#progress{position:fixed;top:0;left:0;height:3px;background:var(--red);z-index:999;width:0;transition:width .1s}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;gap:24px;padding:0 40px;height:56px;background:rgba(6,6,6,.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+.nav-logo{font-size:15px;font-weight:800;letter-spacing:2px;color:#fff}.nav-logo span{color:var(--red)}
+nav a{font-size:12px;letter-spacing:1px;color:var(--text);text-decoration:none;text-transform:uppercase;transition:color .2s}
+nav a:hover{color:#fff}
+.nav-right{margin-left:auto;display:flex;gap:8px}
+.nav-btn{background:rgba(255,0,0,.1);border:1px solid rgba(255,0,0,.3);color:#fff!important;padding:6px 16px;font-size:11px;letter-spacing:1px;text-decoration:none;transition:all .2s}
+.nav-btn:hover{background:rgba(255,0,0,.2)!important}
+.wrap{max-width:900px;margin:0 auto;padding:0 24px;position:relative;z-index:1}
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:80px 24px 60px;max-width:900px;margin:0 auto;position:relative;z-index:1}
+.hero-eye{display:flex;align-items:center;gap:10px;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--text);margin-bottom:32px}
+.hero-dot{width:6px;height:6px;border-radius:50%;background:var(--red);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(255,0,0,.4)}50%{opacity:.7;box-shadow:0 0 0 8px rgba(255,0,0,0)}}
+h1{font-size:clamp(42px,8vw,80px);font-weight:800;line-height:1.05;letter-spacing:-2px;margin-bottom:24px;overflow:hidden}
+.ln{display:block;overflow:hidden}
+.wd{display:inline-block;animation:slideUp .8s cubic-bezier(.16,1,.3,1) both}
+@keyframes slideUp{from{transform:translateY(110%);opacity:0}to{transform:translateY(0);opacity:1}}
+.red{color:var(--red)}
+.hero-sub{font-size:17px;color:var(--text);line-height:1.7;max-width:600px;margin-bottom:48px}
+.magic-box{background:rgba(255,0,0,.04);border:1px solid rgba(255,0,0,.25);padding:28px 32px;margin-bottom:32px;position:relative}
+.magic-box::before{content:'EGY PARANCS – MINDEN KESZ';position:absolute;top:-10px;left:20px;background:var(--bg);padding:0 10px;font-size:10px;letter-spacing:3px;color:var(--red);font-weight:700}
+.magic-cmd{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.magic-cmd code{flex:1;font-family:'Cascadia Code','Fira Code',monospace;font-size:12px;color:#fff;background:rgba(0,0,0,.7);border:1px solid var(--border);padding:14px 18px;word-break:break-all}
+.btn-copy{background:var(--red);border:none;color:#fff;font-size:12px;letter-spacing:2px;padding:14px 24px;cursor:pointer;font-weight:700;text-transform:uppercase;transition:all .2s;white-space:nowrap}
+.btn-copy:hover{background:#cc0000}.btn-copy.ok{background:#00c864}
+.magic-note{margin-top:14px;font-size:12px;color:var(--text);line-height:1.7}
+.magic-note strong{color:rgba(255,255,255,.7)}
+.magic-note code{font-size:11px;color:rgba(255,0,0,.8);font-family:monospace}
+.hero-cta{display:flex;gap:12px;flex-wrap:wrap}
+.btn{padding:12px 28px;font-size:12px;letter-spacing:2px;text-decoration:none;font-weight:700;text-transform:uppercase;transition:all .3s;display:inline-block}
+.btn-r{background:var(--red);color:#fff}.btn-r:hover{background:#cc0000}
+.btn-g{border:1px solid var(--border);color:var(--text)}.btn-g:hover{border-color:rgba(255,255,255,.3);color:#fff}
 hr.d{border:none;border-top:1px solid var(--border)}
-.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;flex-direction:column;padding:80px 24px 60px;position:relative;z-index:1}
-.hero-eye{display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(255,0,0,0.3);font-size:10px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--red);padding:6px 16px;margin-bottom:32px}
-.hero-dot{width:6px;height:6px;background:var(--red);border-radius:50%;animation:pulse 2s ease infinite}
-@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.6)}}
-.hero h1{font-size:clamp(40px,8vw,96px);font-weight:800;line-height:1.03;letter-spacing:-3px;margin-bottom:24px}
-.hero h1 .ln{display:block;overflow:hidden}
-.hero h1 .wd{display:inline-block;transform:translateY(110%);animation:slideUp .7s cubic-bezier(.2,1,.3,1) forwards}
-@keyframes slideUp{to{transform:translateY(0)}}
-.hero h1 .red{color:var(--red)}
-.hero-sub{color:var(--text);font-size:18px;max-width:560px;margin:0 auto 40px;line-height:1.7;opacity:0;animation:fi 1s .8s forwards}
-@keyframes fi{to{opacity:1}}
-.hero-cta{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;opacity:0;animation:fi 1s 1s forwards}
-.btn{padding:13px 28px;font-size:13px;font-weight:700;letter-spacing:1px;text-decoration:none;transition:all .2s;cursor:pointer;border:none;display:inline-block}
-.btn-r{background:var(--red);color:#fff}.btn-r:hover{opacity:.8}
-.btn-g{background:transparent;color:#fff;border:1px solid var(--border)}.btn-g:hover{border-color:rgba(255,255,255,.3);background:rgba(255,255,255,.04)}
-.hero-scroll{position:absolute;bottom:32px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:6px;opacity:0;animation:fi 1s 1.5s forwards}
-.hero-scroll span{font-size:10px;letter-spacing:2px;color:var(--text)}
-.sl-line{width:1px;height:40px;background:linear-gradient(to bottom,var(--red),transparent);animation:slAnim 2s ease infinite}
-@keyframes slAnim{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
-.reveal{opacity:0;transform:translateY(40px);transition:opacity .6s cubic-bezier(.2,1,.3,1),transform .6s cubic-bezier(.2,1,.3,1)}
-.reveal.visible{opacity:1;transform:translateY(0)}
-.stats-bar{display:grid;grid-template-columns:repeat(5,1fr);border:1px solid var(--border);background:rgba(255,255,255,.02);margin-top:32px}
-.stat{padding:36px 24px;text-align:center;border-right:1px solid var(--border);position:relative;overflow:hidden}
-.stat:last-child{border-right:none}
-.stat::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--red);transform:scaleX(0);transition:transform .4s}
-.stat:hover::after{transform:scaleX(1)}
-.stat-n{font-size:52px;font-weight:800;color:var(--red);line-height:1;display:block}
-.stat-l{font-size:11px;color:var(--text);margin-top:8px;letter-spacing:1px;text-transform:uppercase}
-.pipe{display:flex;align-items:stretch;margin-top:48px;overflow-x:auto;gap:0}
-.pn{flex:1;min-width:140px;background:rgba(255,255,255,.02);border:1px solid var(--border);padding:24px 16px;text-align:center;position:relative;transition:border-color .3s,background .3s}
-.pn:not(:last-child)::after{content:'→';position:absolute;right:-13px;top:50%;transform:translateY(-50%);color:var(--red);font-size:18px;z-index:2;background:var(--bg);padding:0 2px}
-.pn:hover{border-color:rgba(255,0,0,.3);background:rgba(255,0,0,.03)}
-.pn.act{border-color:rgba(255,0,0,.4)}
-.pn.act::before{content:'';position:absolute;top:-1px;left:-1px;right:-1px;height:3px;background:var(--red)}
-.pn .pi{font-size:28px;display:block;margin-bottom:10px}
-.pn h4{font-size:12px;font-weight:700;margin-bottom:4px}
-.pn p{font-size:11px;color:var(--text)}
-.steps{display:flex;flex-direction:column;gap:0;margin-top:48px}
-.step{display:grid;grid-template-columns:60px 1fr;border:1px solid var(--border);border-bottom:none;background:var(--card);transition:background .3s;position:relative}
-.step:last-child{border-bottom:1px solid var(--border)}
-.step:hover{background:rgba(255,255,255,.025)}
-.step-n{display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:800;color:rgba(255,0,0,.3);border-right:1px solid var(--border)}
-.step-b{padding:24px 28px}
-.step-b h3{font-size:15px;font-weight:700;margin-bottom:6px}
-.step-b p{color:var(--text);font-size:13px;line-height:1.7;margin-bottom:12px}
-.step.done .step-n{color:var(--red)}
-.step.done::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--red)}
-.badge{display:inline-block;padding:2px 10px;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase}
-.b-done{background:rgba(0,200,100,.1);color:#00c864;border:1px solid rgba(0,200,100,.2)}
-.b-todo{background:rgba(255,200,0,.1);color:#ffc800;border:1px solid rgba(255,200,0,.2)}
-.b-now{background:rgba(255,0,0,.1);color:var(--red);border:1px solid rgba(255,0,0,.2)}
+section{padding:80px 0;position:relative;z-index:1}
+.sl{font-size:10px;letter-spacing:4px;text-transform:uppercase;color:var(--red);margin-bottom:12px}
+.st{font-size:clamp(28px,5vw,42px);font-weight:800;letter-spacing:-1px;margin-bottom:16px}
+.ss{font-size:15px;color:var(--text);line-height:1.7;max-width:600px;margin-bottom:48px}
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease}
+.reveal.visible{opacity:1;transform:none}
+.wiz-flow{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:0;margin-top:40px}
+.wf-step{text-align:center;padding:28px 16px;border:1px solid var(--border);margin:-1px 0 0 -1px;background:var(--card);position:relative;transition:all .3s}
+.wf-step:hover{background:rgba(255,0,0,.03);border-color:rgba(255,0,0,.2)}
+.wf-n{font-size:10px;font-weight:700;letter-spacing:2px;color:rgba(255,0,0,.4);margin-bottom:10px}
+.wf-icon{font-size:26px;display:block;margin-bottom:8px}
+.wf-step h4{font-size:12px;font-weight:700;margin-bottom:5px}
+.wf-step p{font-size:11px;color:var(--text);line-height:1.5}
+.makes-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);margin-top:40px}
+.make-item{display:flex;align-items:flex-start;gap:14px;padding:20px;background:var(--bg)}
+.make-dot{width:8px;height:8px;border-radius:50%;background:var(--red);margin-top:5px;flex-shrink:0;box-shadow:0 0 0 4px rgba(255,0,0,.12)}
+.make-item h4{font-size:13px;font-weight:700;margin-bottom:4px}
+.make-item p{font-size:12px;color:var(--text);line-height:1.5}
+.q-list{margin-top:40px;display:flex;flex-direction:column}
+.q-item{display:grid;grid-template-columns:150px 1fr;border:1px solid var(--border);border-bottom:none;background:var(--card)}
+.q-item:last-child{border-bottom:1px solid var(--border)}
+.q-prompt{padding:18px 20px;font-family:'Cascadia Code','Fira Code',monospace;font-size:11px;color:rgba(255,0,0,.8);border-right:1px solid var(--border);display:flex;align-items:center}
+.q-desc{padding:18px 24px}
+.q-desc h4{font-size:13px;font-weight:700;margin-bottom:4px}
+.q-desc p{font-size:12px;color:var(--text);line-height:1.6}
+.q-def{display:inline-block;background:rgba(255,255,255,.05);font-size:10px;letter-spacing:1px;padding:2px 10px;margin-top:6px;font-family:monospace;color:rgba(255,255,255,.4);border:1px solid var(--border)}
 .cw{position:relative;margin-top:14px}
 .ch{display:flex;align-items:center;justify-content:space-between;background:rgba(255,255,255,.05);border:1px solid var(--border);border-bottom:none;padding:8px 16px;font-size:11px;color:var(--text)}
 .ch .lg{font-family:monospace;color:rgba(255,0,0,.7)}
 .cb{background:transparent;border:1px solid var(--border);color:var(--text);font-size:11px;padding:3px 12px;cursor:pointer;letter-spacing:1px;transition:all .2s}
 .cb:hover{border-color:var(--red);color:#fff}.cb.ok{border-color:#00c864;color:#00c864}
-pre{background:rgba(0,0,0,.7);border:1px solid var(--border);padding:20px;overflow-x:auto;font-size:12px;line-height:1.7;font-family:'Cascadia Code','Fira Code',monospace;color:rgba(255,255,255,.85);max-height:280px}
+pre{background:rgba(0,0,0,.7);border:1px solid var(--border);padding:20px;overflow-x:auto;font-size:11px;line-height:1.7;font-family:'Cascadia Code','Fira Code',monospace;color:rgba(255,255,255,.85);max-height:300px}
 pre.exp{max-height:none}
-.xb{display:block;width:100%;background:rgba(255,255,255,.03);border:1px solid var(--border);border-top:none;color:var(--text);font-size:11px;padding:8px;cursor:pointer;letter-spacing:1px;transition:all .2s}
+.xb{display:block;width:100%;background:rgba(255,255,255,.03);border:1px solid var(--border);border-top:none;color:var(--text);font-size:11px;padding:8px;cursor:pointer;letter-spacing:1px;transition:all .2s;text-align:center}
 .xb:hover{background:rgba(255,255,255,.06);color:#fff}
-.tasks-tbl{width:100%;border-collapse:collapse;margin-top:32px}
-.tasks-tbl th{text-align:left;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--text);padding:12px 16px;border-bottom:2px solid var(--border)}
-.tasks-tbl td{padding:14px 16px;border-bottom:1px solid rgba(255,255,255,.04);font-size:13px;vertical-align:middle}
-.tasks-tbl tr:hover td{background:rgba(255,255,255,.02)}
-.kbd{display:inline-block;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-bottom-width:2px;border-radius:3px;font-size:11px;font-family:monospace;padding:2px 8px}
-.tl{padding-left:40px;position:relative;margin-top:40px}
-.tl::before{content:'';position:absolute;left:12px;top:6px;bottom:6px;width:2px;background:linear-gradient(to bottom,var(--red),rgba(255,0,0,.05))}
-.ti{margin-bottom:28px;position:relative}
-.ti::before{content:'';position:absolute;left:-34px;top:5px;width:10px;height:10px;border-radius:50%;background:var(--red);box-shadow:0 0 0 4px rgba(255,0,0,.12)}
-.ti h4{font-size:14px;font-weight:700;margin-bottom:4px}
-.ti p{color:var(--text);font-size:13px;line-height:1.6}
-.ti .tp{font-size:11px;color:rgba(255,0,0,.6);font-family:monospace;margin-top:4px}
-.alert{border-left:3px solid var(--red);background:rgba(255,0,0,.05);padding:16px 20px;margin-top:16px;display:flex;gap:12px}
-.alert h4{font-size:13px;font-weight:700;margin-bottom:4px}
-.alert p{font-size:12px;color:var(--text);line-height:1.6}
 .sc-wrap{margin-bottom:36px}
 .sc-head{display:flex;align-items:center;gap:12px;margin-bottom:8px}
 .sc-head h3{font-size:16px;font-weight:700}
-.sc-desc{color:var(--text);font-size:13px;margin-bottom:12px}
 .tag{display:inline-block;background:rgba(255,0,0,.1);color:var(--red);font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:3px 10px;border:1px solid rgba(255,0,0,.2)}
-footer{text-align:center;padding:60px 24px;border-top:1px solid var(--border);color:var(--text);font-size:12px}
+.sc-desc{color:var(--text);font-size:13px;margin-bottom:12px}
+footer{text-align:center;padding:60px 24px;border-top:1px solid var(--border);color:var(--text);font-size:12px;position:relative;z-index:1}
 footer strong{color:#fff}footer span{color:var(--red)}
-@media(max-width:768px){nav a{display:none}}
+@media(max-width:768px){nav a{display:none}.makes-grid{grid-template-columns:1fr}.q-item{grid-template-columns:1fr}.q-prompt{border-right:none;border-bottom:1px solid var(--border)}}
 </style>
 </head>
 <body>
@@ -113,221 +93,156 @@ footer strong{color:#fff}footer span{color:var(--red)}
 <canvas id="particles"></canvas>
 
 <nav>
-  <div class="nav-logo">SDH<span>2026</span></div>
-  <a href="#rendszer">Rendszer</a>
-  <a href="#elindulas">Elindulas</a>
-  <a href="#taskok">Taskok</a>
+  <div class="nav-logo">VS Code<span>Wizard</span></div>
+  <a href="#wizard">Wizard</a>
+  <a href="#kerdesek">Kerdesek</a>
   <a href="#scriptek">Scriptek</a>
-  <a href="#todo">Statusz</a>
-  <div class="nav-right"><a class="nav-btn" href="https://github.com/koltainorbert/SDH2026Weblap" target="_blank">GitHub</a></div>
+  <div class="nav-right">
+    <a class="nav-btn" href="https://github.com/koltainorbert/VisualCode-Munkakornyezet" target="_blank">GitHub</a>
+  </div>
 </nav>
 
 <div class="hero">
-  <div class="hero-eye"><div class="hero-dot"></div>SDH2026 &middot; Dev Rendszer &middot; v1.0</div>
+  <div class="hero-eye"><div class="hero-dot"></div>VS Code Munkaközeg · Wizard v2.0</div>
   <h1>
-    <span class="ln"><span class="wd" style="animation-delay:.1s">Profi dev</span></span>
-    <span class="ln"><span class="wd red" style="animation-delay:.25s">workflow</span></span>
-    <span class="ln"><span class="wd" style="animation-delay:.4s">&mdash; nullarol</span></span>
+    <span class="ln"><span class="wd" style="animation-delay:.1s">Egy parancs</span></span>
+    <span class="ln"><span class="wd red" style="animation-delay:.25s">– minden kész.</span></span>
   </h1>
-  <p class="hero-sub">Auto-mentes, GitHub sync, FTP deploy, visszagorgetés, branch rendszer. Egy HTML &mdash; minden benne. Barmelyik gépen megnyitod, minden értheto és letoltheto.</p>
-  <div class="hero-cta">
-    <a href="#elindulas" class="btn btn-r">Elindulas lepései &rarr;</a>
-    <a href="#scriptek" class="btn btn-g">Scriptek letoltése</a>
+  <p class="hero-sub">Bármilyen projekttípushoz: WordPress, HTML, React, Vue, Node.js, Laravel. A wizard megkérdez mindent, beállít mindent – automatikusan.</p>
+
+  <div class="magic-box">
+    <div class="magic-cmd">
+      <code id="magic-code">irm "https://raw.githubusercontent.com/koltainorbert/VisualCode-Munkakornyezet/main/setup-projekt.ps1" | iex</code>
+      <button class="btn-copy" onclick="copyMagic(this)">MÁSOLÁS</button>
+    </div>
+    <div class="magic-note">
+      <strong>Hogyan:</strong> Win+R → <code>powershell</code> → Enter → fenti parancs beillesztés → Enter<br>
+      Ha már klónoztad a repót: <code>powershell -ExecutionPolicy Bypass -File setup-projekt.ps1</code>
+    </div>
   </div>
-  <div class="hero-scroll"><span>SCROLL</span><div class="sl-line"></div></div>
+
+  <div class="hero-cta">
+    <a href="#wizard" class="btn btn-r">Mit csinál a wizard?</a>
+    <a href="https://github.com/koltainorbert/VisualCode-Munkakornyezet" target="_blank" class="btn btn-g">GitHub repo</a>
+  </div>
 </div>
 
 <hr class="d">
 
-<section id="rendszer">
+<section id="wizard">
   <div class="wrap">
-    <div class="sl reveal">Szamokban</div>
-    <h2 class="st reveal">Mit csinalunk pontosan?</h2>
-    <div class="stats-bar reveal">
-      <div class="stat"><span class="stat-n" data-target="3">0</span><div class="stat-l">mentési réteg</div></div>
-      <div class="stat"><span class="stat-n" data-target="6">0</span><div class="stat-l">VS Code task</div></div>
-      <div class="stat"><span class="stat-n" data-target="1" data-suffix="'">0</span><div class="stat-l">mentési interval</div></div>
-      <div class="stat"><span class="stat-n" data-target="7">0</span><div class="stat-l">létrehozott fajl</div></div>
-      <div class="stat"><span class="stat-n">0</span><div class="stat-l">elveszett munka</div></div>
+    <div class="sl reveal">Automatikus folyamat</div>
+    <h2 class="st reveal">Mit csinál a wizard?</h2>
+    <p class="ss reveal">5 kérdéscsoport – aztán minden fut magától. Bármilyen projekt, bármilyen mappa.</p>
+
+    <div class="wiz-flow reveal">
+      <div class="wf-step">
+        <div class="wf-n">1. LEPES</div>
+        <span class="wf-icon">?</span>
+        <h4>Kérdések</h4>
+        <p>Projekt neve, mappa, GitHub URL, típus, proxy URL</p>
+      </div>
+      <div class="wf-step">
+        <div class="wf-n">2. LEPES</div>
+        <span class="wf-icon">?</span>
+        <h4>Fájlok írása</h4>
+        <p>tasks.json, naplo-watcher.ps1 – mind a te projekt útvonaladdal kitöltve</p>
+      </div>
+      <div class="wf-step">
+        <div class="wf-n">3. LEPES</div>
+        <span class="wf-icon">?</span>
+        <h4>Git init</h4>
+        <p>git init, első commit, GitHub push, branch rendszer</p>
+      </div>
+      <div class="wf-step">
+        <div class="wf-n">4. LEPES</div>
+        <span class="wf-icon">?</span>
+        <h4>Task Scheduler</h4>
+        <p>Windows-ba bejegyzi az 5 perces auto-push taskot</p>
+      </div>
+      <div class="wf-step">
+        <div class="wf-n">KÉSZ</div>
+        <span class="wf-icon">?</span>
+        <h4>Megnyitás</h4>
+        <p>Kimásolható VS Code parancs – minden task azonnal elérhető</p>
+      </div>
+    </div>
+
+    <div style="margin-top:60px">
+      <div class="sl reveal">Ami automatikusan elkészül</div>
+      <h3 class="reveal" style="font-size:22px;font-weight:700;margin-bottom:24px">Létrehozott fájlok – mind a te adataiddal kitöltve</h3>
+      <div class="makes-grid">
+        <div class="make-item reveal">
+          <div class="make-dot"></div>
+          <div><h4>.vscode/tasks.json</h4><p>Push (Ctrl+Shift+B), Pull, Visszagörgetés, Napló Watcher, Browser Sync, Branch – minden task a projekt útvonalával</p></div>
+        </div>
+        <div class="make-item reveal">
+          <div class="make-dot"></div>
+          <div><h4>.vscode/naplo-watcher.ps1</h4><p>Percenkénti auto-push – VS Code megnyitásakor automatikusan indul</p></div>
+        </div>
+        <div class="make-item reveal">
+          <div class="make-dot"></div>
+          <div><h4>.vscode/autosave-background.ps1</h4><p>5 perces Task Scheduler script – VS Code nélkül, gépinduláskor is fut</p></div>
+        </div>
+        <div class="make-item reveal">
+          <div class="make-dot"></div>
+          <div><h4>.github/workflows/deploy.yml</h4><p>FTP auto-deploy template – main push → éles szerver (4 Secrets kell)</p></div>
+        </div>
+        <div class="make-item reveal">
+          <div class="make-dot"></div>
+          <div><h4>NAPLO.md</h4><p>Fejlesztési napló – automatikusan frissül minden push előtt</p></div>
+        </div>
+        <div class="make-item reveal">
+          <div class="make-dot"></div>
+          <div><h4>Git + GitHub + Branches</h4><p>git init, első commit, GitHub push, develop / staging / main branch rendszer</p></div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
 
 <hr class="d">
 
-<section>
+<section id="kerdesek">
   <div class="wrap">
-    <div class="sl reveal">CI/CD Pipeline</div>
-    <h2 class="st reveal">Szerkesztéstol az éles oldalig</h2>
-    <p class="ss reveal">Ctrl+Shift+B &rarr; commit &rarr; GitHub &rarr; Actions &rarr; éles szerver. Kézi FTP soha tobbe.</p>
-    <div class="pipe reveal">
-      <div class="pn"><span class="pi">&#9998;</span><h4>Szerkesztés</h4><p>VS Code</p></div>
-      <div class="pn"><span class="pi">&#128190;</span><h4>Auto-mentes</h4><p>1 perc / 5 perc</p></div>
-      <div class="pn act"><span class="pi">&#8679;</span><h4>Push</h4><p>Ctrl+Shift+B</p></div>
-      <div class="pn act"><span class="pi">&#128025;</span><h4>GitHub</h4><p>main branch</p></div>
-      <div class="pn act"><span class="pi">&#9889;</span><h4>Actions</h4><p>Auto-trigger</p></div>
-      <div class="pn act"><span class="pi">&#127760;</span><h4>Éles szerver</h4><p>FTP deploy</p></div>
+    <div class="sl reveal">Interaktív wizard</div>
+    <h2 class="st reveal">Milyen kérdéseket tesz fel?</h2>
+    <p class="ss reveal">Enter = alapértelmezett érték. Mindegyikre egy sor a válasz.</p>
+
+    <div class="q-list">
+      <div class="q-item reveal">
+        <div class="q-prompt">&gt;&gt; Projekt neve</div>
+        <div class="q-desc"><h4>Projekt neve</h4><p>Bármilyen szöveg, pl: WebshopProjekt. Ez lesz a commit neve és a Task Scheduler task neve is.</p></div>
+      </div>
+      <div class="q-item reveal">
+        <div class="q-prompt">&gt;&gt; Mappa</div>
+        <div class="q-desc"><h4>Projekt mappa teljes elérési útja</h4><p>Pl: <code style="color:rgba(255,0,0,.8);font-size:11px">C:\projektek\mywebshop</code> – ha nem létezik, létrehozza. Default: aktuális mappa.</p><span class="q-def">DEFAULT: aktualis mappa</span></div>
+      </div>
+      <div class="q-item reveal">
+        <div class="q-prompt">&gt;&gt; GitHub URL</div>
+        <div class="q-desc"><h4>GitHub repo URL</h4><p>Pl: <code style="color:rgba(255,0,0,.8);font-size:11px">https://github.com/neved/repo.git</code> – üresen hagyható, git push akkor nem fut le.</p></div>
+      </div>
+      <div class="q-item reveal">
+        <div class="q-prompt">&gt;&gt; Tipus [2]</div>
+        <div class="q-desc"><h4>Projekt típusa</h4><p>[1] WordPress &nbsp;[2] HTML/CSS/JS &nbsp;[3] React/Vue &nbsp;[4] Node.js &nbsp;[5] Laravel &nbsp;[6] Egyéb<br>Browser Sync beállítása típus szerint változik (proxy vs. server mód).</p><span class="q-def">DEFAULT: 2</span></div>
+      </div>
+      <div class="q-item reveal">
+        <div class="q-prompt">&gt;&gt; Proxy URL</div>
+        <div class="q-desc"><h4>Browser Sync proxy (WordPress/Laravel esetén)</h4><p>WordPress: <code style="color:rgba(255,0,0,.8);font-size:11px">myproject.local</code> – HTML esetén automatikusan --server mód, nem kell megadni.</p></div>
+      </div>
+      <div class="q-item reveal">
+        <div class="q-prompt">&gt;&gt; Port [3000]</div>
+        <div class="q-desc"><h4>Browser Sync port</h4><p>Alapértelmezett: 3000. Ha más portot használ valamid, írj mást.</p><span class="q-def">DEFAULT: 3000</span></div>
+      </div>
+      <div class="q-item reveal">
+        <div class="q-prompt">&gt;&gt; FTP? [n]</div>
+        <div class="q-desc"><h4>FTP auto-deploy</h4><p>i = létrehozza a deploy.yml-t. A jelszót NEM kéri – az GitHub Secrets-be kerül majd.</p><span class="q-def">DEFAULT: n</span></div>
+      </div>
+      <div class="q-item reveal">
+        <div class="q-prompt">&gt;&gt; Branch? [i]</div>
+        <div class="q-desc"><h4>Branch rendszer (develop / staging / main)</h4><p>i = létrehozza és pushol mind a három branchet. Fejlesztés a develop ágon, élesítés main-re merge-gel.</p><span class="q-def">DEFAULT: i</span></div>
+      </div>
     </div>
-  </div>
-</section>
-
-<hr class="d">
-
-<section>
-  <div class="wrap">
-    <div class="sl reveal">Branching</div>
-    <h2 class="st reveal">Branch stratégia</h2>
-    <p class="ss reveal">Fejlesztés izolalva a live oldaltol. Csak szandékos merge esetén kerül ki élesbe.</p>
-    <div class="pipe reveal" style="max-width:580px">
-      <div class="pn"><span class="pi">&#128295;</span><h4>develop</h4><p>Napi fejlesztés</p></div>
-      <div class="pn act"><span class="pi">&#129514;</span><h4>staging</h4><p>Tesztelés</p></div>
-      <div class="pn act"><span class="pi">&#128640;</span><h4>main</h4><p>Éles verzió</p></div>
-    </div>
-  </div>
-</section>
-
-<hr class="d">
-
-<section id="elindulas">
-  <div class="wrap">
-    <div class="sl reveal">Lépésrol lépésre</div>
-    <h2 class="st reveal">Pontos elindulasi utmutato</h2>
-    <p class="ss reveal">Minden lépés sorrendben &mdash; akar te, akar valaki mas nyitja meg eloszor.</p>
-    <div class="steps">
-
-      <div class="step done reveal">
-        <div class="step-n">1</div>
-        <div class="step-b">
-          <h3>VS Code megnyitasa a projekt mappaon</h3>
-          <p>Mindig a <strong>bricks-child</strong> mappat nyisd meg, ne a LocalWP gyokeret.</p>
-          <span class="badge b-done">Beallitva</span>
-          <div class="cw">
-            <div class="ch"><span class="lg">powershell</span><button class="cb" onclick="cc(this)">Masolas</button></div>
-            <pre>code "D:\LocalWP\sdh2026\app\public\wp-content\themes\bricks-child"</pre>
-          </div>
-        </div>
-      </div>
-
-      <div class="step done reveal">
-        <div class="step-n">2</div>
-        <div class="step-b">
-          <h3>Naplo Watcher engedélyezése (egyszer kell)</h3>
-          <p>VS Code megnyitasakor egy felugro ablakban engedélyt kér az automatikus task inditashoz. Kattints "Allow"-ra.</p>
-          <span class="badge b-done">Beallitva</span>
-          <div class="alert">
-            <div><h4>Ha nem jott fel az ablak:</h4><p>Ctrl+Shift+P &rarr; "Manage Automatic Tasks" &rarr; "Allow Automatic Tasks" &rarr; VS Code ujrainditás</p></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="step done reveal">
-        <div class="step-n">3</div>
-        <div class="step-b">
-          <h3>Task Scheduler telepitése (VS Code independent)</h3>
-          <p>Egyszer kell futtatni rendszergazdakent. Ezutan 5 percenkent ment automatikusan, akkor is ha VS Code zarva van.</p>
-          <span class="badge b-done">Telepitve</span>
-          <div class="cw">
-            <div class="ch"><span class="lg">powershell — admin</span><button class="cb" onclick="cc(this)">Masolas</button></div>
-            <pre>cd "D:\LocalWP\sdh2026\app\public\wp-content\themes\bricks-child"
-powershell -ExecutionPolicy Bypass -File .vscode\install-autosave-task.ps1</pre>
-          </div>
-        </div>
-      </div>
-
-      <div class="step reveal">
-        <div class="step-n">4</div>
-        <div class="step-b">
-          <h3>GitHub FTP Secrets beallitasa &mdash; deploy bekapcsolasa</h3>
-          <p>Hogy a GitHub Actions ki tudja deployolni az éles szerverre, be kell irni az FTP adatokat. Ez biztonságos &mdash; soha nem kerül be a kódba.</p>
-          <span class="badge b-now">Manualis &mdash; 5 perc</span>
-          <div class="alert">
-            <div><h4>Pontos lépések:</h4><p>1. <a href="https://github.com/koltainorbert/SDH2026Weblap/settings/secrets/actions" target="_blank" style="color:var(--red)">github.com &rarr; Settings &rarr; Secrets &rarr; Actions</a><br>2. "New repository secret" &rarr; add meg mind a 4 értéket lentrol</p></div>
-          </div>
-          <div class="cw">
-            <div class="ch"><span class="lg">github secrets</span><button class="cb" onclick="cc(this)">Masolas</button></div>
-            <pre>FTP_SERVER      = ftp.sajatdomain.hu
-FTP_USERNAME    = ftp_felhasznalonev
-FTP_PASSWORD    = ftp_jelszo
-FTP_SERVER_DIR  = /public_html/wp-content/themes/bricks-child/</pre>
-          </div>
-        </div>
-      </div>
-
-      <div class="step reveal">
-        <div class="step-n">5</div>
-        <div class="step-b">
-          <h3>develop / staging branch létrehozasa</h3>
-          <p>Ajanlott, de opcionalis. Ettol kezdve a fejlesztes izolalt &mdash; csak szandékos merge esetén kerül ki élesbe.</p>
-          <span class="badge b-todo">Opcionalis</span>
-          <div class="cw">
-            <div class="ch"><span class="lg">terminal</span><button class="cb" onclick="cc(this)">Masolas</button></div>
-            <pre>git checkout -b develop
-git push -u origin develop
-git checkout -b staging
-git push -u origin staging
-git checkout develop   # Mostantol itt dolgozol</pre>
-          </div>
-        </div>
-      </div>
-
-      <div class="step reveal">
-        <div class="step-n">6</div>
-        <div class="step-b">
-          <h3>Othonrol / masik gépen dolgozni</h3>
-          <p>Klónozd le a repot, nyisd meg VS Code-ban, Pull-lal szinkronizalsz. Minden task és script ott lesz.</p>
-          <span class="badge b-todo">Szükseg esetén</span>
-          <div class="cw">
-            <div class="ch"><span class="lg">powershell</span><button class="cb" onclick="cc(this)">Masolas</button></div>
-            <pre># Elso alkalommal (klonozas):
-git clone https://github.com/koltainorbert/SDH2026Weblap.git
-code SDH2026Weblap
-
-# Ezutan VS Code-ban:
-# Ctrl+Shift+P -> Run Task -> Pull</pre>
-          </div>
-        </div>
-      </div>
-
-      <div class="step reveal">
-        <div class="step-n">7</div>
-        <div class="step-b">
-          <h3>Napi munkafolyamat</h3>
-          <p>Ez a valodi napi sorrend &mdash; semmi extra, minden automatikus.</p>
-          <span class="badge b-done">Automatikus</span>
-          <div class="cw">
-            <div class="ch"><span class="lg">napi rutin</span></div>
-            <pre>1. VS Code megnyitas -> Naplo Watcher automatikusan elindul
-2. Fejlesztes... CSS, PHP, JS modositasa
-3. Bongeszőben azonnali frissülés (Browser Sync)
-4. Ctrl+Shift+B ha manuálisan szeretnél pusholni
-5. Ha valami elromlott: Run Task -> Visszagorgetés
-6. Ha kész van: main branch -> automatikusan kikerül élesre</pre>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<hr class="d">
-
-<section id="taskok">
-  <div class="wrap">
-    <div class="sl reveal">VS Code</div>
-    <h2 class="st reveal">Elérheto taskok</h2>
-    <p class="ss reveal">Ctrl+Shift+P &rarr; "Run Task" &rarr; valaszd ki. Push: Ctrl+Shift+B alapertelmezetten.</p>
-    <table class="tasks-tbl reveal">
-      <thead><tr><th>Task</th><th>Inditas</th><th>Mit csinal</th></tr></thead>
-      <tbody>
-        <tr><td><strong>Push</strong></td><td><span class="kbd">Ctrl+Shift+B</span></td><td>Timestampelt committal feltolti az osszes valtozast GitHubra</td></tr>
-        <tr><td><strong>Pull</strong></td><td>Run Task</td><td>GitHubrol letolti a legfrissebb verziót &mdash; otthon ott folytatod ahol abbahagytad</td></tr>
-        <tr><td><strong>Visszagorgetés</strong></td><td>Run Task</td><td>Listazza az utolso 20 mentési pontot &rarr; kivalasztod &rarr; visszallitja a fajlokat</td></tr>
-        <tr><td><strong>Naplo Watcher</strong></td><td><span class="kbd">Auto</span></td><td>Mappanyitaskor automatikusan indul, percenkent figyel és pusholja a valtozasokat</td></tr>
-        <tr><td><strong>Browser Sync</strong></td><td>Run Task</td><td>localhost:3000 live reload &mdash; CSS/PHP/JS mentéskor azonnal frissül a böngészo</td></tr>
-        <tr><td><strong>Branch valtas</strong></td><td>Run Task</td><td>Interaktiv menu: branch valtas, merge develop&rarr;staging, staging&rarr;main elesités</td></tr>
-      </tbody>
-    </table>
   </div>
 </section>
 
@@ -335,52 +250,28 @@ code SDH2026Weblap
 
 <section id="scriptek">
   <div class="wrap">
-    <div class="sl reveal">Forrazkod</div>
-    <h2 class="st reveal">Scriptek &mdash; masolas és letoltes</h2>
-    <p class="ss reveal">Minden script benne van ebben a HTML-ben. Kimasolhato és letoltheto &mdash; barhova berakható.</p>
+    <div class="sl reveal">Forráskód</div>
+    <h2 class="st reveal">Wizard script – forrás és letöltés</h2>
 
     <div class="sc-wrap reveal">
-      <div class="sc-head"><h3>naplo-watcher.ps1</h3><div class="tag">percenkénti auto-push</div></div>
-      <p class="sc-desc">VS Code háttérben fut. Változás esetén updateli NAPLO.md-t és pusholja GitHubra.</p>
+      <div class="sc-head"><h3>setup-projekt.ps1</h3><div class="tag">teljes varázsló</div></div>
+      <p class="sc-desc">Ez az egyetlen fájl – benne van minden. A gombra kattintva betölti a GitHubról.</p>
       <div class="cw">
-        <div class="ch"><span class="lg">.vscode/naplo-watcher.ps1</span><div style="display:flex;gap:6px"><button class="cb" onclick="cc(this)">Masolas</button><button class="cb" onclick="dl(this,'naplo-watcher.ps1')">Letoltes</button></div></div>
-        <pre>$temaMappa = "D:\LocalWP\sdh2026\app\public\wp-content\themes\bricks-child"
-$naplo = "$temaMappa\NAPLO.md"
-Set-Location $temaMappa
-Write-Host "Naplo watcher elindult..." -ForegroundColor Green
-$utolso = ""
-while ($true) {
-    $most = Get-Date
-    $datumSor = $most.ToString("yyyy. MMMM dd.")
-    $ido = $most.ToString("HH:mm")
-    $valtozott = git diff --name-only HEAD 2&gt;$null
-    $untracked = git ls-files --others --exclude-standard 2&gt;$null
-    $osszes = @($valtozott) + @($untracked) | Where-Object { $_ -ne "" }
-    if ($osszes.Count -gt 0) {
-        $bejegyzes = "$ido - modositva: $($osszes -join ', ')"
-        if ($bejegyzes -ne $utolso) {
-            $utolso = $bejegyzes
-            git add .
-            git diff --cached --quiet
-            if ($LASTEXITCODE -ne 0) {
-                git commit -m "Auto-mentes $ido"
-                git push
-                Write-Host "[$ido] Feltoltve" -ForegroundColor Green
-            }
-        }
-    } else { Write-Host "[$ido] Nincs valtozas." -ForegroundColor DarkGray }
-    Start-Sleep -Seconds 60
-}</pre>
-        <button class="xb" onclick="xe(this)">Osszes sor megjelenitese</button>
+        <div class="ch"><span class="lg">github.com/koltainorbert/VisualCode-Munkakornyezet</span><div style="display:flex;gap:6px">
+          <button class="cb" onclick="cc(this)">Másolás</button>
+          <button class="cb" onclick="dlFromGitHub(this)">Letöltés</button>
+        </div></div>
+        <pre id="wizard-src">irm "https://raw.githubusercontent.com/koltainorbert/VisualCode-Munkakornyezet/main/setup-projekt.ps1" | iex</pre>
+        <button class="xb" onclick="loadSrc(this)">Forráskód betöltése GitHubról...</button>
       </div>
     </div>
 
     <div class="sc-wrap reveal">
-      <div class="sc-head"><h3>deploy.yml</h3><div class="tag">GitHub Actions &mdash; FTP auto-deploy</div></div>
-      <p class="sc-desc">Main push &rarr; éles szerver. Helye: <code style="color:var(--red)">.github/workflows/deploy.yml</code></p>
+      <div class="sc-head"><h3>deploy.yml template</h3><div class="tag">FTP auto-deploy</div></div>
+      <p class="sc-desc">A wizard generálja ezt – a 4 GitHub Secret beírása után automatikus az éles deploy.</p>
       <div class="cw">
-        <div class="ch"><span class="lg">.github/workflows/deploy.yml</span><div style="display:flex;gap:6px"><button class="cb" onclick="cc(this)">Masolas</button><button class="cb" onclick="dl(this,'deploy.yml')">Letoltes</button></div></div>
-        <pre>name: Deploy - Éles szerver
+        <div class="ch"><span class="lg">.github/workflows/deploy.yml</span><button class="cb" onclick="cc(this)">Másolás</button></div>
+        <pre>name: Deploy - Eles szerver
 
 on:
   push:
@@ -392,73 +283,29 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
       - name: FTP Deploy
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          server-dir: ${{ secrets.FTP_SERVER_DIR }}</pre>
-        <button class="xb" onclick="xe(this)">Osszes sor megjelenitese</button>
+          server-dir: ${{ secrets.FTP_SERVER_DIR }}
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/node_modules/**
+            **/.vscode/**</pre>
       </div>
     </div>
 
-    <div class="sc-wrap reveal">
-      <div class="sc-head"><h3>tasks.json</h3><div class="tag">VS Code feladatok</div></div>
-      <p class="sc-desc">Helye: <code style="color:var(--red)">.vscode/tasks.json</code> &mdash; az összes gomb és task definiciója.</p>
-      <div class="cw">
-        <div class="ch"><span class="lg">.vscode/tasks.json</span><div style="display:flex;gap:6px"><button class="cb" onclick="cc(this)">Masolas</button><button class="cb" onclick="dl(this,'tasks.json')">Letoltes</button></div></div>
-        <pre>{
-  "version": "2.0.0",
-  "tasks": [
-    { "label": "Push", "type": "shell",
-      "command": "git add . &amp;&amp; git diff --cached --quiet &amp;&amp; echo 'Nincs' || (git commit -m \"Mentes\" &amp;&amp; git push)",
-      "group": { "kind": "build", "isDefault": true },
-      "options": { "cwd": "${workspaceFolder}" }, "problemMatcher": [] },
-    { "label": "Pull", "type": "shell",
-      "command": "git pull", "group": "none",
-      "options": { "cwd": "${workspaceFolder}" }, "problemMatcher": [] },
-    { "label": "Naplo Watcher", "type": "shell",
-      "command": "powershell -ExecutionPolicy Bypass -File .vscode/naplo-watcher.ps1",
-      "isBackground": true, "runOptions": { "runOn": "folderOpen" },
-      "options": { "cwd": "${workspaceFolder}" }, "problemMatcher": [] },
-    { "label": "Browser Sync", "type": "shell",
-      "command": "npx browser-sync start --proxy \"sdh2026.local\" --files \"**/*.css,**/*.php\" --port 3000",
-      "isBackground": true, "options": { "cwd": "${workspaceFolder}" }, "problemMatcher": [] }
-  ]
-}</pre>
-        <button class="xb" onclick="xe(this)">Osszes sor megjelenitese</button>
-      </div>
-    </div>
-
-  </div>
-</section>
-
-<hr class="d">
-
-<section id="todo">
-  <div class="wrap">
-    <div class="sl reveal">Statusz</div>
-    <h2 class="st reveal">Mi van kész, mi van hátra</h2>
-    <div class="tl">
-      <div class="ti reveal"><h4>Git + GitHub repo kapcsolat</h4><p>koltainorbert/SDH2026Weblap &mdash; main branch.</p><div class="tp">https://github.com/koltainorbert/SDH2026Weblap</div></div>
-      <div class="ti reveal"><h4>Ctrl+Shift+B Push gomb</h4><p>Egy gombnyomas = timestampelt commit + push.</p><div class="tp">.vscode/tasks.json</div></div>
-      <div class="ti reveal"><h4>Naplo Watcher &mdash; percenkénti auto-mentés</h4><p>VS Code megnyitasakor automatikusan elindul, percenkent ment és push.</p><div class="tp">.vscode/naplo-watcher.ps1</div></div>
-      <div class="ti reveal"><h4>Task Scheduler &mdash; VS Code independent mentes</h4><p>5 percenkent, hatterben, VS Code nelkul is. Task: SDH2026-AutoSave.</p><div class="tp">.vscode/autosave-background.ps1</div></div>
-      <div class="ti reveal"><h4>GitHub Actions FTP deploy</h4><p>Workflow kész &mdash; csak a Secrets beallitasa kell (5 perces lépés).</p><div class="tp">.github/workflows/deploy.yml</div></div>
-      <div class="ti reveal"><h4>Visszagorgetés task</h4><p>Utolso 20 pont listabol, egyetlen task.</p><div class="tp">.vscode/tasks.json</div></div>
-      <div class="ti reveal"><h4>Branch valtas / merge task</h4><p>develop &rarr; staging &rarr; main pipeline VS Code-bol.</p><div class="tp">.vscode/tasks.json</div></div>
-      <div class="ti reveal"><h4>Universal setup script</h4><p>Uj projekten: egy script lefuttatasa = ugyanez az egész felépül.</p><div class="tp">C:\Users\SDH\tools\setup-projekt.ps1</div></div>
-      <div class="ti reveal" style="opacity:.5"><h4>GitHub FTP Secrets &mdash; deploy bekapcsolasa</h4><p>Settings &rarr; Secrets &rarr; 4 ertek. Utana automatikus a deploy.</p><div class="tp"><a href="https://github.com/koltainorbert/SDH2026Weblap/settings/secrets/actions" target="_blank" style="color:var(--red)">github.com &rarr; Settings &rarr; Secrets</a></div></div>
-      <div class="ti reveal" style="opacity:.5"><h4>develop / staging branch létrehozasa</h4><p>Opcionalis &mdash; az 5. lépésnél leirt parancsokkal megvan.</p></div>
-    </div>
   </div>
 </section>
 
 <footer>
   <div class="wrap">
-    <strong>SDH2026</strong> &middot; Fejlesztoi rendszer &middot; Felepitve: <span>2026. aprilis 11.</span><br>
-    <span style="color:rgba(255,255,255,.18);display:block;margin-top:8px">Ez a fajl onsallo és teljes &mdash; minden script benne van, masolhato, letoltheto, atadható.</span>
+    <strong>VS Code Munkaközeg Wizard</strong> &nbsp;v2.0 &nbsp;<span>2026. április 11.</span><br>
+    <a href="https://github.com/koltainorbert/VisualCode-Munkakornyezet" target="_blank" style="color:rgba(255,0,0,.45);font-size:11px;margin-top:8px;display:inline-block">github.com/koltainorbert/VisualCode-Munkakornyezet</a>
   </div>
 </footer>
 
@@ -467,28 +314,54 @@ jobs:
 const cv=document.getElementById('particles'),cx=cv.getContext('2d');let W,H,dots=[];
 function rz(){W=cv.width=innerWidth;H=cv.height=innerHeight;dots=[];for(let i=0;i<70;i++)dots.push({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.2+.4,vx:(Math.random()-.5)*.25,vy:(Math.random()-.5)*.25,o:Math.random()*.25+.05})}
 rz();window.addEventListener('resize',rz);
-function ad(){cx.clearRect(0,0,W,H);for(const d of dots){cx.beginPath();cx.arc(d.x,d.y,d.r,0,Math.PI*2);cx.fillStyle=`rgba(255,255,255,${d.o})`;cx.fill();d.x+=d.vx;d.y+=d.vy;if(d.x<0||d.x>W)d.vx*=-1;if(d.y<0||d.y>H)d.vy*=-1}requestAnimationFrame(ad)}ad();
+function ad(){cx.clearRect(0,0,W,H);for(const d of dots){cx.beginPath();cx.arc(d.x,d.y,d.r,0,Math.PI*2);cx.fillStyle='rgba(255,255,255,'+d.o+')';cx.fill();d.x+=d.vx;d.y+=d.vy;if(d.x<0||d.x>W)d.vx*=-1;if(d.y<0||d.y>H)d.vy*=-1}requestAnimationFrame(ad)}ad();
 
 // PROGRESS
 const pb=document.getElementById('progress');
-window.addEventListener('scroll',()=>{pb.style.width=(scrollY/(document.body.scrollHeight-innerHeight)*100)+'%'});
+window.addEventListener('scroll',function(){pb.style.width=(scrollY/(document.body.scrollHeight-innerHeight)*100)+'%'});
 
 // REVEAL
-const obs=new IntersectionObserver(entries=>{entries.forEach((e,i)=>{if(e.isIntersecting){setTimeout(()=>e.target.classList.add('visible'),i*70);obs.unobserve(e.target)}})},{threshold:.08});
-document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+const obs=new IntersectionObserver(function(entries){entries.forEach(function(e,i){if(e.isIntersecting){setTimeout(function(){e.target.classList.add('visible')},i*70);obs.unobserve(e.target)}})},{threshold:.08});
+document.querySelectorAll('.reveal').forEach(function(el){obs.observe(el)});
 
-// COUNTERS
-const co=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){const el=e.target,t=parseInt(el.dataset.target),s=el.dataset.suffix||'';if(isNaN(t))return;let v=0;const id=setInterval(()=>{v+=t/60;if(v>=t){el.textContent=t+s;clearInterval(id)}else el.textContent=Math.floor(v)+s},16);co.unobserve(el)}})},{threshold:.5});
-document.querySelectorAll('[data-target]').forEach(el=>co.observe(el));
+// MAGIC COPY
+function copyMagic(btn){
+  navigator.clipboard.writeText(document.getElementById('magic-code').textContent).then(function(){
+    var o=btn.textContent;btn.textContent='MASOLVA!';btn.classList.add('ok');
+    setTimeout(function(){btn.textContent=o;btn.classList.remove('ok')},2500);
+  });
+}
 
 // COPY
-function cc(btn){const p=btn.closest('.cw').querySelector('pre');navigator.clipboard.writeText(p.textContent).then(()=>{const o=btn.textContent;btn.textContent='Masolva!';btn.classList.add('ok');setTimeout(()=>{btn.textContent=o;btn.classList.remove('ok')},2000)})}
+function cc(btn){
+  var p=btn.closest('.cw').querySelector('pre');
+  navigator.clipboard.writeText(p.textContent).then(function(){
+    var o=btn.textContent;btn.textContent='Masolva!';btn.classList.add('ok');
+    setTimeout(function(){btn.textContent=o;btn.classList.remove('ok')},2000);
+  });
+}
 
-// EXPAND
-function xe(btn){const p=btn.previousElementSibling;p.classList.toggle('exp');btn.textContent=p.classList.contains('exp')?'Osszehuzas':'Osszes sor megjelenitese'}
+// LOAD SOURCE FROM GITHUB
+function loadSrc(btn){
+  var p=document.getElementById('wizard-src');
+  btn.textContent='Betoltes GitHubrol...';
+  fetch('https://raw.githubusercontent.com/koltainorbert/VisualCode-Munkakornyezet/main/setup-projekt.ps1')
+    .then(function(r){return r.text()})
+    .then(function(t){p.textContent=t;p.classList.add('exp');btn.textContent='Osszehuzas'})
+    .catch(function(){btn.textContent='Hiba - nyisd meg GitHubon'});
+}
 
-// DOWNLOAD
-function dl(btn,name){const p=btn.closest('.cw').querySelector('pre');const b=new Blob([p.textContent],{type:'text/plain'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=name;a.click();URL.revokeObjectURL(a.href);const o=btn.textContent;btn.textContent='Letoltve!';btn.classList.add('ok');setTimeout(()=>{btn.textContent=o;btn.classList.remove('ok')},2000)}
+// DOWNLOAD FROM GITHUB
+function dlFromGitHub(btn){
+  fetch('https://raw.githubusercontent.com/koltainorbert/VisualCode-Munkakornyezet/main/setup-projekt.ps1')
+    .then(function(r){return r.text()})
+    .then(function(t){
+      var b=new Blob([t],{type:'text/plain'});
+      var a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='setup-projekt.ps1';a.click();URL.revokeObjectURL(a.href);
+      var o=btn.textContent;btn.textContent='Letoltve!';btn.classList.add('ok');
+      setTimeout(function(){btn.textContent=o;btn.classList.remove('ok')},2000);
+    });
+}
 </script>
 </body>
 </html>
