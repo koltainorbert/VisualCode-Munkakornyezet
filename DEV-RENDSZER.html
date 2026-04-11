@@ -133,8 +133,8 @@ footer strong{color:#fff}footer span{color:var(--red)}
       <button class="btn-copy" onclick="copyMagic(this)">MÁSOLÁS</button>
     </div>
     <div class="magic-note">
-      <strong>Hogyan:</strong> Win+R → <code>powershell</code> → Enter → fenti parancs beillesztés → Enter<br>
-      Ha már klónoztad a repót: <code>powershell -ExecutionPolicy Bypass -File setup-projekt.ps1</code>
+      <strong>⚠️ Fontos:</strong> Win+R-ba NEM ezt, hanem előbb <code>powershell</code>-t kell írni → Enter → megnyílik a PS ablak → oda illeszd be ezt.<br>
+      Vagy Win+R-ba közvetlenül: <code>powershell -ExecutionPolicy Bypass -Command "irm 'URL' | iex"</code> (lentebb részletes leírás)
     </div>
   </div>
 
@@ -177,14 +177,32 @@ footer strong{color:#fff}footer span{color:var(--red)}
 
     <!-- PANEL 0: PowerShell -->
     <div class="paste-panel active" id="pt-0">
-      <div class="pcmd">
-        <code>irm "https://raw.githubusercontent.com/koltainorbert/VisualCode-Munkakornyezet/main/setup-projekt.ps1" | iex</code>
-        <button class="pbtn" onclick="pcopy(this,'irm &quot;https://raw.githubusercontent.com/koltainorbert/VisualCode-Munkakornyezet/main/setup-projekt.ps1&quot; | iex')">MÁSOLÁS</button>
+      <div style="background:rgba(255,0,0,.07);border:1px solid rgba(255,0,0,.25);padding:12px 16px;margin-bottom:14px;font-size:12px;line-height:1.7">
+        <strong style="color:#fff">⚠️ Win+R-ba NEM az irm parancsot kell beírni!</strong><br>
+        <span style="color:var(--text)">Win+R egy sima futtatóablak — nem ismeri a PowerShell parancsokat. Előbb PowerShell-t kell megnyitni, aztán oda beilleszteni.</span>
       </div>
-      <div class="paste-steps">
-        <div class="paste-step"><strong>Win+R</strong> → gépeld: <code style="color:rgba(255,0,0,.8);font-family:monospace;font-size:11px">powershell</code> → Enter</div>
-        <div class="paste-step">Illeszd be a parancsot (Ctrl+V) → Enter</div>
-        <div class="paste-step">A wizard megkérdez mindent – Enter = alapértelmezett</div>
+
+      <div style="margin-bottom:18px">
+        <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,0,0,.6);margin-bottom:8px">1. LEHETŐSÉG — PowerShell megnyitása és parancs beillesztése</div>
+        <div class="paste-steps">
+          <div class="paste-step"><strong>Win+R</strong> → gépeld: <code style="color:rgba(255,0,0,.8);font-family:monospace;font-size:11px">powershell</code> → Enter (ez megnyitja a PowerShell ablakot)</div>
+          <div class="paste-step">A megnyílt fekete ablakba illeszd be az alábbi parancsot (Ctrl+V) → Enter</div>
+        </div>
+        <div class="pcmd" style="margin-top:10px">
+          <code>irm "https://raw.githubusercontent.com/koltainorbert/VisualCode-Munkakornyezet/main/setup-projekt.ps1" | iex</code>
+          <button class="pbtn" onclick="pcopy(this,'irm &quot;https://raw.githubusercontent.com/koltainorbert/VisualCode-Munkakornyezet/main/setup-projekt.ps1&quot; | iex')">MÁSOLÁS</button>
+        </div>
+      </div>
+
+      <div>
+        <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,0,0,.6);margin-bottom:8px">2. LEHETŐSÉG — Win+R-ból közvetlenül (egy lépés)</div>
+        <div class="paste-steps">
+          <div class="paste-step"><strong>Win+R</strong> → illeszd be az alábbi teljes parancsot → Enter (ez azonnal fut)</div>
+        </div>
+        <div class="pcmd" style="margin-top:10px">
+          <code>powershell -ExecutionPolicy Bypass -Command "irm 'https://raw.githubusercontent.com/koltainorbert/VisualCode-Munkakornyezet/main/setup-projekt.ps1' | iex"</code>
+          <button class="pbtn" onclick="pcopy(this,'powershell -ExecutionPolicy Bypass -Command &quot;irm \'https://raw.githubusercontent.com/koltainorbert/VisualCode-Munkakornyezet/main/setup-projekt.ps1\' | iex&quot;')">MÁSOLÁS</button>
+        </div>
       </div>
     </div>
 
