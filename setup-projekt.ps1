@@ -21,7 +21,7 @@ function Show-Header {
 }
 
 function Kerd($kerdes, $def = "") {
-    $p = if ($def) { "  >> $kerdes [$def]: " } else { "  >> $kerdes: " }
+    $p = if ($def) { "  >> $($kerdes) [$($def)]: " } else { "  >> $($kerdes): " }
     Write-Host $p -ForegroundColor Yellow -NoNewline
     $v = Read-Host
     if ($v -eq "" -and $def) { return $def }
@@ -85,7 +85,7 @@ if ($tipus -eq "1" -or $tipus -eq "5") {
 
 if ($proxyUrl) {
     $bsCommand = "npx browser-sync start --proxy `"$proxyUrl`" --files `"**/*.css,**/*.php,**/*.js`" --port $bsPort"
-    Info "Browser Sync: proxy mod -> $proxyUrl:$bsPort"
+    Info "Browser Sync: proxy mod -> ${proxyUrl}:$bsPort"
 } else {
     $bsCommand = "npx browser-sync start --server --files `"**/*.css,**/*.html,**/*.js`" --port $bsPort"
     Info "Browser Sync: server mod -> localhost:$bsPort"
