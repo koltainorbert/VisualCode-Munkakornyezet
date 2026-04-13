@@ -22,6 +22,14 @@ body{
   min-height:100vh;overflow-x:hidden;
 }
 #cv{position:fixed;top:0;left:0;pointer-events:none;z-index:0;opacity:.55}
+#scanline{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:2;
+  background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.03) 2px,rgba(0,0,0,.03) 4px);
+  animation:scanmove 8s linear infinite;opacity:.4}
+@keyframes scanmove{0%{background-position:0 0}100%{background-position:0 100px}}
+#scanline2{position:fixed;top:-100%;left:0;width:100%;height:6px;z-index:3;pointer-events:none;
+  background:linear-gradient(transparent,rgba(255,0,0,.08) 50%,transparent);
+  animation:scan2 7s linear 1.5s infinite}
+@keyframes scan2{0%{top:-1%}100%{top:100%}}
 #prog{position:fixed;top:0;left:0;height:2px;z-index:999;
   background:linear-gradient(90deg,#ff0000,#ff6600,#ff0000);
   background-size:200% 100%;animation:shimmer 2s linear infinite;
@@ -58,14 +66,32 @@ nav a:hover{color:#fff}nav a:hover::after{transform:scaleX(1)}
   animation:fsup .7s cubic-bezier(.16,1,.3,1) .1s both}
 .hel{width:32px;height:1px;background:var(--red)}
 h1.ht{font-size:clamp(52px,9vw,96px);font-weight:900;
-  line-height:.95;letter-spacing:-3px;margin-bottom:28px;overflow:hidden}
-.ht .ln{display:block;overflow:hidden}
-.ht .wd{display:inline-block;animation:wdup .8s cubic-bezier(.16,1,.3,1) both}
-.ht .wd.r{color:var(--red)}
-.ht .wd:nth-child(1){animation-delay:.15s}
-.ht .wd:nth-child(2){animation-delay:.3s}
-.ht .wd:nth-child(3){animation-delay:.45s}
-@keyframes wdup{from{transform:translateY(110%);opacity:0}to{transform:translateY(0);opacity:1}}
+  line-height:1.15;letter-spacing:-3px;margin-bottom:28px;padding:.1em 0}
+.ht .ln{display:block;overflow:visible;padding-bottom:0.06em}
+.ht .wd{display:inline-block;will-change:transform;
+  animation:wdup-tiktok 1s cubic-bezier(.16,1,.3,1) both}
+.ht .wd.r{
+  color:var(--red);
+  text-shadow:0 0 40px rgba(255,0,0,.45),0 0 80px rgba(255,0,0,.2);
+  animation:wdup-tiktok 1s cubic-bezier(.16,1,.3,1) both, glitch 6s steps(1) 2.5s infinite}
+.ht .ln:nth-child(1) .wd{animation-delay:.1s}
+.ht .ln:nth-child(2) .wd{animation-delay:.45s}
+.ht .ln:nth-child(3) .wd{animation-delay:.8s}
+@keyframes wdup-tiktok{
+  0%  {transform:translateY(160%) skewY(22deg) scaleX(1.12) rotate(-4deg);opacity:0;filter:blur(6px)}
+  40% {transform:translateY(-18%) skewY(-8deg) scaleX(.88) rotate(1.5deg);opacity:1;filter:blur(0)}
+  58% {transform:translateY(10%)  skewY(3.5deg) scaleX(1.06) rotate(-.5deg)}
+  72% {transform:translateY(-6%)  skewY(-1.5deg) scaleX(.97)}
+  84% {transform:translateY(3%)   skewY(.6deg)}
+  92% {transform:translateY(-1%)  skewY(-.2deg)}
+  100%{transform:translateY(0)    skewY(0)     scaleX(1) rotate(0);filter:blur(0)}}
+@keyframes glitch{
+  0%,94%,100%{text-shadow:0 0 40px rgba(255,0,0,.45),0 0 80px rgba(255,0,0,.2);transform:none;clip-path:none}
+  95%{transform:translate(-3px,0);text-shadow:-3px 0 rgba(0,255,255,.7),3px 0 rgba(255,0,255,.7),0 0 40px rgba(255,0,0,.6)}
+  96%{transform:translate(3px,0) skewX(-3deg);clip-path:inset(10% 0 50% 0)}
+  97%{transform:translate(-2px,0);clip-path:inset(60% 0 20% 0)}
+  98%{transform:translate(0);text-shadow:0 0 40px rgba(255,0,0,.45),0 0 80px rgba(255,0,0,.2);clip-path:none}
+}
 @keyframes fsup{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
 .hs{font-size:16px;color:var(--text2);line-height:1.75;max-width:560px;margin-bottom:48px;
   animation:fsup .8s cubic-bezier(.16,1,.3,1) .55s both}
@@ -353,7 +379,9 @@ footer a:hover{color:rgba(255,0,0,.75)}
 <body>
 <div id="prog"></div>
 <canvas id="cv"></canvas>
-<nav><div class="nl"><div class="nd"></div>VS&nbsp;<span style="color:var(--red)">Wizard</span></div><a href="#hova">Beilllesztés</a><a href="#wizard">Wizard</a><a href="#kerdesek">Kérdések</a><a href="#script">Script</a><a href="#projektleiras">Leírás</a><div class="nr"><a class="ngh" href="https://github.com/koltainorbert/VisualCode-Munkakornyezet" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.168 6.839 9.49.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.604-3.369-1.34-3.369-1.34-.454-1.154-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836a9.59 9.59 0 012.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.741 0 .267.18.579.688.481C19.138 20.165 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>GitHub</a></div></nav>
+<div id="scanline"></div>
+<div id="scanline2"></div>
+<nav><div class="nl"><div class="nd"></div>VS&nbsp;<span style="color:var(--red)">Wizard</span></div><a href="#hova">Beilllesztés</a><a href="#wizard">Wizard</a><a href="#kerdesek">Kérdések</a><a href="#script">Script</a><a href="#projektleiras">Leírás</a><div class="nr"><span style="font-size:11px;letter-spacing:1px;color:#fff;margin-right:16px;display:flex;align-items:center;gap:8px"><span style="width:7px;height:7px;border-radius:50%;background:#ff0000;display:inline-block;animation:pulse-dot 2s ease-in-out infinite;flex-shrink:0"></span>Koltai Norbert&nbsp;·&nbsp;<span style="color:var(--red)">v1.0</span></span><a class="ngh" href="https://github.com/koltainorbert/VisualCode-Munkakornyezet" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.168 6.839 9.49.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.604-3.369-1.34-3.369-1.34-.454-1.154-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836a9.59 9.59 0 012.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.741 0 .267.18.579.688.481C19.138 20.165 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>GitHub</a></div></nav>
 <div class="hero"><div class="he"><div class="hel"></div>VS Code Munkaközeg · Wizard v2.0</div><h1 class="ht"><span class="ln"><span class="wd">Egy parancs</span></span><span class="ln"><span class="wd r">— minden</span></span><span class="ln"><span class="wd">kész.</span></span></h1><p class="hs">WordPress, HTML, React, Vue, Node.js, Laravel — bármilyen projekthez. A wizard megkérdez mindent, beállít mindent: Git, auto-mentés, Browser Sync, Task Scheduler, deploy.</p>
 <div class="mb"><div class="mbi"><div class="mbl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>Varázsparancs — másold be és futtasd</div><div class="mbr"><div class="mbc"><span class="kw">irm</span> <span class="str" id="magic-irm">&quot;https://raw.githubusercontent.com/koltainorbert/VisualCode-Munkakornyezet/main/setup-projekt.ps1&quot;</span> <span class="kw">|</span> iex</div><button class="mcp" onclick="copyMagic(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>Másolás</button></div><div class="mbf"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4m0 4h.01"/></svg><span>Win+R → <code style="font-family:var(--mono);color:rgba(255,130,80,.9);font-size:10px">powershell</code> → Enter → fekete ablakba illeszd be | <a href="#hova">Részletes útmutató ↓</a></span></div></div></div>
 <div class="hc"><a href="#hova" class="btn btn-r"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>Hova illesztem be?</a><a href="#wizard" class="btn btn-g"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v8m-4-4h8"/></svg>Mit csinál a wizard?</a><a href="https://github.com/koltainorbert/VisualCode-Munkakornyezet" target="_blank" class="btn btn-g"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.168 6.839 9.49.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.604-3.369-1.34-3.369-1.34-.454-1.154-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836a9.59 9.59 0 012.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.741 0 .267.18.579.688.481C19.138 20.165 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>GitHub repo</a></div>
@@ -400,9 +428,10 @@ Write-Host "========================================`n" -ForegroundColor Cyan
 # ── 0. ÉLŐS VAGY LOKÁLIS? ─────────────────────────────────────────────────────
 
 Write-Host "Ez a projekt hol fut majd élesben?" -ForegroundColor Yellow
-Write-Host "  [0] Csak lokális (LocalWP, localhost) — nincs élő szerver" -ForegroundColor White
+Write-Host "  [0] Csak lokális — Windowson dolgozom, nincs élő szerver  ← ENTER" -ForegroundColor Green
 Write-Host "  [1] Élő szerver is van — pushkor auto-deploy FTP-n" -ForegroundColor White
-$elesValasztas = Read-Host "Szám"
+$elesValasztas = Read-Host "Szám (ENTER = 0)"
+if ([string]::IsNullOrWhiteSpace($elesValasztas)) { $elesValasztas = "0" }
 $elesDeployKell = ($elesValasztas -eq "1")
 
 $ftpServer = $ftpUser = $ftpPass = $ftpDir = ""
@@ -437,9 +466,10 @@ if ($elesDeployKell) {
 }
 
 Write-Host "Több fejlesztő dolgozik a projekten?" -ForegroundColor Yellow
-Write-Host "  [0] Nem — csak én" -ForegroundColor White
+Write-Host "  [0] Nem — csak én  ← ENTER" -ForegroundColor Green
 Write-Host "  [1] Igen — legyen branching stratégia (main/staging/develop)" -ForegroundColor White
-$branchingValasztas = Read-Host "Szám"
+$branchingValasztas = Read-Host "Szám (ENTER = 0)"
+if ([string]::IsNullOrWhiteSpace($branchingValasztas)) { $branchingValasztas = "0" }
 $branchingKell = ($branchingValasztas -eq "1")
 Write-Host ""
 

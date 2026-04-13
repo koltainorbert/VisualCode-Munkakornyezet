@@ -15,9 +15,10 @@ Write-Host "========================================`n" -ForegroundColor Cyan
 # ── 0. ÉLŐS VAGY LOKÁLIS? ─────────────────────────────────────────────────────
 
 Write-Host "Ez a projekt hol fut majd élesben?" -ForegroundColor Yellow
-Write-Host "  [0] Csak lokális (LocalWP, localhost) — nincs élő szerver" -ForegroundColor White
+Write-Host "  [0] Csak lokális — Windowson dolgozom, nincs élő szerver  ← ENTER" -ForegroundColor Green
 Write-Host "  [1] Élő szerver is van — pushkor auto-deploy FTP-n" -ForegroundColor White
-$elesValasztas = Read-Host "Szám"
+$elesValasztas = Read-Host "Szám (ENTER = 0)"
+if ([string]::IsNullOrWhiteSpace($elesValasztas)) { $elesValasztas = "0" }
 $elesDeployKell = ($elesValasztas -eq "1")
 
 $ftpServer = $ftpUser = $ftpPass = $ftpDir = ""
@@ -52,9 +53,10 @@ if ($elesDeployKell) {
 }
 
 Write-Host "Több fejlesztő dolgozik a projekten?" -ForegroundColor Yellow
-Write-Host "  [0] Nem — csak én" -ForegroundColor White
+Write-Host "  [0] Nem — csak én  ← ENTER" -ForegroundColor Green
 Write-Host "  [1] Igen — legyen branching stratégia (main/staging/develop)" -ForegroundColor White
-$branchingValasztas = Read-Host "Szám"
+$branchingValasztas = Read-Host "Szám (ENTER = 0)"
+if ([string]::IsNullOrWhiteSpace($branchingValasztas)) { $branchingValasztas = "0" }
 $branchingKell = ($branchingValasztas -eq "1")
 Write-Host ""
 
