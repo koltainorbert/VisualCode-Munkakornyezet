@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="hu">
 <head>
 <meta charset="UTF-8">
@@ -381,439 +381,9 @@ footer a:hover{color:rgba(255,0,0,.75)}
 <div class="stps" style="margin-bottom:20px"><div class="si"><div class="sn">1</div><p>VS Code-ban <strong>Ctrl+Alt+I</strong> → Copilot Chat megnyílik</p></div><div class="si"><div class="sn">2</div><p>Az <strong>Agent Mode</strong> legyen aktív (legu00f6rdu0151 a chat beviteli mező mellett)</p></div><div class="si"><div class="sn">3</div><p>Illeszd be az alábbi parancsot → Enter → Copilot futtatja a terminálban</p></div><div class="si"><div class="sn">4</div><p>Ha felugró kéri a jóváhagyást, kattints <strong>Continue</strong></p></div></div><div class="cr"><code id="cmd-cpl">@terminal irm "https://raw.githubusercontent.com/koltainorbert/VisualCode-Munkakornyezet/main/setup-projekt.ps1" | iex</code><button class="cbtn" onclick="cbId(this,'cmd-cpl')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Másolás</button></div>
 </div>
 <div class="tpanel" id="tp-3">
-<div class="stps" style="margin-bottom:20px"><div class="si"><div class="sn">!</div><p>Nincs internet, nincs GitHub — a <strong>teljes 920 soros wizard script</strong> beágyazva itt van</p></div><div class="si"><div class="sn">1</div><p><strong>MÁSOLÁS</strong> gomb → nyiss PowerShell ablakot → illeszd be → Enter</p></div><div class="si"><div class="sn">2</div><p>Vagy: <strong>LETÖLTÉS .ps1</strong> → ments el → <var>powershell -ExecutionPolicy Bypass -File setup-projekt.ps1</var></p></div></div>
-<div class="cw"><div class="ch"><div class="clg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="18" rx="2"/><path d="m6 8 4 4-4 4M12 16h6"/></svg>setup-projekt.ps1 &mdash; teljes wizard (920 sor)</div><div class="ca"><button class="csm" onclick="ccById(this,'ps1-inline')">Másolás</button><button class="csm" onclick="dlById('ps1-inline','setup-projekt.ps1')">Letöltés .ps1</button></div></div>
-<pre id="ps1-inline" class="cpre"># ============================================================
-#  VS CODE MUNKAKORNYEZET - VARAZS WIZARD v2.0
-#
-#  Hasznalat (PowerShell-ben):
-#  irm "https://raw.githubusercontent.com/koltainorbert/VisualCode-Munkakornyezet/main/setup-projekt.ps1" | iex
-#
-#  Vagy ha mar klonoztal:
-#  powershell -ExecutionPolicy Bypass -File setup-projekt.ps1
-# ============================================================
-
-function Show-Header {
-    Clear-Host
-    Write-Host ""
-    Write-Host "  +==========================================+" -ForegroundColor Red
-    Write-Host "  |   VS CODE MUNKAKORNYEZET WIZARD  v2.0   |" -ForegroundColor White
-    Write-Host "  |   Automatikus teljes projekt beallitas   |" -ForegroundColor Gray
-    Write-Host "  +==========================================+" -ForegroundColor Red
-    Write-Host ""
-    Write-Host "  WordPress, HTML, React, Vue, Node.js, Laravel - minden tipushoz" -ForegroundColor DarkGray
-    Write-Host ""
-}
-
-function Kerd($kerdes, $def = "") {
-    $p = if ($def) { "  &gt;&gt; $($kerdes) [$($def)]: " } else { "  &gt;&gt; $($kerdes): " }
-    Write-Host $p -ForegroundColor Yellow -NoNewline
-    $v = Read-Host
-    if ($v -eq "" -and $def) { return $def }
-    return $v
-}
-
-function Lepas($n, $szoveg) {
-    Write-Host ""
-    Write-Host "  ------------------------------------------" -ForegroundColor DarkGray
-    Write-Host "  LEPES $n  |  $szoveg" -ForegroundColor Cyan
-    Write-Host "  ------------------------------------------" -ForegroundColor DarkGray
-    Write-Host ""
-}
-
-function Ok($s)   { Write-Host "  [OK] $s" -ForegroundColor Green }
-function Hiba($s) { Write-Host "  [!!] $s" -ForegroundColor Red }
-function Info($s) { Write-Host "   &gt;&gt;  $s" -ForegroundColor DarkGray }
-
-# ================================================================
-Show-Header
-
-# ── 1. PROJEKT ADATOK ───────────────────────────────────────────
-Lepas "1/5" "PROJEKT ADATOK"
-
-$projektNev = ""
-while (-not $projektNev) {
-    $projektNev = Kerd "Projekt neve (pl: WebshopProjekt, MyCoolSite)"
-    if (-not $projektNev) { Hiba "A projekt neve kotelyezo!" }
-}
-
-$aktualis = (Get-Location).Path
-$projektMappa = Kerd "Projekt mappa teljes eleresi ut" $aktualis
-$githubUrl = Kerd "GitHub repo URL (hagy uresen ha meg nincs)" ""
-if ($githubUrl -and $githubUrl -notmatch '^https?://') { $githubUrl = "https://$githubUrl" }
-if ($githubUrl -and $githubUrl -notmatch '\.git$') { $githubUrl = "$githubUrl.git" }
-
-# ── 2. PROJEKT TIPUSA ───────────────────────────────────────────
-Lepas "2/5" "PROJEKT TIPUSA"
-
-Write-Host "  [1] WordPress (LocalWP / WampServer / XAMPP)" -ForegroundColor White
-Write-Host "  [2] HTML / CSS / JavaScript" -ForegroundColor White
-Write-Host "  [3] React / Vue / Angular (npm alapu)" -ForegroundColor White
-Write-Host "  [4] Node.js / Express" -ForegroundColor White
-Write-Host "  [5] Laravel / PHP" -ForegroundColor White
-Write-Host "  [6] Egyeb" -ForegroundColor DarkGray
-Write-Host ""
-
-$tipus = Kerd "Valasztas" "2"
-$tipusMap = @{"1"="WordPress";"2"="HTML/CSS/JS";"3"="React/Vue";"4"="Node.js";"5"="Laravel";"6"="Egyeb"}
-$tipusNev = $tipusMap[$tipus]
-if (-not $tipusNev) { $tipusNev = "Egyeb" }
-Ok "Kivalasztva: $tipusNev"
-
-# ── 3. LIVE RELOAD ──────────────────────────────────────────────
-Lepas "3/5" "LIVE RELOAD BEALLITASOK"
-
-$bsPort = Kerd "Browser Sync port" "3000"
-$proxyUrl = ""
-
-if ($tipus -eq "1" -or $tipus -eq "5") {
-    $proxyUrl = Kerd "Proxy URL (WordPress: myproject.local)" ""
-}
-
-if ($proxyUrl) {
-    $bsCommand = "npx browser-sync start --proxy `"$proxyUrl`" --files `"**/*.css,**/*.php,**/*.js`" --port $bsPort"
-    Info "Browser Sync: proxy mod -&gt; ${proxyUrl}:$bsPort"
-} else {
-    $bsCommand = "npx browser-sync start --server --files `"**/*.css,**/*.html,**/*.js`" --port $bsPort"
-    Info "Browser Sync: server mod -&gt; localhost:$bsPort"
-}
-
-# ── 4. EXTRA OPCIOK ─────────────────────────────────────────────
-Lepas "4/5" "EXTRA BEALLITASOK"
-
-$ftpKell = Kerd "FTP auto-deploy GitHub Actions-szel? (i/n)" "n"
-$taskSchedulerKell = Kerd "Windows Task Scheduler 5 perces auto-push (admin jog kell)? (i/n)" "i"
-$branchKell = Kerd "Branch rendszer (develop / staging / main)? (i/n)" "i"
-
-# ── 5. TELEPITES ────────────────────────────────────────────────
-Lepas "5/5" "TELEPITES FOLYAMATBAN..."
-
-# Mappa letrehozasa
-if (-not (Test-Path $projektMappa)) {
-    New-Item -ItemType Directory -Path $projektMappa -Force | Out-Null
-    Ok "Mappa letrehozva: $projektMappa"
-} else {
-    Ok "Mappa mar letezik: $projektMappa"
-}
-
-Set-Location $projektMappa
-New-Item -ItemType Directory -Path ".vscode" -Force | Out-Null
-New-Item -ItemType Directory -Path ".github" -Force | Out-Null
-if ($ftpKell -eq "i") {
-    New-Item -ItemType Directory -Path ".github\workflows" -Force | Out-Null
-}
-
-# ── tasks.json ──────────────────────────────────────────────────
-$tasksBase = @'
-{
-  "version": "2.0.0",
-  "tasks": [
-    {
-      "label": "Push (feltoltes GitHubra)",
-      "type": "shell",
-      "command": "git add . &amp;&amp; git diff --cached --quiet &amp;&amp; echo 'Nincs valtozas.' || (git commit -m \"Mentes - $(Get-Date -Format 'yyyy.MM.dd HH:mm')\" &amp;&amp; git push &amp;&amp; echo 'Kesz!')",
-      "options": { "cwd": "${workspaceFolder}" },
-      "group": { "kind": "build", "isDefault": true },
-      "presentation": { "reveal": "always", "panel": "shared", "clear": true },
-      "problemMatcher": []
-    },
-    {
-      "label": "Pull (letoltes GitHubrol)",
-      "type": "shell",
-      "command": "git pull &amp;&amp; echo 'Frissites kesz!'",
-      "options": { "cwd": "${workspaceFolder}" },
-      "group": "none",
-      "presentation": { "reveal": "always", "panel": "shared", "clear": true },
-      "problemMatcher": []
-    },
-    {
-      "label": "Visszagorgetees",
-      "type": "shell",
-      "command": "powershell -ExecutionPolicy Bypass -Command \"$c=git log --oneline -20;$i=0;$c|%{$i++;Write-Host \\\"[$i] $_\\\"};$v=Read-Host 'Sorszam';$h=($c[([int]$v)-1] -split ' ')[0];$m=Read-Host 'Visszaallitas $h ? (i/n)';if($m -eq 'i'){git checkout $h -- .;git add .;git commit -m \\\"Visszaallitas $h\\\";Write-Host 'Kesz!' -ForegroundColor Green}\"",
-      "options": { "cwd": "${workspaceFolder}" },
-      "group": "none",
-      "presentation": { "reveal": "always", "panel": "shared", "clear": true },
-      "problemMatcher": []
-    },
-    {
-      "label": "Naplo Watcher",
-      "type": "shell",
-      "command": "powershell -ExecutionPolicy Bypass -File .vscode/naplo-watcher.ps1",
-      "options": { "cwd": "${workspaceFolder}" },
-      "group": "none",
-      "isBackground": true,
-      "runOptions": { "runOn": "folderOpen" },
-      "presentation": { "reveal": "silent", "panel": "dedicated", "clear": true },
-      "problemMatcher": []
-    },
-    {
-      "label": "Browser Sync",
-      "type": "shell",
-      "command": "BS_CMD_PLACEHOLDER",
-      "options": { "cwd": "${workspaceFolder}" },
-      "group": "none",
-      "isBackground": true,
-      "presentation": { "reveal": "always", "panel": "dedicated", "clear": true },
-      "problemMatcher": []
-    },
-    {
-      "label": "Branch valtas",
-      "type": "shell",
-      "command": "powershell -ExecutionPolicy Bypass -Command \"Write-Host 'Branch:' (git branch --show-current);$a=git branch --format='%(refname:short)';$i=0;$a|%{$i++;Write-Host \\\"  [$i] $_\\\"};Write-Host '  [m] Merge -&gt; staging';Write-Host '  [M] Merge staging -&gt; main';$v=Read-Host 'Valasztas';if($v -eq 'm'){git checkout staging;git merge (git branch --show-current);git push;git checkout develop}elseif($v -eq 'M'){git checkout main;git merge staging;git push;git checkout develop}else{git checkout ($a[([int]$v)-1])}\"",
-      "options": { "cwd": "${workspaceFolder}" },
-      "group": "none",
-      "presentation": { "reveal": "always", "panel": "shared", "clear": true },
-      "problemMatcher": []
-    }
-  ]
-}
-'@
-$tasks = $tasksBase -replace "BS_CMD_PLACEHOLDER", $bsCommand
-Set-Content ".vscode\tasks.json" $tasks -Encoding UTF8
-Ok "tasks.json letrehozva  (Ctrl+Shift+B = push)"
-
-# ── naplo-watcher.ps1 ───────────────────────────────────────────
-$watcherBase = @'
-# NAPLO WATCHER - percenkenti auto-push
-# Projekt: PROJEKT_NEV_PLACEHOLDER
-$temaMappa = "PROJEKT_MAPPA_PLACEHOLDER"
-$naplo = "$temaMappa\NAPLO.md"
-Set-Location $temaMappa
-Write-Host "Naplo watcher elindult..." -ForegroundColor Green
-$utolso = ""
-while ($true) {
-    $most = Get-Date
-    $datumSor = $most.ToString("yyyy. MMMM dd.")
-    $ido = $most.ToString("HH:mm")
-    $valtozott = git diff --name-only HEAD 2&gt;$null
-    $untracked = git ls-files --others --exclude-standard 2&gt;$null
-    $osszes = @($valtozott) + @($untracked) | Where-Object { $_ -ne "" }
-    if ($osszes.Count -gt 0) {
-        $bejegyzes = "$ido - modositva: $($osszes -join ', ')"
-        if ($bejegyzes -ne $utolso) {
-            $utolso = $bejegyzes
-            if (Test-Path $naplo) {
-                $tartalom = Get-Content $naplo -Raw -Encoding UTF8
-                if ($tartalom -match [regex]::Escape("## $datumSor")) {
-                    $tartalom = $tartalom -replace "(?m)(## $([regex]::Escape($datumSor))[\s\S]*?)(---)", "`$1- $bejegyzes`n`$2"
-                    Set-Content $naplo $tartalom -Encoding UTF8
-                } else {
-                    "$tartalom`n## $datumSor`n`n### Valtozasok:`n- $bejegyzes`n`n---`n" | Set-Content $naplo -Encoding UTF8
-                }
-            }
-            git add .
-            git diff --cached --quiet
-            if ($LASTEXITCODE -ne 0) {
-                git commit -m "Auto-mentes $ido - $($osszes -join ', ')"
-                git push
-                Write-Host "[$ido] Feltoltve: $($osszes -join ', ')" -ForegroundColor Green
-            }
-        }
-    } else { Write-Host "[$ido] Nincs valtozas." -ForegroundColor DarkGray }
-    Start-Sleep -Seconds 60
-}
-'@
-$watcher = $watcherBase -replace "PROJEKT_MAPPA_PLACEHOLDER", $projektMappa -replace "PROJEKT_NEV_PLACEHOLDER", $projektNev
-Set-Content ".vscode\naplo-watcher.ps1" $watcher -Encoding UTF8
-Ok "naplo-watcher.ps1 letrehozva  (percenkenti auto-push)"
-
-# ── autosave-background.ps1 ─────────────────────────────────────
-$bgBase = @'
-# AUTO-MENTES - WINDOWS TASK SCHEDULER - Projekt: PROJEKT_NEV_PLACEHOLDER
-$temaMappa = "PROJEKT_MAPPA_PLACEHOLDER"
-$naplo = "$temaMappa\NAPLO.md"
-$logFile = "$temaMappa\.vscode\autosave.log"
-Set-Location $temaMappa
-$most = Get-Date
-$datumSor = $most.ToString("yyyy. MMMM dd.")
-$ido = $most.ToString("HH:mm:ss")
-$fajlok = @(git diff --name-only HEAD 2&gt;$null) + @(git ls-files --others --exclude-standard 2&gt;$null) | Where-Object { $_ -ne "" }
-if ($fajlok.Count -gt 0) {
-    $sor = "$ido - $($fajlok -join ', ')"
-    if (Test-Path $naplo) {
-        $tartalom = Get-Content $naplo -Raw -Encoding UTF8
-        if ($tartalom -match [regex]::Escape("## $datumSor")) {
-            $tartalom = $tartalom -replace "(?m)(## $([regex]::Escape($datumSor))[\s\S]*?)(---)", "`$1- $sor`n`$2"
-        } else { $tartalom += "`n## $datumSor`n`n### Valtozasok:`n- $sor`n`n---`n" }
-        Set-Content $naplo $tartalom -Encoding UTF8
-    }
-    git add .
-    git diff --cached --quiet
-    if ($LASTEXITCODE -ne 0) {
-        git commit -m "AutoSave $ido - $($fajlok -join ', ')"
-        git push 2&gt;&amp;1
-        Add-Content $logFile "[$ido] PUSHED: $($fajlok -join ', ')"
-    }
-} else { Add-Content $logFile "[$ido] Nincs valtozas." }
-'@
-$bg = $bgBase -replace "PROJEKT_MAPPA_PLACEHOLDER", $projektMappa -replace "PROJEKT_NEV_PLACEHOLDER", $projektNev
-Set-Content ".vscode\autosave-background.ps1" $bg -Encoding UTF8
-Ok "autosave-background.ps1 letrehozva"
-
-# ── install-autosave-task.ps1 ───────────────────────────────────
-$installBase = @'
-# Task Scheduler regisztralas - futtasd egyszer adminisztratorkent
-$scriptPath = "PROJEKT_MAPPA_PLACEHOLDER\.vscode\autosave-background.ps1"
-$taskName = "PROJEKT_NEV_PLACEHOLDER-AutoSave"
-Unregister-ScheduledTask -TaskName $taskName -Confirm:$false -ErrorAction SilentlyContinue
-$action = New-ScheduledTaskAction -Execute "powershell.exe" `
-    -Argument "-ExecutionPolicy Bypass -WindowStyle Hidden -File `"$scriptPath`""
-$triggerLogin = New-ScheduledTaskTrigger -AtLogOn
-$triggerRepeat = New-ScheduledTaskTrigger -RepetitionInterval (New-TimeSpan -Minutes 5) -Once -At (Get-Date)
-$settings = New-ScheduledTaskSettingsSet -RunOnlyIfNetworkAvailable:$false -StartWhenAvailable -ExecutionTimeLimit (New-TimeSpan -Minutes 2)
-Register-ScheduledTask -TaskName $taskName -Action $action -Trigger $triggerLogin -Settings $settings -RunLevel Highest -Force | Out-Null
-$task = Get-ScheduledTask -TaskName $taskName
-$task.Triggers += $triggerRepeat
-$task | Set-ScheduledTask | Out-Null
-Write-Host "Task: $taskName - 5 percenkent auto-push." -ForegroundColor Green
-'@
-$install = $installBase -replace "PROJEKT_MAPPA_PLACEHOLDER", $projektMappa -replace "PROJEKT_NEV_PLACEHOLDER", $projektNev
-Set-Content ".vscode\install-autosave-task.ps1" $install -Encoding UTF8
-Ok "install-autosave-task.ps1 letrehozva"
-
-# ── copilot-instructions.md ─────────────────────────────────────
-$copilotLines = @(
-    "# Copilot szabalyok - $projektNev",
-    "",
-    "## Kotelezo naplo iras",
-    "- Minden session vegen frissitsd a NAPLO.md fajlt",
-    "- Session elejen olvasd el az utolso NAPLO.md bejegyzest",
-    "",
-    "## Projekt adatok",
-    "- Nev: $projektNev",
-    "- Mappa: $projektMappa",
-    "- Tipus: $tipusNev",
-    "- GitHub: $githubUrl"
-)
-$copilotLines | Set-Content ".github\copilot-instructions.md" -Encoding UTF8
-Ok "copilot-instructions.md letrehozva"
-
-# ── NAPLO.md ────────────────────────────────────────────────────
-$datum = (Get-Date).ToString("yyyy. MMMM dd.")
-$naploLines = @(
-    "# $projektNev - Fejlesztesi naplo",
-    "",
-    "## $datum",
-    "",
-    "### Projekt letrehozva",
-    "- Tipus: $tipusNev",
-    "- Mappa: $projektMappa",
-    "- GitHub: $githubUrl",
-    "- Beallitas: VS Code Munkakornyezet Wizard v2.0",
-    "",
-    "---"
-)
-$naploLines | Set-Content "NAPLO.md" -Encoding UTF8
-Ok "NAPLO.md letrehozva"
-
-# ── .gitignore ──────────────────────────────────────────────────
-@("*.log", "autosave.log", "node_modules/", ".DS_Store", "Thumbs.db") | Set-Content ".gitignore" -Encoding UTF8
-Ok ".gitignore letrehozva"
-
-# ── FTP deploy.yml ──────────────────────────────────────────────
-if ($ftpKell -eq "i") {
-    $deployLines = @(
-        "name: Deploy - Eles szerver",
-        "",
-        "on:",
-        "  push:",
-        "    branches: [ main ]",
-        "",
-        "jobs:",
-        "  deploy:",
-        "    runs-on: ubuntu-latest",
-        "    steps:",
-        "      - name: Checkout",
-        "        uses: actions/checkout@v4",
-        "      - name: FTP Deploy",
-        "        uses: SamKirkland/FTP-Deploy-Action@v4.3.4",
-        "        with:",
-        '          server: ${{ secrets.FTP_SERVER }}',
-        '          username: ${{ secrets.FTP_USERNAME }}',
-        '          password: ${{ secrets.FTP_PASSWORD }}',
-        '          server-dir: ${{ secrets.FTP_SERVER_DIR }}',
-        "          exclude: |",
-        "            **/.git*",
-        "            **/.git*/**",
-        "            **/node_modules/**",
-        "            **/.vscode/**"
-    )
-    $deployLines | Set-Content ".github\workflows\deploy.yml" -Encoding UTF8
-    Ok "deploy.yml letrehozva"
-}
-
-# ── GIT INIT ────────────────────────────────────────────────────
-Info "Git inicializalas..."
-git init 2&gt;&amp;1 | Out-Null
-git config user.name "koltainorbert"
-git config user.email "koltainorbert@users.noreply.github.com"
-git add .
-git diff --cached --quiet
-if ($LASTEXITCODE -ne 0) {
-    git commit -m "Projekt inicializalas - $projektNev ($tipusNev)" 2&gt;&amp;1 | Out-Null
-    Ok "Elso commit keszult"
-}
-
-if ($githubUrl) {
-    git branch -M main 2&gt;&amp;1 | Out-Null
-    $remoteCheck = git remote get-url origin 2&gt;&amp;1
-    if ($LASTEXITCODE -ne 0) { git remote add origin $githubUrl 2&gt;&amp;1 | Out-Null }
-    Info "GitHub push..."
-    git push -u origin main 2&gt;&amp;1 | Out-Null
-    if ($LASTEXITCODE -eq 0) {
-        Ok "GitHub-ra feltoltve: $githubUrl"
-    } else {
-        Hiba "GitHub push sikertelen (a repo letezik es van hozzaferesed?)"
-        Info "Manualis: git push -u origin main"
-    }
-}
-
-# ── BRANCH RENDSZER ─────────────────────────────────────────────
-if ($branchKell -eq "i" -and $githubUrl) {
-    Info "Branch rendszer..."
-    git checkout -b develop 2&gt;&amp;1 | Out-Null
-    git push -u origin develop 2&gt;&amp;1 | Out-Null
-    git checkout -b staging 2&gt;&amp;1 | Out-Null
-    git push -u origin staging 2&gt;&amp;1 | Out-Null
-    git checkout develop 2&gt;&amp;1 | Out-Null
-    Ok "Branch rendszer: develop / staging / main"
-}
-
-# ── TASK SCHEDULER ──────────────────────────────────────────────
-if ($taskSchedulerKell -eq "i") {
-    $isAdmin = ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
-    if ($isAdmin) {
-        powershell -ExecutionPolicy Bypass -File ".vscode\install-autosave-task.ps1" 2&gt;&amp;1 | Out-Null
-        Ok "Task Scheduler: ${projektNev}-AutoSave bereg."
-    } else {
-        Write-Host ""
-        Write-Host "  [-&gt;] Admin jog kell a Task Scheduler-hez. Futtasd kesobb:" -ForegroundColor Yellow
-        Write-Host "       Jobb klikk PowerShell -&gt; Futtattas rendszergazdakent" -ForegroundColor DarkGray
-        Write-Host "       cd `"$projektMappa`"" -ForegroundColor DarkGray
-        Write-Host "       powershell -ExecutionPolicy Bypass -File .vscode\install-autosave-task.ps1" -ForegroundColor DarkGray
-    }
-}
-
-# ── KESZ! ───────────────────────────────────────────────────────
-Write-Host ""
-Write-Host "  +==========================================+" -ForegroundColor Green
-Write-Host "  |              MINDEN KESZ!               |" -ForegroundColor Green
-Write-Host "  +==========================================+" -ForegroundColor Green
-Write-Host ""
-Write-Host "  Projekt:  $projektNev  ($tipusNev)" -ForegroundColor White
-Write-Host "  Mappa:    $projektMappa" -ForegroundColor White
-if ($githubUrl) { Write-Host "  GitHub:   $githubUrl" -ForegroundColor White }
-Write-Host ""
-Write-Host "  KOVETKEZŐ LEPES:" -ForegroundColor Cyan
-Write-Host ""
-Write-Host "      code `"$projektMappa`"" -ForegroundColor Yellow
-Write-Host ""
-Write-Host "  VS Code-ban automatikusan:" -ForegroundColor DarkGray
-Write-Host "    Ctrl+Shift+B = push | Browser Sync = live reload | Watcher = percenkenti mentes" -ForegroundColor DarkGray
-Write-Host ""
-Write-Host "  +==========================================+" -ForegroundColor Green
-Write-Host ""
-# ================================================
+<div class="stps" style="margin-bottom:20px"><div class="si"><div class="sn">!</div><p>Nincs internet, nincs GitHub — a <strong>teljes 493 soros wizard script</strong> beágyazva itt van</p></div><div class="si"><div class="sn">1</div><p><strong>MÁSOLÁS</strong> gomb → nyiss PowerShell ablakot → illeszd be → Enter</p></div><div class="si"><div class="sn">2</div><p>Vagy: <strong>LETÖLTÉS .ps1</strong> → ments el → <var>powershell -ExecutionPolicy Bypass -File setup-projekt.ps1</var></p></div></div>
+<div class="cw"><div class="ch"><div class="clg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="18" rx="2"/><path d="m6 8 4 4-4 4M12 16h6"/></svg>setup-projekt.ps1 &mdash; teljes wizard (493 sor)</div><div class="ca"><button class="csm" onclick="ccById(this,'ps1-inline')">Másolás</button><button class="csm" onclick="dlById('ps1-inline','setup-projekt.ps1')">Letöltés .ps1</button></div></div>
+<pre id="ps1-inline" class="cpre"># ================================================
 #  SDH UNIVERSAL PROJEKT SETUP
 #  WordPress, React, Laravel, sima HTML — bármi
 #  Terminálba bedobod, végigvezet mindenen.
@@ -956,6 +526,8 @@ $bsCommand = if ($tipusValasztas -eq "1") {
 Write-Host "`nGitHub repo URL? (ENTER = kihagyom)" -ForegroundColor Yellow
 Write-Host "  pl. https://github.com/koltainorbert/ujprojekt.git" -ForegroundColor DarkGray
 $githubUrl = Read-Host "GitHub URL"
+if ($githubUrl -and $githubUrl -notmatch '^https?://') { $githubUrl = "https://$githubUrl" }
+if ($githubUrl -and $githubUrl -notmatch '\.git$') { $githubUrl = "$githubUrl.git" }
 
 # ── 5. Fájlok létrehozása ─────────────────────────────────────────────────────
 
@@ -1466,7 +1038,7 @@ jobs:
           <li>Animált SVG ikonok minden tabnál (PowerShell · VS Code · Copilot · Kód)</li>
           <li>Particle canvas háttér (85 pont, piros összekötések)</li>
           <li>IntersectionObserver scroll-reveal animációk</li>
-          <li>4. fül: teljes 920 soros PS1 inline — MÁSOLÁS + LETÖLTÉS + Kinyit</li>
+          <li>4. fül: teljes 493 soros PS1 inline — MÁSOLÁS + LETÖLTÉS + Kinyit</li>
           <li>Scroll progress bar, warning box, staggered animációk</li>
           <li>_build_v3.py Python build script (PS1 tartalom megőrizve)</li>
         </ul>
@@ -1495,7 +1067,7 @@ jobs:
     <h3 class="pl-h3"><span class="pl-num">03</span> Teljes rendszer architektúra</h3>
     <div class="pl-arch">
       <div class="pl-arch-row">
-        <div class="pl-arch-box main">setup-projekt.ps1<br><span style="font-size:9px;opacity:.6;font-weight:400">920 sor · interaktív PowerShell wizard</span></div>
+        <div class="pl-arch-box main">setup-projekt.ps1<br><span style="font-size:9px;opacity:.6;font-weight:400">493 sor · interaktív PowerShell wizard</span></div>
       </div>
       <span class="pl-arch-arrow">↓</span>
       <div class="pl-arch-label">kérdések megválaszolása után generálja ezeket a fájlokat:</div>
@@ -1784,7 +1356,7 @@ jobs:
     <div style="overflow-x:auto">
     <table class="pl-table">
       <tr><th>Fájl / Mappa</th><th>Leírás</th></tr>
-      <tr><td><code>setup-projekt.ps1</code></td><td>A fő wizard script (920 sor) — ez fut le az irm parancs hatására. Tartalmazza az összes kérdést, generáló logikát, fájlíró funkciókat.</td></tr>
+      <tr><td><code>setup-projekt.ps1</code></td><td>A fő wizard script (493 sor) — ez fut le az irm parancs hatására. Tartalmazza az összes kérdést, generáló logikát, fájlíró funkciókat.</td></tr>
       <tr><td><code>DEV-RENDSZER.html</code></td><td>Ez az oldal — önálló share-elhető dashboard: 4-fülű telepítési segéd + wizard dokumentáció + inline PS1 (letölthető) + teljes projektleírás.</td></tr>
       <tr><td><code>_build_v3.py</code></td><td>Python build script — generálja a DEV-RENDSZER.html-t. A PS1 inline tartalmat regex-szel megőrzi. Módosítások után ezzel kell újra buildelni.</td></tr>
       <tr><td><code>README.md</code></td><td>GitHub repo főoldal leírása — gyors összefoglaló és az irm parancs.</td></tr>
@@ -1889,3 +1461,4 @@ function ccPre(btn){
 </script>
 </body>
 </html>
+
