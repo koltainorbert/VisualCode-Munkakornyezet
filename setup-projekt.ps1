@@ -55,6 +55,8 @@ while (-not $projektNev) {
 $aktualis = (Get-Location).Path
 $projektMappa = Kerd "Projekt mappa teljes eleresi ut" $aktualis
 $githubUrl = Kerd "GitHub repo URL (hagy uresen ha meg nincs)" ""
+if ($githubUrl -and $githubUrl -notmatch '^https?://') { $githubUrl = "https://$githubUrl" }
+if ($githubUrl -and $githubUrl -notmatch '\.git$') { $githubUrl = "$githubUrl.git" }
 
 # ── 2. PROJEKT TIPUSA ───────────────────────────────────────────
 Lepas "2/5" "PROJEKT TIPUSA"
@@ -569,6 +571,8 @@ $bsCommand = if ($tipusValasztas -eq "1") {
 Write-Host "`nGitHub repo URL? (ENTER = kihagyom)" -ForegroundColor Yellow
 Write-Host "  pl. https://github.com/koltainorbert/ujprojekt.git" -ForegroundColor DarkGray
 $githubUrl = Read-Host "GitHub URL"
+if ($githubUrl -and $githubUrl -notmatch '^https?://') { $githubUrl = "https://$githubUrl" }
+if ($githubUrl -and $githubUrl -notmatch '\.git$') { $githubUrl = "$githubUrl.git" }
 
 # ── 5. Fájlok létrehozása ─────────────────────────────────────────────────────
 

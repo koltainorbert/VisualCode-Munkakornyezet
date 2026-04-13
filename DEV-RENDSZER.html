@@ -440,6 +440,8 @@ while (-not $projektNev) {
 $aktualis = (Get-Location).Path
 $projektMappa = Kerd "Projekt mappa teljes eleresi ut" $aktualis
 $githubUrl = Kerd "GitHub repo URL (hagy uresen ha meg nincs)" ""
+if ($githubUrl -and $githubUrl -notmatch '^https?://') { $githubUrl = "https://$githubUrl" }
+if ($githubUrl -and $githubUrl -notmatch '\.git$') { $githubUrl = "$githubUrl.git" }
 
 # ── 2. PROJEKT TIPUSA ───────────────────────────────────────────
 Lepas "2/5" "PROJEKT TIPUSA"
