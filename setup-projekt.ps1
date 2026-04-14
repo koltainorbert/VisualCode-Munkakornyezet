@@ -346,7 +346,14 @@ jobs:
     Write-Host "  Csak lokális projekt — deploy kihagyva." -ForegroundColor DarkGray
 }
 
-Write-Host "[5/6] Copilot instrukciók..." -ForegroundColor Yellow
+Write-Host "[5/6] VS Code beállítások (auto-task engedélyezés)..." -ForegroundColor Yellow
+@"
+{
+  "task.allowAutomaticTasks": "on"
+}
+"@ | Set-Content ".vscode/settings.json" -Encoding UTF8
+
+Write-Host "[6/7] Copilot instrukciók..." -ForegroundColor Yellow
 @"
 # Copilot Instrukciók
 
@@ -371,7 +378,7 @@ Write-Host "[5/6] Copilot instrukciók..." -ForegroundColor Yellow
 - CSS prefix egyedi oldalanként, min-height:100vh minden wrapper-en
 "@ | Set-Content ".github/copilot-instructions.md" -Encoding UTF8
 
-Write-Host "[6/6] NAPI-MUNKAREND.txt..." -ForegroundColor Yellow
+Write-Host "[7/7] NAPI-MUNKAREND.txt..." -ForegroundColor Yellow
 @"
 ========================================
   NAPI MUNKAREND
@@ -490,6 +497,9 @@ Write-Host "  Pull Task            = Letöltés" -ForegroundColor Cyan
 Write-Host "  Browser Sync Task    = Live preview" -ForegroundColor Cyan
 Write-Host "  Auto-mentés          = 5 percenként (Task Scheduler)" -ForegroundColor Cyan
 Write-Host ""
-Write-Host "  !! Ctrl+Shift+P → Manage Automatic Tasks → Allow" -ForegroundColor Yellow
-Write-Host "     (ha még nem tetted meg egyszer)" -ForegroundColor Yellow
+Write-Host "  Auto-task watcher     = automatikusan engedélyezve" -ForegroundColor Cyan
 Write-Host "========================================`n" -ForegroundColor Green
+
+Write-Host "VS Code megnyitása: $projektMappa" -ForegroundColor Cyan
+Start-Sleep -Seconds 1
+code $projektMappa
