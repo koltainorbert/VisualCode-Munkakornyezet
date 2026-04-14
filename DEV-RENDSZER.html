@@ -1744,35 +1744,7 @@ function cookieAccept(){
   setTimeout(function(){ bar.style.display='none'; }, 460);
 }
 function startTitleGlitch(){
-  var h=document.getElementById('hero-title');
-  if(!h) return;
-  /* glitch réteg elemek a .ln span-ok mindegyikébe */
-  var lns=h.querySelectorAll('.ln');
-  lns.forEach(function(ln){
-    var wd=ln.querySelector('.wd');
-    if(!wd||wd.querySelector('.ht-glitch-r')) return;
-    var txt=wd.textContent;
-    wd.style.position='relative';
-    var r=document.createElement('span');r.className='ht-glitch-r';r.textContent=txt;
-    var b=document.createElement('span');b.className='ht-glitch-b';b.textContent=txt;
-    wd.appendChild(r);wd.appendChild(b);
-  });
-  var glitchDur=9000; /* 9mp teljes ciklus */
-  function doGlitch(){
-    h.querySelectorAll('.wd').forEach(function(el){
-      /* főelem rázkódás */
-      el.style.animation='none'; el.offsetHeight;
-      el.style.animation='ttg-shake '+glitchDur+'ms steps(1) forwards';
-      /* piros ghost */
-      var r=el.querySelector('.ht-glitch-r');
-      if(r){r.style.animation='none'; r.offsetHeight; r.style.animation='ttg-red '+glitchDur+'ms steps(1) forwards';}
-      /* cián ghost */
-      var b=el.querySelector('.ht-glitch-b');
-      if(b){b.style.animation='none'; b.offsetHeight; b.style.animation='ttg-cyan '+glitchDur+'ms steps(1) forwards';}
-    });
-  }
-  doGlitch();
-  setInterval(doGlitch, 10000);
+  /* CSS infinite animation kezeli — nincs szükség JS-re */
 }
 // PAGE LOAD
 window.addEventListener('DOMContentLoaded', function(){ anonShow(); });
