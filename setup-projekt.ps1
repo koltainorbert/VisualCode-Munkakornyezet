@@ -156,7 +156,7 @@ Write-Host "`n[1/5] VS Code tasks..." -ForegroundColor Yellow
     {
       "label": "⬆ Push (feltöltés GitHubra)",
       "type": "shell",
-      "command": "git add . ; `$d = git diff --cached --quiet ; if (`$LASTEXITCODE -ne 0) { git commit -m \"Mentés `$(Get-Date -Format 'yyyy.MM.dd HH:mm')\" ; git push ; Write-Host 'Kész!' } else { Write-Host 'Nincs változás.' }",
+      "command": "git add . ; `$d = git diff --cached --quiet ; if (`$LASTEXITCODE -ne 0) { git commit -m \"Mentes `$(Get-Date -Format 'yyyy.MM.dd HH:mm')\" ; git push ; Write-Host 'Kesz!' } else { Write-Host 'Nincs valtozas.' }",
       "options": { "cwd": "`${workspaceFolder}" },
       "group": { "kind": "build", "isDefault": true },
       "presentation": { "reveal": "always", "panel": "shared", "clear": true },
