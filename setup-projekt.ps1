@@ -156,7 +156,7 @@ Write-Host "`n[1/5] VS Code tasks..." -ForegroundColor Yellow
     {
       "label": "⬆ Push (feltöltés GitHubra)",
       "type": "shell",
-      "command": "git add . && git diff --cached --quiet && echo 'Nincs változás.' || (git commit -m \\"Mentés `$(Get-Date -Format 'yyyy.MM.dd HH:mm')\\" && git push && echo 'Kész!')",
+      "command": "git add . ; `$d = git diff --cached --quiet ; if (`$LASTEXITCODE -ne 0) { git commit -m \"Mentés `$(Get-Date -Format 'yyyy.MM.dd HH:mm')\" ; git push ; Write-Host 'Kész!' } else { Write-Host 'Nincs változás.' }",
       "options": { "cwd": "`${workspaceFolder}" },
       "group": { "kind": "build", "isDefault": true },
       "presentation": { "reveal": "always", "panel": "shared", "clear": true },
@@ -174,7 +174,7 @@ Write-Host "`n[1/5] VS Code tasks..." -ForegroundColor Yellow
     {
       "label": "⬇ Pull (frissítés GitHubról)",
       "type": "shell",
-      "command": "git pull && echo 'Kész!'",
+      "command": "git pull ; Write-Host 'Kész!'",
       "options": { "cwd": "`${workspaceFolder}" },
       "group": "none",
       "presentation": { "reveal": "always", "panel": "shared", "clear": true },
