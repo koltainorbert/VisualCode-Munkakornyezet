@@ -1629,21 +1629,21 @@ window.addEventListener('DOMContentLoaded', function(){ anonShow(); });
 <!-- SAROKBOHÓC CSS -->
 <style>
 #corner-clown{
-  position:fixed;top:56px;right:0;z-index:99998;
-  width:220px;height:220px;
+  position:fixed;top:70px;right:30px;z-index:99998;
+  width:110px;height:110px;
   cursor:pointer;
   animation:clown-idle 6s ease-in-out infinite;
-  transform-origin:top right;
+  transform-origin:center center;
 }
 #corner-clown img{
   width:100%;height:100%;
   object-fit:cover;
-  border-radius:0;
-  filter:contrast(1.2) saturate(0.6) brightness(0.9);
+  border-radius:0 0 0 100%;
+  filter:contrast(1.3) saturate(0.5) brightness(0.85) hue-rotate(10deg);
   transition:filter 0.2s;
-  border-left:3px solid #ff0000;
-  border-bottom:3px solid #ff0000;
-  box-shadow:-6px 6px 40px rgba(255,0,0,0.6);
+  border-left:2px solid #ff0000;
+  border-bottom:2px solid #ff0000;
+  box-shadow:-4px 4px 30px rgba(255,0,0,0.5);
 }
 #corner-clown:hover img{
   filter:contrast(2) saturate(0) brightness(1.5) hue-rotate(0deg) drop-shadow(0 0 20px #ff0000);
