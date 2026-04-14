@@ -996,9 +996,18 @@ function ccPre(btn){
   overflow:hidden;
   display:flex;flex-direction:column;
   box-shadow:0 0 60px rgba(255,0,0,0.15);
-  animation:wz-in .25s cubic-bezier(.16,1,.3,1);
+  animation:wz-in .42s cubic-bezier(.16,1,.3,1) both;
 }
-@keyframes wz-in{from{opacity:0;transform:translateY(20px) scale(.97)}to{opacity:1;transform:none}}
+@keyframes wz-in{
+  0%  {opacity:0;transform:scale(1.08) translateY(-10px);filter:blur(8px) brightness(3);}
+  8%  {opacity:1;transform:scale(0.96) translateY(4px);filter:blur(0) brightness(2) hue-rotate(120deg);}
+  14% {transform:scale(1.03) translateY(-3px) skewX(-3deg);filter:brightness(1.8) hue-rotate(240deg);}
+  20% {transform:scale(0.98) skewX(2deg);filter:brightness(1.4) hue-rotate(0deg);}
+  28% {transform:scale(1.01) translateX(4px);filter:brightness(1.2);}
+  36% {transform:scale(0.995) translateX(-2px);}
+  50% {transform:scale(1.003);}
+  100%{transform:none;filter:none;opacity:1;}
+}
 @keyframes wz-pulse{0%,100%{box-shadow:0 0 24px rgba(255,0,0,0.6),0 0 60px rgba(255,0,0,0.25)}50%{box-shadow:0 0 40px rgba(255,0,0,0.9),0 0 80px rgba(255,0,0,0.45)}}
 #wz-hdr{
   background:rgba(255,0,0,0.05);border-bottom:1px solid rgba(255,0,0,0.2);
