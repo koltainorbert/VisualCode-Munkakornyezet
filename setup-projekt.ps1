@@ -70,6 +70,20 @@ Write-Host "  [3] Laravel / PHP" -ForegroundColor White
 Write-Host "  [4] Egyéb / bármi más" -ForegroundColor White
 $tipusValasztas = Read-Host "Szám"
 
+# ── 1b. GitHub URL (korán kérdezzük, hogy a mappa javaslathoz felhasználhassuk) ──
+
+Write-Host "`nGitHub repo URL? (ENTER = kihagyom)" -ForegroundColor Yellow
+Write-Host "  pl. https://github.com/koltainorbert/ujprojekt" -ForegroundColor DarkGray
+$githubUrl = Read-Host "GitHub URL"
+if ($githubUrl -and $githubUrl -notmatch '^https?://') { $githubUrl = "https://$githubUrl" }
+if ($githubUrl -and $githubUrl -notmatch '\.git$') { $githubUrl = "$githubUrl.git" }
+
+# Repo névből javasolt mappa
+$repoNev = ""
+if (-not [string]::IsNullOrWhiteSpace($githubUrl)) {
+    $repoNev = ($githubUrl -replace '\.git$','') -replace '.+/',''
+}
+
 # ── 2. Projekt mappa ─────────────────────────────────────────────────────────
 
 Write-Host "`nHol van a projekt gyökér mappája?" -ForegroundColor Yellow
@@ -99,11 +113,17 @@ switch ($tipusValasztas) {
         }
     }
     default {
-        Write-Host "  pl. D:\projektek\ujoldal" -ForegroundColor DarkGray
-        Write-Host "  pl. C:\Users\SDH\Documents\react-app" -ForegroundColor DarkGray
+        if ($repoNev) {
+            $javasolt = "C:\Users\$env:USERNAME\projektek\$repoNev"
+            Write-Host "  Javaslat (repo alapjan): $javasolt" -ForegroundColor Green
+            Write-Host "  ENTER = ezt hasznalja, vagy irj mas eleresi utat" -ForegroundColor DarkGray
+        } else {
+            Write-Host "  pl. D:\projektek\ujoldal" -ForegroundColor DarkGray
+            Write-Host "  pl. C:\Users\SDH\Documents\react-app" -ForegroundColor DarkGray
+        }
         $projektMappa = Read-Host "Mappa"
         if ([string]::IsNullOrWhiteSpace($projektMappa)) {
-            $projektMappa = Get-Location
+            $projektMappa = if ($repoNev) { "C:\Users\$env:USERNAME\projektek\$repoNev" } else { Get-Location }
         }
     }
 }
@@ -138,13 +158,7 @@ $bsCommand = if ($tipusValasztas -eq "1") {
     "npx browser-sync start --proxy '$proxyUrl' --files '**/*.css,**/*.php,**/*.js,**/*.html' --port 3000 --open"
 }
 
-# ── 4. GitHub ─────────────────────────────────────────────────────────────────
-
-Write-Host "`nGitHub repo URL? (ENTER = kihagyom)" -ForegroundColor Yellow
-Write-Host "  pl. https://github.com/koltainorbert/ujprojekt.git" -ForegroundColor DarkGray
-$githubUrl = Read-Host "GitHub URL"
-if ($githubUrl -and $githubUrl -notmatch '^https?://') { $githubUrl = "https://$githubUrl" }
-if ($githubUrl -and $githubUrl -notmatch '\.git$') { $githubUrl = "$githubUrl.git" }
+# ── 4. GitHub — már megvan fentről ───────────────────────────────────────────
 
 # ── 5. Fájlok létrehozása ─────────────────────────────────────────────────────
 
