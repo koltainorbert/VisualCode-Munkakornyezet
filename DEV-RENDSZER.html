@@ -1014,6 +1014,58 @@ function ccPre(btn){
   100%{transform:none;filter:none;opacity:1;}
 }
 @keyframes anon-bg-in{0%{opacity:1}85%{opacity:1}100%{opacity:0}}
+
+/* ═══ BOHÓC HÁTTÉR ═══ */
+@keyframes clown-fadein{
+  0%{opacity:0}
+  100%{opacity:1}
+}
+@keyframes clown-shake{
+  0%  {transform:translate(0,0) scale(1) rotate(0deg)}
+  4%  {transform:translate(-8px,3px) scale(1.01) rotate(-0.4deg)}
+  8%  {transform:translate(6px,-5px) scale(1.005) rotate(0.3deg)}
+  13% {transform:translate(-4px,7px) scale(1.015) rotate(-0.6deg)}
+  18% {transform:translate(9px,-3px) scale(1.008) rotate(0.5deg)}
+  24% {transform:translate(-12px,6px) scale(1.02) rotate(-0.8deg)}
+  30% {transform:translate(5px,-9px) scale(1.012) rotate(0.4deg)}
+  36% {transform:translate(-7px,4px) scale(1.006) rotate(-0.3deg)}
+  42% {transform:translate(11px,-6px) scale(1.018) rotate(0.7deg)}
+  48% {transform:translate(-5px,8px) scale(1.01) rotate(-0.5deg)}
+  54% {transform:translate(8px,-4px) scale(1.014) rotate(0.6deg)}
+  60% {transform:translate(-10px,5px) scale(1.022) rotate(-0.9deg)}
+  66% {transform:translate(4px,-7px) scale(1.008) rotate(0.3deg)}
+  72% {transform:translate(-6px,3px) scale(1.016) rotate(-0.4deg)}
+  78% {transform:translate(7px,-5px) scale(1.011) rotate(0.5deg)}
+  84% {transform:translate(-3px,6px) scale(1.007) rotate(-0.2deg)}
+  90% {transform:translate(5px,-3px) scale(1.013) rotate(0.4deg)}
+  96% {transform:translate(-8px,4px) scale(1.009) rotate(-0.6deg)}
+  100%{transform:translate(0,0) scale(1) rotate(0deg)}
+}
+@keyframes clown-glitch{
+  0%  {clip-path:inset(0 0 100% 0);opacity:0}
+  5%  {clip-path:inset(20% 0 55% 0);opacity:0.6;transform:translateX(-8px)}
+  10% {clip-path:inset(60% 0 20% 0);opacity:0.4;transform:translateX(10px)}
+  15% {clip-path:inset(40% 0 40% 0);opacity:0.7;transform:translateX(-5px)}
+  20% {clip-path:inset(10% 0 70% 0);opacity:0.5;transform:translateX(8px)}
+  25% {clip-path:inset(75% 0 10% 0);opacity:0.6;transform:translateX(-12px)}
+  30% {clip-path:inset(30% 0 30% 0);opacity:0.4;transform:translateX(6px)}
+  35% {clip-path:inset(50% 0 15% 0);opacity:0.8;transform:translateX(-4px)}
+  40% {clip-path:inset(5% 0 60% 0);opacity:0.3;transform:translateX(9px)}
+  45% {clip-path:inset(65% 0 5% 0);opacity:0.5;transform:translateX(-7px)}
+  50% {clip-path:inset(0 0 100% 0);opacity:0}
+  100%{clip-path:inset(0 0 100% 0);opacity:0}
+}
+@keyframes clown-scanline{
+  0%  {background-position:0 0}
+  100%{background-position:0 100px}
+}
+@keyframes clown-redeye{
+  0%,94%{opacity:0}
+  95%{opacity:0.15}
+  97%{opacity:0.08}
+  99%{opacity:0.18}
+  100%{opacity:0}
+}
 @keyframes anon-mask-in{
   0%  {opacity:0;transform:scale(4) rotate(-10deg);filter:blur(40px) brightness(20);}
   10% {opacity:1;transform:scale(1.2) rotate(3deg);filter:blur(3px) brightness(5) hue-rotate(180deg);}
@@ -1483,10 +1535,75 @@ function anonShow(){
   var t=document.getElementById('anon-title');
   t.style.animation='none'; t.offsetHeight;
   t.style.animation='anon-txt-flash '+ANON_DUR+'ms ease forwards';
-  setTimeout(function(){ el.style.display='none'; }, ANON_DUR+100);
+  setTimeout(function(){ el.style.display='none'; clownReveal(); }, ANON_DUR+100);
 }
 // PAGE LOAD
 window.addEventListener('DOMContentLoaded', function(){ anonShow(); });
+
+// ═══ BOHÓC HÁTTÉR LOGIKA ═══
+function clownReveal(){
+  var cb=document.getElementById('clown-bg');
+  cb.style.display='block';
+  cb.style.animation='none'; cb.offsetHeight;
+  cb.style.animation='clown-fadein 3s ease forwards';
+  // Shake loop: véletlenszerűen, ijesztő hosszan
+  clownShakeLoop();
+}
+function clownShakeLoop(){
+  var img=document.getElementById('clown-img');
+  var gl=document.getElementById('clown-glitch');
+  // Várakozás: 8-20 mp közt random
+  var wait = 8000 + Math.random()*12000;
+  setTimeout(function(){
+    // Shake — 12 másodperc
+    img.style.animation='clown-shake 12s ease-in-out';
+    // Glitch villanás
+    gl.style.animation='none'; gl.offsetHeight;
+    gl.style.animation='clown-glitch 2.5s steps(1) forwards';
+    // Vörös fény pulzálás
+    var re=document.getElementById('clown-redeye');
+    re.style.animation='none'; re.offsetHeight;
+    re.style.animation='clown-redeye 12s ease-in-out forwards';
+    setTimeout(function(){
+      img.style.animation='';
+      gl.style.animation='';
+      re.style.animation='';
+      clownShakeLoop(); // ismétlés
+    }, 13000);
+  }, wait);
+}
 </script>
+
+<!-- ═══ BOHÓC HÁTTÉR ═══ -->
+<div id="clown-bg" style="
+  display:none;position:fixed;inset:0;z-index:0;
+  pointer-events:none;overflow:hidden;
+">
+  <!-- bohóc kép -->
+  <img id="clown-img" src="front-view-scary-clown-abandoned-building.jpg"
+    style="position:absolute;top:50%;left:50%;
+      transform:translate(-50%,-50%);
+      width:100vw;height:100vh;
+      object-fit:cover;object-position:center 15%;
+      opacity:0.18;filter:grayscale(0.4) contrast(1.3) brightness(0.7);
+      transform-origin:center center;">
+  <!-- vörös átvilágítás -->
+  <div id="clown-redeye" style="position:absolute;inset:0;
+    background:radial-gradient(ellipse 60% 80% at 50% 30%,rgba(255,0,0,0.22),transparent 70%);
+    opacity:0;pointer-events:none"></div>
+  <!-- glitch réteg -->
+  <img id="clown-glitch" src="front-view-scary-clown-abandoned-building.jpg"
+    style="position:absolute;top:50%;left:50%;
+      transform:translate(-50%,-50%);
+      width:100vw;height:100vh;
+      object-fit:cover;object-position:center 15%;
+      opacity:0;filter:hue-rotate(180deg) contrast(2) saturate(3);
+      clip-path:inset(0 0 100% 0);">
+  <!-- scanline overlay -->
+  <div style="position:absolute;inset:0;
+    background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,0.12) 3px,rgba(0,0,0,0.12) 4px);
+    animation:clown-scanline 4s linear infinite;pointer-events:none;opacity:0.5"></div>
+</div>
+
 </body>
 </html>
