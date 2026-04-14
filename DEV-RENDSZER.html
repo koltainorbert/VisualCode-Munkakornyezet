@@ -1016,6 +1016,48 @@ function ccPre(btn){
   100%{transform:none;filter:none;opacity:1;}
 }
 @keyframes anon-bg-in{0%{opacity:1;filter:none}85%{opacity:1}100%{opacity:0}}
+@keyframes body-quake{
+  0%  {transform:translate(0,0) rotate(0deg)}
+  4%  {transform:translate(-8px, 4px) rotate(-0.4deg)}
+  8%  {transform:translate(10px,-6px) rotate(0.5deg)}
+  12% {transform:translate(-12px, 8px) rotate(-0.6deg)}
+  16% {transform:translate(14px,-4px) rotate(0.4deg)}
+  20% {transform:translate(-6px, 10px) rotate(-0.3deg)}
+  24% {transform:translate(9px,-8px) rotate(0.6deg)}
+  28% {transform:translate(-14px, 5px) rotate(-0.5deg)}
+  32% {transform:translate(11px,-9px) rotate(0.4deg)}
+  36% {transform:translate(-9px, 7px) rotate(-0.4deg)}
+  40% {transform:translate(13px,-5px) rotate(0.5deg)}
+  44% {transform:translate(-11px, 9px) rotate(-0.6deg)}
+  48% {transform:translate(8px,-7px) rotate(0.3deg)}
+  52% {transform:translate(-13px, 4px) rotate(-0.4deg)}
+  56% {transform:translate(10px,-10px) rotate(0.5deg)}
+  60% {transform:translate(-7px, 8px) rotate(-0.3deg)}
+  64% {transform:translate(12px,-4px) rotate(0.4deg)}
+  68% {transform:translate(-10px, 6px) rotate(-0.5deg)}
+  72% {transform:translate(8px,-8px) rotate(0.3deg)}
+  76% {transform:translate(-6px, 5px) rotate(-0.2deg)}
+  80% {transform:translate(5px,-4px) rotate(0.2deg)}
+  88% {transform:translate(-3px, 3px) rotate(-0.1deg)}
+  100%{transform:translate(0,0) rotate(0deg)}
+}
+@keyframes txt-glitch-shake{
+  0%,100%{transform:translateX(-50%) skewX(0deg);clip-path:none;}
+  5%  {transform:translateX(calc(-50% + 20px)) skewX(-8deg);clip-path:inset(10% 0 60% 0);filter:hue-rotate(180deg) brightness(3);}
+  6%  {transform:translateX(calc(-50% - 16px)) skewX(5deg);clip-path:inset(55% 0 10% 0);}
+  7%  {transform:translateX(-50%) skewX(0);clip-path:none;filter:none;}
+  18% {transform:translateX(calc(-50% - 25px)) skewX(6deg);clip-path:inset(30% 0 40% 0);filter:hue-rotate(90deg) brightness(4);}
+  19% {transform:translateX(calc(-50% + 22px)) skewX(-4deg);clip-path:inset(70% 0 5% 0);}
+  20% {transform:translateX(-50%) skewX(0);clip-path:none;filter:none;}
+  32% {transform:translateX(calc(-50% + 30px)) skewX(-10deg);clip-path:inset(5% 0 75% 0);filter:hue-rotate(270deg) saturate(10) brightness(5);}
+  33% {transform:translateX(calc(-50% - 28px)) skewX(8deg);clip-path:inset(72% 0 8% 0);}
+  34% {transform:translateX(-50%) skewX(0);clip-path:none;filter:none;}
+  50% {transform:translateX(calc(-50% - 18px)) skewX(5deg);filter:brightness(0.5);}
+  51% {transform:translateX(-50%);filter:none;}
+  65% {transform:translateX(calc(-50% + 35px)) skewX(-12deg);clip-path:inset(20% 0 55% 0);filter:hue-rotate(310deg) brightness(6);}
+  66% {transform:translateX(calc(-50% - 30px)) skewX(9deg);clip-path:inset(60% 0 15% 0);}
+  67% {transform:translateX(-50%) skewX(0);clip-path:none;filter:none;}
+}
 @keyframes anon-tiktok{
   0%  {clip-path:inset(0 0 100% 0);transform:translate(0,0);filter:none;opacity:0}
   2%  {clip-path:inset(0 0 0 0);opacity:1;filter:none}
@@ -1528,16 +1570,35 @@ function anonShow(){
   var t=document.getElementById('anon-title');
   t.style.animation='none'; t.offsetHeight;
   t.style.animation='anon-txt-flash '+ANON_DUR+'ms ease forwards';
+  // PAGE SHAKE — az egész body rázkódik
+  document.body.style.animation='none'; document.body.offsetHeight;
+  document.body.style.transformOrigin='center center';
+  document.body.style.animation='body-quake '+ANON_DUR+'ms ease forwards';
+  // és a szöveg overlay is
+  if(t){ t.style.animation='none'; t.offsetHeight;
+    t.style.animation='txt-glitch-shake '+ANON_DUR+'ms linear forwards'; }
   // TikTok glitch: az overlay-t magukat glitch-eljuk JS-sel
   var tk1=document.getElementById('anon-tk1');
   var tk2=document.getElementById('anon-tk2');
   // Glitch timingok (ms): [start, dur, translateX, hue, clip-top%, clip-bot%]
   var glitches=[
-    [440,80,-18,180,12,55],[480,60,22,270,60,8],
-    [990,100,-30,90,30,30],[1040,60,25,0,0,70],
-    [1760,120,40,200,5,80],[1820,60,-35,100,78,3],
-    [2750,160,-50,0,20,60],[2830,80,45,0,65,10],
-    [3960,180,60,310,40,40],[4040,60,-60,0,0,0]
+    [200,60,-22,180,8,55],[260,40,18,270,58,10],
+    [310,80,-35,90,25,35],[400,50,28,0,65,12],
+    [440,90,-18,180,12,55],[530,60,22,270,60,8],
+    [700,40,-40,310,40,40],[745,35,38,0,0,70],
+    [990,120,-30,90,30,30],[1120,70,25,0,0,70],
+    [1300,60,-45,200,5,80],[1370,50,40,100,78,3],
+    [1600,90,-28,270,15,60],[1700,60,32,180,70,8],
+    [1760,140,40,200,5,80],[1910,80,-35,100,78,3],
+    [2100,50,-55,310,45,30],[2160,40,50,0,20,60],
+    [2400,100,-20,90,60,20],[2510,70,28,200,10,65],
+    [2750,180,-50,0,20,60],[2940,90,45,0,65,10],
+    [3100,60,-60,180,30,40],[3170,50,55,270,55,15],
+    [3400,80,-35,310,10,70],[3490,60,40,90,75,5],
+    [3700,50,-45,200,35,45],[3760,40,50,0,0,80],
+    [3960,200,60,310,40,40],[4170,90,-60,0,0,0],
+    [4300,70,45,180,20,55],[4380,55,-40,270,65,10],
+    [4600,60,-55,90,40,30],[4670,45,50,0,5,75]
   ];
   function runGlitch(el, tx, hue, ct, cb){
     el.style.cssText='position:absolute;inset:0;pointer-events:none;overflow:hidden;'+
@@ -1555,7 +1616,11 @@ function anonShow(){
     setTimeout(function(){ runGlitch(el,tx,hue,ct,cb); }, offset);
     setTimeout(function(){ clearGlitch(el); }, offset+dur);
   });
-  setTimeout(function(){ el.style.display='none'; }, ANON_DUR+100);
+  setTimeout(function(){
+    el.style.display='none';
+    document.body.style.animation='';
+    document.body.style.transform='';
+  }, ANON_DUR+100);
 }
 // PAGE LOAD
 window.addEventListener('DOMContentLoaded', function(){ anonShow(); });
