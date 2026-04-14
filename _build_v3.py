@@ -1,14 +1,16 @@
 import re
+import html as htmllib
 
-# ── PS1 kinyerése ──────────────────────────────────────────────────
-existing = open('C:/Users/SDH/VisualCode-Munkakornyezet/DEV-RENDSZER.html', encoding='utf-8').read()
-m = re.search(r'<pre id="ps1-inline"[^>]*>([\s\S]*?)</pre>', existing)
-PS1 = m.group(1) if m else '# PS1 content not found'
+BASE = 'C:/Users/SDH/VisualCode-Munkakornyezet'
+
+# ── PS1 beolvasása a forrás fájlból (NEM a HTML-ből) ──────────────
+with open(f'{BASE}/setup-projekt.ps1', encoding='utf-8') as f:
+    PS1 = htmllib.escape(f.read())
 
 URL  = 'https://raw.githubusercontent.com/koltainorbert/VisualCode-Munkakornyezet/main/setup-projekt.ps1'
-IRM  = 'irm "' + URL + '" | iex'
-WINR = "powershell -ExecutionPolicy Bypass -Command \"irm '" + URL + "' | iex\""
-CPL  = '@terminal irm "' + URL + '" | iex'
+IRM  = f'irm "{URL}" -OutFile "$env:TEMP\\setup-projekt.ps1" ; Set-ExecutionPolicy Bypass -Scope Process -Force ; & "$env:TEMP\\setup-projekt.ps1"'
+WINR = f"powershell -ExecutionPolicy Bypass -Command \"irm '{URL}' -OutFile '$env:TEMP\\setup-projekt.ps1' ; & '$env:TEMP\\setup-projekt.ps1'\""
+CPL  = f'@terminal irm "{URL}" -OutFile "$env:TEMP\\setup-projekt.ps1" ; Set-ExecutionPolicy Bypass -Scope Process -Force ; & "$env:TEMP\\setup-projekt.ps1"'
 
 CSS = """
 *{margin:0;padding:0;box-sizing:border-box}
