@@ -1113,17 +1113,6 @@ function ccPre(btn){
         <input class="wz-inp" type="text" id="wz-folder" placeholder="pl. C:\Users\SDH\projektek\ujoldal" oninput="wzFolderManual()"/>
         <div class="wz-hint">Ha nem létezik, automatikusan létrehozza.</div>
       </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
-        <div class="wz-fg" style="margin-bottom:0">
-          <label class="wz-lbl">Git neved (commit-hoz)</label>
-          <input class="wz-inp" type="text" id="wz-gitname" placeholder="pl. Koltai Norbert"/>
-        </div>
-        <div class="wz-fg" style="margin-bottom:0">
-          <label class="wz-lbl">Git e-mail</label>
-          <input class="wz-inp" type="email" id="wz-gitemail" placeholder="pl. norbert@example.com"/>
-        </div>
-      </div>
-      <div class="wz-hint" style="margin-top:8px">Ha már be van állítva git-ben, üresen hagyhatod.</div>
     </div>
     <!-- P3: Site URL -->
     <div class="wz-panel" id="wp3">
@@ -1284,8 +1273,6 @@ function wzGeneratePs1(){
   var folder=document.getElementById('wz-folder').value;
   var github=document.getElementById('wz-github').value.trim();
   var siteurl=(document.getElementById('wz-siteurl').value.trim()||'localhost:3000');
-  var gitname=document.getElementById('wz-gitname').value.trim();
-  var gitemail=document.getElementById('wz-gitemail').value.trim();
   if(github && github.indexOf('://')===-1) github='https://'+github;
   if(github && github.slice(-4)!=='.git') github+='.git';
   var fEsc=folder.replace(/'/g,"''");
