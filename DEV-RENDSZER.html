@@ -71,7 +71,9 @@ h1.ht{font-size:clamp(52px,9vw,96px);font-weight:900;
 @keyframes wdup{from{transform:translateY(110%);opacity:0}to{transform:translateY(0);opacity:1}}
 /* ── TIKTOK GLITCH (GYIK-stílus: drop-shadow + skewX) ── */
 /* piros szín az 1. és 3. sorra mindig */
-.ht .ln:first-child .wd,.ht .ln:last-child .wd{color:#ff0000}
+/* piros csak a .r class-os sorra (— minden), többi fehér */
+h1.ht .wd{color:#fff}
+.ht .wd.r{color:#ff0000}
 /* pseudo sávok */
 h1.ht::before,h1.ht::after{
   content:'';
