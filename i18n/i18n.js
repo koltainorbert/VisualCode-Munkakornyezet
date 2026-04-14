@@ -7,8 +7,7 @@
 'use strict';
 
 var DEFAULT_LANG = 'hu';
-var CACHE_VER = '1';
-var SEP = '\n|||SPLIT|||\n';
+var CACHE_VER = '2';
 
 var LANGS_BASIC = [
   { code:'hu', name:'Magyar',    flag:'🇭🇺' },
@@ -102,38 +101,37 @@ function injectStyles() {
   var s = document.createElement('style');
   s.id = 'sdh-i18n-css';
   s.textContent = [
-    '#sdh-lw{position:fixed;bottom:24px;right:24px;z-index:99999;font-family:Arial,Helvetica,sans-serif;}',
-    '#sdh-lbtn{display:flex;align-items:center;gap:8px;background:rgb(6,6,6);',
-    '  border:1.5px solid rgba(255,0,0,.55);border-radius:10px;padding:9px 14px;',
-    '  cursor:pointer;color:#fff;font-size:12px;font-weight:700;letter-spacing:1px;',
-    '  box-shadow:0 0 18px rgba(255,0,0,.2);transition:border-color .2s,box-shadow .2s;',
-    '  position:relative;outline:none;}',
-    '#sdh-lbtn::after{content:"";position:absolute;bottom:-1px;right:-1px;width:10px;height:10px;',
-    '  background:linear-gradient(225deg,#ff0000 50%,transparent 50%);border-radius:0 0 9px 0;}',
-    '#sdh-lbtn:hover{border-color:#ff0000;box-shadow:0 0 28px rgba(255,0,0,.4);}',
-    '#sdh-lflag{font-size:18px;line-height:1;}',
+    /* nav-ba ágyazott widget */
+    '#sdh-lw{position:relative;display:flex;align-items:center;font-family:Arial,Helvetica,sans-serif;margin-left:8px;}',
+    '#sdh-lbtn{display:flex;align-items:center;gap:6px;background:transparent;',
+    '  border:1.5px solid rgba(255,0,0,.45);border-radius:8px;padding:6px 12px;',
+    '  cursor:pointer;color:#fff;font-size:11px;font-weight:700;letter-spacing:1px;',
+    '  transition:border-color .2s,background .2s;position:relative;outline:none;white-space:nowrap;}',
+    '#sdh-lbtn:hover{border-color:#ff0000;background:rgba(255,0,0,.08);}',
+    '#sdh-lflag{font-size:16px;line-height:1;}',
     '#sdh-lcode{font-size:10px;color:#ff0000;letter-spacing:2px;}',
-    '#sdh-lpanel{position:absolute;bottom:calc(100% + 10px);right:0;',
+    /* dropdown lefelé nyílik */
+    '#sdh-lpanel{position:absolute;top:calc(100% + 10px);right:0;',
     '  background:rgb(6,6,6);border:1.5px solid rgba(255,0,0,.35);border-radius:12px;',
-    '  padding:14px;min-width:210px;display:none;',
-    '  box-shadow:0 8px 40px rgba(0,0,0,.8),0 0 0 1px rgba(255,0,0,.08);}',
+    '  padding:14px;min-width:220px;display:none;z-index:99999;',
+    '  box-shadow:0 8px 40px rgba(0,0,0,.9),0 0 0 1px rgba(255,0,0,.08);}',
     '#sdh-lpanel.open{display:block;}',
     '.sdh-ltitle{font-size:9px;letter-spacing:3px;text-transform:uppercase;',
     '  color:rgba(255,0,0,.8);margin-bottom:10px;font-weight:700;}',
-    '.sdh-lgrid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:8px;}',
-    '.sdh-li{display:flex;align-items:center;gap:7px;padding:7px 10px;border-radius:8px;',
+    '.sdh-lgrid{display:grid;grid-template-columns:1fr 1fr;gap:5px;margin-bottom:8px;}',
+    '.sdh-li{display:flex;align-items:center;gap:7px;padding:6px 9px;border-radius:7px;',
     '  border:1px solid rgba(255,255,255,.07);cursor:pointer;',
     '  transition:background .15s,border-color .15s;font-size:12px;color:#fff;background:transparent;}',
     '.sdh-li:hover{background:rgba(255,0,0,.1);border-color:rgba(255,0,0,.4);}',
     '.sdh-li.on{border-color:#ff0000;background:rgba(255,0,0,.12);}',
-    '.sdh-lf{font-size:16px;}',
+    '.sdh-lf{font-size:15px;}',
     '.sdh-lhr{height:1px;background:rgba(255,255,255,.08);margin:8px 0;}',
     '#sdh-lsearch{width:100%;background:rgba(255,255,255,.05);',
     '  border:1px solid rgba(255,255,255,.12);border-radius:7px;padding:7px 10px;',
     '  color:#fff;font-size:12px;outline:none;transition:border-color .2s;box-sizing:border-box;}',
     '#sdh-lsearch::placeholder{color:rgba(255,255,255,.3);}',
     '#sdh-lsearch:focus{border-color:rgba(255,0,0,.5);}',
-    '#sdh-lresults{display:flex;flex-direction:column;gap:3px;max-height:150px;',
+    '#sdh-lresults{display:flex;flex-direction:column;gap:3px;max-height:160px;',
     '  overflow-y:auto;margin-top:7px;}',
     '#sdh-lresults::-webkit-scrollbar{width:3px;}',
     '#sdh-lresults::-webkit-scrollbar-thumb{background:rgba(255,0,0,.4);border-radius:2px;}',
@@ -141,7 +139,7 @@ function injectStyles() {
     '  cursor:pointer;font-size:12px;color:#fff;transition:background .12s;}',
     '.sdh-lri:hover{background:rgba(255,0,0,.1);}',
     '.sdh-lri.on{color:#ff0000;}',
-    '#sdh-lloader{display:none;position:fixed;bottom:80px;right:24px;',
+    '#sdh-lloader{display:none;position:fixed;top:70px;right:16px;',
     '  background:rgb(6,6,6);border:1px solid rgba(255,0,0,.5);',
     '  border-radius:8px;padding:8px 16px;font-size:11px;color:#ff0000;',
     '  letter-spacing:2px;z-index:99998;font-family:Arial,Helvetica,sans-serif;',
@@ -158,6 +156,13 @@ function injectWidget() {
   w.id = 'sdh-lw';
   w.setAttribute('data-no-translate','');
   w.innerHTML =
+    '<button id="sdh-lbtn" title="Nyelv / Language">' +
+      '<span id="sdh-lflag">🇭🇺</span>' +
+      '<span id="sdh-lcode">HU</span>' +
+      '<svg width="8" height="8" viewBox="0 0 10 10" style="opacity:.45;flex-shrink:0">' +
+        '<path d="M2 3.5L5 6.5L8 3.5" stroke="#fff" stroke-width="1.5" fill="none" stroke-linecap="round"/>' +
+      '</svg>' +
+    '</button>' +
     '<div id="sdh-lpanel">' +
       '<div class="sdh-ltitle">🌐 Nyelv / Language</div>' +
       '<div class="sdh-lgrid" id="sdh-lgrid"></div>' +
@@ -165,15 +170,18 @@ function injectWidget() {
       '<input id="sdh-lsearch" type="text" placeholder="Keress… / Search language…">' +
       '<div id="sdh-lresults"></div>' +
     '</div>' +
-    '<button id="sdh-lbtn" title="Nyelv / Language">' +
-      '<span id="sdh-lflag">🇭🇺</span>' +
-      '<span id="sdh-lcode">HU</span>' +
-      '<svg width="9" height="9" viewBox="0 0 10 10" style="opacity:.45;flex-shrink:0">' +
-        '<path d="M2 3.5L5 6.5L8 3.5" stroke="#fff" stroke-width="1.5" fill="none" stroke-linecap="round"/>' +
-      '</svg>' +
-    '</button>' +
     '<div id="sdh-lloader">⏳ FORDÍTÁS…</div>';
-  document.body.appendChild(w);
+
+  /* nav-ba illesztés, fallback: body */
+  var nav = document.querySelector('nav');
+  if (nav) {
+    var nr = nav.querySelector('.nr');
+    if (nr) nr.insertBefore(w, nr.firstChild);
+    else nav.appendChild(w);
+  } else {
+    w.style.cssText = 'position:fixed;bottom:24px;right:24px;z-index:99999;';
+    document.body.appendChild(w);
+  }
 
   /* 5 alap flag */
   var grid = document.getElementById('sdh-lgrid');
@@ -264,35 +272,37 @@ function collectNodes() {
   return nodes;
 }
 
-/* ── Google Translate (unofficial, ingyenes) ── */
-function batchTranslate(texts, from, to) {
-  var CHUNK = 25;
-  var promise = Promise.resolve([]);
-  var _results = [];
+/* ── Google Translate (unofficial, ingyenes) — egyenként küld, nincs szeparátor-probléma ── */
+function translateOne(text, from, to) {
+  var url = 'https://translate.googleapis.com/translate_a/single?client=gtx&sl=' +
+    from + '&tl=' + to + '&dt=t&q=' + encodeURIComponent(text);
+  return fetch(url)
+    .then(function(r){ return r.json(); })
+    .then(function(d){
+      return d[0].map(function(x){ return x[0]; }).join('');
+    })
+    .catch(function(){ return text; });
+}
 
-  function step(i) {
-    if (i >= texts.length) return Promise.resolve(_results);
-    var chunk = texts.slice(i, i + CHUNK);
-    var batched = chunk.join(SEP);
-    var url = 'https://translate.googleapis.com/translate_a/single?client=gtx&sl=' +
-      from + '&tl=' + to + '&dt=t&q=' + encodeURIComponent(batched);
-    return fetch(url)
-      .then(function(r){ return r.json(); })
-      .then(function(d) {
-        var full = d[0].map(function(x){ return x[0]; }).join('');
-        var parts = full.split(/\n?[|]{3}SPLIT[|]{3}\n?/);
-        for (var j = 0; j < chunk.length; j++) {
-          _results.push(parts[j] !== undefined ? parts[j].trim() || chunk[j] : chunk[j]);
-        }
-        return step(i + CHUNK);
-      })
-      .catch(function() {
-        chunk.forEach(function(t){ _results.push(t); });
-        return step(i + CHUNK);
-      });
+function batchTranslate(texts, from, to) {
+  var PARALLEL = 8; /* egyszerre max 8 kérés */
+  var results = new Array(texts.length);
+  var idx = 0;
+
+  function runNext() {
+    if (idx >= texts.length) return Promise.resolve();
+    var i = idx++;
+    return translateOne(texts[i], from, to).then(function(t){
+      results[i] = t || texts[i];
+      return runNext();
+    });
   }
 
-  return step(0);
+  var workers = [];
+  for (var w = 0; w < Math.min(PARALLEL, texts.length); w++) {
+    workers.push(runNext());
+  }
+  return Promise.all(workers).then(function(){ return results; });
 }
 
 /* ── oldal fordítás ── */
