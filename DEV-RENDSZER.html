@@ -992,6 +992,8 @@ function ccPre(btn){
   width:640px;max-width:96vw;max-height:92vh;
   background:rgb(6,6,6);
   border:1px solid rgba(255,0,0,0.3);
+  border-radius:16px;
+  overflow:hidden;
   display:flex;flex-direction:column;
   box-shadow:0 0 60px rgba(255,0,0,0.15);
   animation:wz-in .25s cubic-bezier(.16,1,.3,1);
@@ -1020,7 +1022,7 @@ function ccPre(btn){
 .wz-psub{font-size:14px;color:#fff;opacity:.75;margin-bottom:24px;line-height:1.6}
 .wz-opts{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:6px}
 .wz-opt{border:1px solid rgba(255,255,255,0.1);padding:14px 16px;cursor:pointer;
-  transition:all .2s;background:rgba(255,255,255,0.02);}
+  border-radius:10px;transition:all .2s;background:rgba(255,255,255,0.02);}
 .wz-opt:hover{border-color:rgba(255,0,0,0.4);background:rgba(255,0,0,0.05)}
 .wz-opt.wsel{border-color:rgba(255,0,0,0.7);background:rgba(255,0,0,0.09)}
 .wz-opt-mark{width:13px;height:13px;border-radius:50%;border:1px solid rgba(255,255,255,0.3);
@@ -1033,12 +1035,12 @@ function ccPre(btn){
   color:rgba(255,60,60,1);margin-bottom:8px;font-weight:700}
 .wz-inp{width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.13);
   color:#fff;font-size:15px;padding:11px 14px;outline:none;font-family:inherit;
-  transition:border-color .2s;box-sizing:border-box;}
+  border-radius:8px;transition:border-color .2s;box-sizing:border-box;}
 .wz-inp:focus{border-color:rgba(255,0,0,0.6);background:rgba(255,0,0,0.03)}
 .wz-inp::placeholder{color:rgba(255,255,255,0.3)}
 .wz-hint{font-size:12px;color:rgba(255,255,255,0.6);margin-top:6px}
 .wz-trow{display:flex;align-items:center;gap:12px;margin-bottom:12px;
-  padding:13px 15px;border:1px solid rgba(255,255,255,0.09);background:rgba(255,255,255,0.02)}
+  padding:13px 15px;border:1px solid rgba(255,255,255,0.09);background:rgba(255,255,255,0.02);border-radius:10px}
 .wz-tlbl{flex:1;font-size:14px;color:#fff;font-weight:600}
 .wz-tlbl small{display:block;font-size:12px;color:rgba(255,255,255,0.65);margin-top:3px;font-weight:400}
 .wz-tgl{width:38px;height:20px;background:rgba(255,255,255,0.12);border-radius:10px;
@@ -1048,7 +1050,7 @@ function ccPre(btn){
   border-radius:50%;background:#fff;transition:left .2s;box-shadow:0 1px 3px rgba(0,0,0,0.4)}
 .wz-tgl.on::after{left:20px}
 .wz-sum{background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.08);
-  padding:18px;margin-bottom:16px}
+  padding:18px;margin-bottom:16px;border-radius:10px}
 .wz-srow{display:flex;padding:9px 0;border-bottom:1px solid rgba(255,255,255,0.05);font-size:14px}
 .wz-srow:last-child{border-bottom:none}
 .wz-sk{color:rgba(255,255,255,0.65);width:140px;flex-shrink:0;font-size:11px;
@@ -1057,12 +1059,12 @@ function ccPre(btn){
 .wz-sv.red{color:#ff0000}
 .wz-log{background:rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.08);
   padding:14px;font-size:13px;font-family:'Cascadia Code','Consolas',monospace;
-  height:200px;overflow-y:auto;color:#fff;line-height:1.8}
+  height:200px;overflow-y:auto;color:#fff;line-height:1.8;border-radius:10px}
 .wz-log .ok{color:#00e676}.wz-log .err{color:#ff5252}.wz-log .info{color:rgba(255,220,80,1)}
 #wz-btns{display:flex;gap:8px;justify-content:flex-end;padding:16px 22px;
   border-top:1px solid rgba(255,255,255,0.06);flex-shrink:0;background:rgba(6,6,6,.95)}
 .wz-btn{padding:11px 24px;font-size:12px;letter-spacing:2px;font-weight:700;
-  text-transform:uppercase;border:none;cursor:pointer;font-family:inherit;transition:all .2s}
+  text-transform:uppercase;border:none;cursor:pointer;font-family:inherit;transition:all .2s;border-radius:8px}
 .wz-back{background:rgba(255,255,255,0.06);color:#fff;
   border:1px solid rgba(255,255,255,0.15)}
 .wz-back:hover{background:rgba(255,255,255,0.1);color:#fff}
