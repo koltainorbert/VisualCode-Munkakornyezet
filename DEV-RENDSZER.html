@@ -258,6 +258,56 @@ h1.ht::after{
   82%{transform:translateX(26px);opacity:.6}
   83%{transform:none;opacity:0}
 }
+/* ── scroll progress bar ── */
+#sdh-progress-bar{
+  position:fixed;top:56px;left:0;z-index:101;
+  height:3px;width:0%;background:#ff0000;
+  box-shadow:0 0 10px rgba(255,0,0,.7),0 0 3px #ff0000;
+  transition:width .08s linear;
+  pointer-events:none;
+}
+/* ── bohóc fel-gomb ── */
+#sdh-totop{
+  position:fixed;bottom:88px;right:24px;z-index:99998;
+  width:58px;height:58px;
+  cursor:pointer;opacity:0;pointer-events:none;
+  transition:opacity .3s,transform .3s;
+  transform:translateY(20px);
+  background:none;border:none;padding:0;
+}
+#sdh-totop.show{opacity:1;pointer-events:auto;transform:translateY(0);}
+#sdh-clown-img{
+  width:44px;height:44px;
+  border-radius:50%;
+  object-fit:cover;object-position:top center;
+  position:absolute;top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  transition:transform .2s;
+  display:block;
+}
+#sdh-totop svg{
+  position:absolute;top:0;left:0;
+  width:58px;height:58px;
+  transform:rotate(-90deg);
+}
+#sdh-totop .bg-ring{
+  fill:none;stroke:rgba(255,255,255,.1);stroke-width:3;
+}
+#sdh-totop .prog-ring{
+  fill:none;stroke:#ff0000;stroke-width:3;
+  stroke-linecap:round;
+  stroke-dasharray:163.36 163.36;
+  stroke-dashoffset:163.36;
+  filter:drop-shadow(0 0 5px rgba(255,0,0,.9));
+  transition:stroke-dashoffset .08s linear;
+}
+#sdh-totop:hover #sdh-clown-img{
+  animation:sdh-bounce .45s ease;
+}
+@keyframes sdh-bounce{
+  0%,100%{transform:translate(-50%,-50%) scale(1);}
+  50%{transform:translate(-50%,-50%) scale(1.15);}
+}
 @keyframes fsup{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
 .hs{font-size:16px;color:var(--text2);line-height:1.75;max-width:560px;margin-bottom:48px;
   animation:fsup .8s cubic-bezier(.16,1,.3,1) .55s both}
@@ -1132,6 +1182,14 @@ jobs:
 </div></footer>
 
 <!-- ═══════════════ COOKIE BANNER ═══════════════ -->
+<!-- ═══════════════ BOHÓC FEL GOMB ═══════════════ -->
+<button id="sdh-totop" data-no-translate title="Vissza az elejére">
+  <svg viewBox="0 0 58 58">
+    <circle class="bg-ring" cx="29" cy="29" r="26"/>
+    <circle class="prog-ring" cx="29" cy="29" r="26"/>
+  </svg>
+  <img id="sdh-clown-img" src="mime-shows-theatrical-emotions.jpg" alt="Top">
+</button>
 <div id="cookie-bar" style="
   position:fixed;bottom:24px;left:50%;transform:translateX(-50%);
   z-index:9999;width:calc(100% - 48px);max-width:860px;
