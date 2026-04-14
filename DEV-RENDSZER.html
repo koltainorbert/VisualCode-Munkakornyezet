@@ -1341,73 +1341,15 @@ function wzRun(){
   document.body.appendChild(a); a.click();
   setTimeout(function(){ document.body.removeChild(a); URL.revokeObjectURL(url); },1000);
 
-  // Megjelenítés + vágólap
   document.getElementById('wz-sum').style.display='none';
   document.getElementById('wz-log-wrap').style.display='block';
   document.getElementById('wz-cbtn').style.display='none';
   document.getElementById('wz-bbtn').style.display='none';
-
-  wzLog('Parancs generálva — másold be PowerShell-be:','info');
+  wzLog('✓ SDH-Setup.bat letöltve!','ok');
   wzLog('','');
-  var cmdBox=document.createElement('div');
-  cmdBox.style.cssText='background:rgba(255,0,0,0.07);border:1px solid rgba(255,0,0,0.3);padding:10px;margin:4px 0;font-size:10px;word-break:break-all;color:#fff;cursor:pointer;';
-  cmdBox.textContent=cmd;
-  cmdBox.title='Kattints a másoláshoz';
-  cmdBox.onclick=function(){
-    navigator.clipboard.writeText(cmd).then(function(){
-      cmdBox.style.background='rgba(0,230,118,0.1)';
-      cmdBox.style.borderColor='rgba(0,230,118,0.4)';
-      wzLog('✓ Vágólapra másolva!','ok');
-    });
-  };
-  document.getElementById('wz-logbox').appendChild(cmdBox);
-  wzLog('','');
-  wzLog('► Win+R → powershell → Enter → Ctrl+V → Enter','info');
-  wzLog('   VAGY: kattints a fenti szövegre a másoláshoz','info');
-
-  // Auto copy
-  navigator.clipboard.writeText(cmd).catch(function(){});
-}
-
-function wzBuildCmd(folder,github,siteurl,bsCmd){
-  // Folder escape for PS
-  var f=folder.replace(/\\/g,'\\\\').replace(/'/g,"''");
-  var g=github?github.replace(/'/g,"''"):'';
-  var u=siteurl.replace(/'/g,"''");
-  var bs=bsCmd.replace(/'/g,"''");
-
-  var lines=[];
-  lines.push('$f=\''+f+'\'');
-  lines.push('if(-not(Test-Path $f)){New-Item -ItemType Directory -Force -Path $f|Out-Null}');
-  lines.push('Set-Location $f');
-  lines.push('New-Item -ItemType Directory -Force -Path ".vscode"|Out-Null');
-  lines.push('New-Item -ItemType Directory -Force -Path ".github"|Out-Null');
-  lines.push('New-Item -ItemType Directory -Force -Path ".github\\\\workflows"|Out-Null');
-
-  // tasks.json
-  lines.push('\'{"version":"2.0.0","tasks":[{"label":"Push","type":"shell","command":"git add . ; $d=git diff --cached --quiet ; if($LASTEXITCODE -ne 0){$m=\\\'Mentes_\\\'+(Get-Date -Format \\\'yyyy.MM.dd_HH.mm\\\');git commit -m $m;git push;Write-Host \\\'Kesz!\\\'}else{Write-Host \\\'Nincs valtozas.\\\'}","options":{"cwd":"${workspaceFolder}"},"group":{"kind":"build","isDefault":true},"problemMatcher":[]},{"label":"Pull","type":"shell","command":"git pull;Write-Host \\\'Kesz!\\\'","options":{"cwd":"${workspaceFolder}"},"group":"none","problemMatcher":[]},{"label":"Watcher","type":"shell","command":"powershell -ExecutionPolicy Bypass -File .vscode/naplo-watcher.ps1","options":{"cwd":"${workspaceFolder}"},"group":"none","isBackground":true,"runOptions":{"runOn":"folderOpen"},"problemMatcher":[]},{"label":"BrowserSync","type":"shell","command":"'+bs+'","options":{"cwd":"${workspaceFolder}"},"group":"none","isBackground":true,"problemMatcher":[]}]}\' | Set-Content ".vscode\\\\tasks.json" -Encoding UTF8');
-
-  lines.push('\'{"task.allowAutomaticTasks":"on"}\' | Set-Content ".vscode\\\\settings.json" -Encoding UTF8');
-
-  // Napló watcher
-  lines.push('@\''+"\n"+'$p=(Get-Location).Path'+"\n"+'while($true){$fj=@(git diff --name-only HEAD 2>$null)+@(git ls-files --others --exclude-standard 2>$null)|Where{$_ -ne ""};if($fj.Count -gt 0){git add .;git diff --cached --quiet;if($LASTEXITCODE -ne 0){git commit -m ("Auto_"+(Get-Date -Format "yyyy.MM.dd_HH.mm"));git push}};Start-Sleep -Seconds 60}'+"\n"+'\'@ | Set-Content ".vscode\\\\naplo-watcher.ps1" -Encoding UTF8');
-
-  lines.push('"# Fejlesztesi Naplo`n`n---`n`n## '+(new Date().toLocaleDateString('hu-HU'))+'`n`n### TODO:`n- [ ]`n`n---" | Set-Content "NAPLO.md" -Encoding UTF8');
-
-  // Git
-  lines.push('if(-not(Test-Path ".git")){git init}');
-  lines.push('git add .');
-  lines.push('git diff --cached --quiet;if($LASTEXITCODE -ne 0){git commit -m "setup_initial"}');
-
-  if(github){
-    lines.push('$r=git remote 2>$null;if($r -notcontains "origin"){git remote add origin \''+g+'\'}');
-    lines.push('git branch -M main;git pull origin main --allow-unrelated-histories 2>$null;git push -u origin main');
-  }
-
-  // VS Code megnyitás
-  lines.push('$e=@("$env:LOCALAPPDATA\\\\Programs\\\\Microsoft VS Code\\\\Code.exe","C:\\\\Program Files\\\\Microsoft VS Code\\\\Code.exe")|Where{Test-Path $_}|Select -First 1;if($e){Start-Process $e \''+f+'\'}elseif(Get-Command code -ErrorAction SilentlyContinue){code \''+f+'\'}');
-
-  return 'powershell -ExecutionPolicy Bypass -Command "'+lines.join(';').replace(/"/g,'\\"')+'"';
+  wzLog('► Letöltési sávban kattints: "Megnyitás" / "Open"','info');
+  wzLog('  PowerShell ablak megnyílik → project létrejön →','info');
+  wzLog('  VS Code automatikusan megnyílik. Kész!','info');
 }
 </script>
 </body>
