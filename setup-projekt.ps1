@@ -500,6 +500,18 @@ Write-Host ""
 Write-Host "  Auto-task watcher     = automatikusan engedélyezve" -ForegroundColor Cyan
 Write-Host "========================================`n" -ForegroundColor Green
 
-Write-Host "VS Code megnyitása: $projektMappa" -ForegroundColor Cyan
+Write-Host "VS Code megnyitasa: $projektMappa" -ForegroundColor Cyan
 Start-Sleep -Seconds 1
-code $projektMappa
+$vscodePaths = @(
+    "$env:LOCALAPPDATA\Programs\Microsoft VS Code\Code.exe",
+    "C:\Program Files\Microsoft VS Code\Code.exe",
+    "C:\Program Files (x86)\Microsoft VS Code\Code.exe"
+)
+$vscodeExe = $vscodePaths | Where-Object { Test-Path $_ } | Select-Object -First 1
+if ($vscodeExe) {
+    Start-Process $vscodeExe $projektMappa
+} elseif (Get-Command code -ErrorAction SilentlyContinue) {
+    code $projektMappa
+} else {
+    Write-Host "VS Code nem talalhato. Nyisd meg manualisan: $projektMappa" -ForegroundColor Yellow
+}
