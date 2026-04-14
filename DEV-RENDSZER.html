@@ -1013,7 +1013,7 @@ function ccPre(btn){
   83% {transform:scale(0.998);}
   100%{transform:none;filter:none;opacity:1;}
 }
-@keyframes anon-bg-in{0%{opacity:0}5%{opacity:1}85%{opacity:1}100%{opacity:0}}
+@keyframes anon-bg-in{0%{opacity:1}85%{opacity:1}100%{opacity:0}}
 @keyframes anon-mask-in{
   0%  {opacity:0;transform:scale(4) rotate(-10deg);filter:blur(40px) brightness(20);}
   10% {opacity:1;transform:scale(1.2) rotate(3deg);filter:blur(3px) brightness(5) hue-rotate(180deg);}
@@ -1428,9 +1428,10 @@ function wzRun(){
 ═══════════════════════════════════════════════ -->
 <div id="anon-overlay" style="
   display:none;position:fixed;inset:0;z-index:99999;
-  background:rgba(0,0,0,0.97);
+  background:#000;
   align-items:center;justify-content:center;flex-direction:column;
   animation:anon-bg-in 5.5s ease forwards;
+  pointer-events:all;
 ">
   <!-- scan line -->
   <div style="position:absolute;inset:0;pointer-events:none;overflow:hidden">
