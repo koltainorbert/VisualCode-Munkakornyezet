@@ -996,19 +996,43 @@ function ccPre(btn){
   overflow:hidden;
   display:flex;flex-direction:column;
   box-shadow:0 0 60px rgba(255,0,0,0.15);
-  animation:wz-in 1.1s cubic-bezier(.16,1,.3,1) both;
+  animation:wz-in 1.8s cubic-bezier(.16,1,.3,1) both;
 }
 @keyframes wz-in{
-  0%  {opacity:0;transform:scale(1.12) translateY(-20px);filter:blur(12px) brightness(4);}
-  6%  {opacity:1;transform:scale(0.93) translateY(8px);filter:blur(2px) brightness(3) hue-rotate(120deg);}
-  14% {transform:scale(1.06) translateY(-6px) skewX(-5deg);filter:brightness(2.5) hue-rotate(240deg);}
-  22% {transform:scale(0.96) skewX(4deg) translateX(8px);filter:brightness(2) hue-rotate(60deg);}
-  30% {transform:scale(1.04) skewX(-2deg) translateX(-5px);filter:brightness(1.6) hue-rotate(0deg);}
-  40% {transform:scale(0.98) translateX(3px);filter:brightness(1.3);}
-  52% {transform:scale(1.02) translateX(-2px);filter:brightness(1.1);}
-  65% {transform:scale(0.997);}
-  80% {transform:scale(1.004);}
+  0%  {opacity:0;transform:scale(1.4) translateY(-40px) rotate(-3deg);filter:blur(20px) brightness(8) hue-rotate(0deg);}
+  4%  {opacity:1;transform:scale(0.85) translateY(15px) rotate(2deg);filter:blur(4px) brightness(5) hue-rotate(180deg);}
+  8%  {transform:scale(1.12) translateY(-10px) skewX(-8deg) rotate(-1deg);filter:brightness(4) hue-rotate(300deg);}
+  13% {transform:scale(0.91) skewX(7deg) translateX(15px);filter:brightness(3) hue-rotate(120deg) saturate(5);}
+  18% {transform:scale(1.08) skewX(-5deg) translateX(-12px) rotate(1deg);filter:brightness(2.5) hue-rotate(60deg);}
+  24% {transform:scale(0.95) skewY(2deg) translateX(8px);filter:brightness(2) hue-rotate(0deg);}
+  31% {transform:scale(1.05) skewX(-2deg);filter:brightness(1.7) contrast(1.5);}
+  39% {transform:scale(0.98) translateX(-4px);filter:brightness(1.4);}
+  48% {transform:scale(1.025) translateX(3px);filter:brightness(1.2);}
+  58% {transform:scale(0.993);filter:brightness(1.1);}
+  70% {transform:scale(1.008);}
+  83% {transform:scale(0.998);}
   100%{transform:none;filter:none;opacity:1;}
+}
+@keyframes wz-anon-in{
+  0%  {opacity:0;transform:scale(2.5);filter:blur(30px) brightness(10);}
+  15% {opacity:1;transform:scale(1.1);filter:blur(0) brightness(2) drop-shadow(0 0 30px #ff0000);}
+  40% {opacity:1;transform:scale(1);filter:drop-shadow(0 0 20px #ff0000) drop-shadow(0 0 60px #ff0000);}
+  70% {opacity:1;transform:scale(0.98);filter:drop-shadow(0 0 10px #ff0000);}
+  88% {opacity:0.7;transform:scale(1.05);}
+  100%{opacity:0;transform:scale(3) translateY(-20px);filter:blur(20px);}
+}
+@keyframes wz-glitch1{
+  0%,95%,100%{clip-path:inset(0 0 100% 0)}
+  10%{clip-path:inset(20% 0 50% 0);transform:translateX(-8px)}
+  20%{clip-path:inset(60% 0 10% 0);transform:translateX(8px)}
+  30%{clip-path:inset(40% 0 30% 0);transform:translateX(-4px)}
+  40%{clip-path:inset(10% 0 70% 0);transform:translateX(6px)}
+  50%{clip-path:inset(80% 0 0% 0);transform:translateX(-6px)}
+}
+@keyframes wz-glitch2{
+  0%,95%,100%{opacity:0}
+  5%,15%,25%,35%,45%,55%{opacity:1}
+  10%,20%,30%,40%,50%{opacity:0}
 }
 @keyframes wz-pulse{0%,100%{box-shadow:0 0 24px rgba(255,0,0,0.6),0 0 60px rgba(255,0,0,0.25)}50%{box-shadow:0 0 40px rgba(255,0,0,0.9),0 0 80px rgba(255,0,0,0.45)}}
 #wz-hdr{
@@ -1087,6 +1111,40 @@ function ccPre(btn){
 
 <!-- Modal HTML -->
 <div id="wz-overlay" onclick="if(event.target===this)wzClose()">
+<!-- Anonymous maszk overlay -->
+<div id="wz-anon" style="position:fixed;inset:0;z-index:10000;pointer-events:none;display:flex;align-items:center;justify-content:center;opacity:0">
+  <div style="position:relative">
+    <svg id="wz-anon-svg" width="320" height="320" viewBox="0 0 100 100" style="animation:wz-anon-in 1.4s ease-out forwards;filter:drop-shadow(0 0 40px #ff0000)">
+      <!-- Guy Fawkes / Anonymous maszk SVG -->
+      <ellipse cx="50" cy="52" rx="28" ry="34" fill="#e8e0d0" stroke="#222" stroke-width="1"/>
+      <ellipse cx="50" cy="40" rx="26" ry="20" fill="#e8e0d0"/>
+      <!-- szemek -->
+      <ellipse cx="38" cy="42" rx="7" ry="5" fill="#111"/>
+      <ellipse cx="62" cy="42" rx="7" ry="5" fill="#111"/>
+      <ellipse cx="36" cy="41" rx="2" ry="2" fill="#fff"/>
+      <ellipse cx="60" cy="41" rx="2" ry="2" fill="#fff"/>
+      <!-- jellegzetes szemöldök -->
+      <path d="M30 36 Q38 30 46 35" stroke="#222" stroke-width="2" fill="none"/>
+      <path d="M54 35 Q62 30 70 36" stroke="#222" stroke-width="2" fill="none"/>
+      <!-- orr -->
+      <path d="M48 48 Q50 54 52 48" stroke="#aaa" stroke-width="1" fill="none"/>
+      <!-- bajusz - iconic -->
+      <path d="M38 62 Q44 58 50 62 Q56 58 62 62" stroke="#222" stroke-width="1.5" fill="none"/>
+      <path d="M42 62 Q50 68 58 62" stroke="#222" stroke-width="1.5" fill="none"/>
+      <!-- szakáll csík -->
+      <path d="M44 72 Q50 78 56 72" stroke="#222" stroke-width="1" fill="none"/>
+      <!-- piros szájszélek -->
+      <path d="M40 65 Q50 70 60 65" stroke="#cc0000" stroke-width="1" fill="none"/>
+      <!-- arc körvonal -->
+      <ellipse cx="50" cy="52" rx="28" ry="34" fill="none" stroke="#555" stroke-width="0.5"/>
+    </svg>
+    <!-- glitch duplikált rétegek -->
+    <svg style="position:absolute;inset:0;width:320px;height:320px;animation:wz-glitch1 1.4s steps(1) forwards;mix-blend-mode:screen;opacity:0.8" viewBox="0 0 100 100">
+      <ellipse cx="50" cy="52" rx="28" ry="34" fill="#ff0000" opacity="0.3"/>
+    </svg>
+    <div id="wz-anon-txt" style="position:absolute;bottom:-50px;left:50%;transform:translateX(-50%);white-space:nowrap;font-family:monospace;font-size:18px;font-weight:900;color:#ff0000;letter-spacing:4px;text-shadow:0 0 20px #ff0000,0 0 40px #ff0000;animation:wz-glitch2 1.4s steps(1) forwards">WE ARE ANONYMOUS</div>
+  </div>
+</div>
 <div id="wz-box">
   <div id="wz-hdr">
     <div class="wz-dot"></div>
@@ -1184,11 +1242,18 @@ function wzOpen(){
   wzShowStep(1);
   document.getElementById('wz-overlay').classList.add('open');
   document.body.style.overflow='hidden';
-  // re-trigger animation
+  // re-trigger box animation
   var box=document.getElementById('wz-box');
-  box.style.animation='none';
-  box.offsetHeight; // reflow
+  box.style.animation='none'; box.offsetHeight;
   box.style.animation='';
+  // re-trigger anon mask
+  var anon=document.getElementById('wz-anon');
+  var svg=document.getElementById('wz-anon-svg');
+  var txt=document.getElementById('wz-anon-txt');
+  anon.style.opacity='1';
+  svg.style.animation='none'; svg.offsetHeight; svg.style.animation='wz-anon-in 1.4s ease-out forwards';
+  txt.style.animation='none'; txt.offsetHeight; txt.style.animation='wz-glitch2 1.4s steps(1) forwards';
+  setTimeout(function(){ anon.style.opacity='0'; },1450);
 }
 function wzClose(){
   document.getElementById('wz-overlay').classList.remove('open');
