@@ -172,12 +172,16 @@ function injectWidget() {
     '</div>' +
     '<div id="sdh-lloader">⏳ FORDÍTÁS…</div>';
 
-  /* nav-ba illesztés, fallback: body */
+  /* Docs link utánra illesztés, fallback: .nr, fallback: nav vége, fallback: body */
   var nav = document.querySelector('nav');
   if (nav) {
-    var nr = nav.querySelector('.nr');
-    if (nr) nr.insertBefore(w, nr.firstChild);
-    else nav.appendChild(w);
+    var docsLink = nav.querySelector('a[href*="docs"]');
+    if (docsLink) docsLink.insertAdjacentElement('afterend', w);
+    else {
+      var nr = nav.querySelector('.nr');
+      if (nr) nr.insertBefore(w, nr.firstChild);
+      else nav.appendChild(w);
+    }
   } else {
     w.style.cssText = 'position:fixed;bottom:24px;right:24px;z-index:99999;';
     document.body.appendChild(w);
