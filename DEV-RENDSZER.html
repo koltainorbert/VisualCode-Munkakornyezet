@@ -979,5 +979,363 @@ function ccPre(btn){
   navigator.clipboard.writeText(p.textContent).then(function(){cbFeedback(btn);});
 }
 </script>
+
+<!-- ══════════════════════════════════════════════════════════
+     SDH GRAFIKUS WIZARD MODAL
+══════════════════════════════════════════════════════════ -->
+<style>
+#wz-overlay{display:none;position:fixed;inset:0;z-index:9999;
+  background:rgba(0,0,0,0.85);backdrop-filter:blur(8px);
+  align-items:center;justify-content:center;}
+#wz-overlay.open{display:flex;}
+#wz-box{
+  width:600px;max-width:96vw;max-height:92vh;
+  background:rgb(6,6,6);
+  border:1px solid rgba(255,0,0,0.3);
+  display:flex;flex-direction:column;
+  box-shadow:0 0 60px rgba(255,0,0,0.15);
+  animation:wz-in .25s cubic-bezier(.16,1,.3,1);
+}
+@keyframes wz-in{from{opacity:0;transform:translateY(20px) scale(.97)}to{opacity:1;transform:none}}
+#wz-hdr{
+  background:rgba(255,0,0,0.05);border-bottom:1px solid rgba(255,0,0,0.2);
+  padding:14px 20px;display:flex;align-items:center;gap:10px;flex-shrink:0;
+}
+.wz-dot{width:7px;height:7px;border-radius:50%;background:#ff0000;box-shadow:0 0 8px rgba(255,0,0,0.8)}
+.wz-title{font-size:12px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:#fff}
+.wz-close{margin-left:auto;background:none;border:none;color:rgba(255,255,255,0.4);
+  font-size:18px;cursor:pointer;padding:0 4px;line-height:1;transition:color .2s}
+.wz-close:hover{color:#ff0000}
+#wz-prog-bar{height:2px;background:rgba(255,255,255,0.05);flex-shrink:0}
+#wz-prog-fill{height:100%;background:linear-gradient(90deg,#ff0000,#ff6600);transition:width .4s ease;width:20%}
+#wz-steps{display:flex;padding:12px 20px;gap:5px;flex-shrink:0;border-bottom:1px solid rgba(255,255,255,0.05)}
+.wz-step{font-size:9px;letter-spacing:1.5px;text-transform:uppercase;padding:4px 10px;
+  border:1px solid rgba(255,255,255,0.07);color:rgba(255,255,255,0.3);transition:all .2s}
+.wz-step.wact{border-color:rgba(255,0,0,0.5);color:#ff0000;background:rgba(255,0,0,0.07)}
+.wz-step.wdone{border-color:rgba(255,255,255,0.15);color:rgba(255,255,255,0.4);background:rgba(255,255,255,0.02)}
+#wz-content{flex:1;overflow-y:auto;padding:22px 20px}
+.wz-panel{display:none}.wz-panel.wact{display:block}
+.wz-ptitle{font-size:18px;font-weight:800;letter-spacing:-0.5px;margin-bottom:5px;color:#fff}
+.wz-psub{font-size:12px;color:rgba(255,255,255,0.4);margin-bottom:22px;line-height:1.6}
+.wz-opts{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:6px}
+.wz-opt{border:1px solid rgba(255,255,255,0.07);padding:12px 14px;cursor:pointer;
+  transition:all .2s;background:rgba(255,255,255,0.02);}
+.wz-opt:hover{border-color:rgba(255,0,0,0.3);background:rgba(255,0,0,0.04)}
+.wz-opt.wsel{border-color:rgba(255,0,0,0.6);background:rgba(255,0,0,0.08)}
+.wz-opt-mark{width:12px;height:12px;border-radius:50%;border:1px solid rgba(255,255,255,0.2);
+  display:inline-block;margin-right:7px;vertical-align:middle;transition:all .2s;position:relative;top:-1px}
+.wz-opt.wsel .wz-opt-mark{background:#ff0000;border-color:#ff0000;box-shadow:0 0 5px rgba(255,0,0,0.5)}
+.wz-opt-title{font-size:12px;font-weight:700;color:#fff}
+.wz-opt-sub{font-size:10px;color:rgba(255,255,255,0.35);margin-top:2px}
+.wz-fg{margin-bottom:16px}
+.wz-lbl{display:block;font-size:9px;letter-spacing:2px;text-transform:uppercase;
+  color:rgba(255,0,0,0.8);margin-bottom:6px;font-weight:700}
+.wz-inp{width:100%;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.1);
+  color:#fff;font-size:12px;padding:9px 12px;outline:none;font-family:inherit;
+  transition:border-color .2s;}
+.wz-inp:focus{border-color:rgba(255,0,0,0.5);background:rgba(255,0,0,0.03)}
+.wz-inp::placeholder{color:rgba(255,255,255,0.2)}
+.wz-hint{font-size:10px;color:rgba(255,255,255,0.3);margin-top:5px}
+.wz-trow{display:flex;align-items:center;gap:10px;margin-bottom:12px;
+  padding:10px 12px;border:1px solid rgba(255,255,255,0.07);background:rgba(255,255,255,0.02)}
+.wz-tlbl{flex:1;font-size:12px;color:#fff}
+.wz-tlbl small{display:block;font-size:10px;color:rgba(255,255,255,0.3);margin-top:2px}
+.wz-tgl{width:34px;height:18px;background:rgba(255,255,255,0.1);border-radius:9px;
+  position:relative;cursor:pointer;transition:background .2s;flex-shrink:0}
+.wz-tgl.on{background:rgba(255,0,0,0.7)}
+.wz-tgl::after{content:'';position:absolute;top:2px;left:2px;width:14px;height:14px;
+  border-radius:50%;background:#fff;transition:left .2s;box-shadow:0 1px 3px rgba(0,0,0,0.4)}
+.wz-tgl.on::after{left:18px}
+.wz-sum{background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.07);
+  padding:16px;margin-bottom:16px}
+.wz-srow{display:flex;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.04);font-size:12px}
+.wz-srow:last-child{border-bottom:none}
+.wz-sk{color:rgba(255,255,255,0.4);width:130px;flex-shrink:0;font-size:10px;
+  letter-spacing:1px;text-transform:uppercase;padding-top:1px}
+.wz-sv{color:#fff;font-weight:600;word-break:break-all}
+.wz-sv.red{color:#ff0000}
+.wz-log{background:rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.07);
+  padding:12px;font-size:11px;font-family:'Cascadia Code','Consolas',monospace;
+  height:180px;overflow-y:auto;color:rgba(255,255,255,0.7);line-height:1.7}
+.wz-log .ok{color:#00e676}.wz-log .err{color:#ff5252}.wz-log .info{color:rgba(255,200,100,.9)}
+#wz-btns{display:flex;gap:8px;justify-content:flex-end;padding:14px 20px;
+  border-top:1px solid rgba(255,255,255,0.05);flex-shrink:0;background:rgba(6,6,6,.9)}
+.wz-btn{padding:9px 22px;font-size:10px;letter-spacing:2px;font-weight:700;
+  text-transform:uppercase;border:none;cursor:pointer;font-family:inherit;transition:all .2s}
+.wz-back{background:rgba(255,255,255,0.05);color:rgba(255,255,255,0.5);
+  border:1px solid rgba(255,255,255,0.1)}
+.wz-back:hover{background:rgba(255,255,255,0.08);color:#fff}
+.wz-next{background:#ff0000;color:#fff}.wz-next:hover{background:#cc0000}
+.wz-create{background:#ff0000;color:#fff;font-size:12px;padding:11px 30px}
+.wz-create:hover{background:#cc0000}
+.wz-create:disabled{background:rgba(255,0,0,0.2);color:rgba(255,255,255,0.3);cursor:not-allowed}
+</style>
+
+<!-- Modal HTML -->
+<div id="wz-overlay" onclick="if(event.target===this)wzClose()">
+<div id="wz-box">
+  <div id="wz-hdr">
+    <div class="wz-dot"></div>
+    <div class="wz-title">SDH Projekt Setup Wizard</div>
+    <button class="wz-close" onclick="wzClose()">✕</button>
+  </div>
+  <div id="wz-prog-bar"><div id="wz-prog-fill"></div></div>
+  <div id="wz-steps">
+    <div class="wz-step wact" id="ws1">1 · Típus</div>
+    <div class="wz-step" id="ws2">2 · Mappa</div>
+    <div class="wz-step" id="ws3">3 · Szerver</div>
+    <div class="wz-step" id="ws4">4 · Deploy</div>
+    <div class="wz-step" id="ws5">5 · Létrehozás</div>
+  </div>
+  <div id="wz-content">
+    <!-- P1: Típus -->
+    <div class="wz-panel wact" id="wp1">
+      <div class="wz-ptitle">Milyen projekt?</div>
+      <div class="wz-psub">Válaszd ki a projekt típusát.</div>
+      <div class="wz-opts">
+        <div class="wz-opt wsel" id="wo0" onclick="wzSelOpt(0)"><span class="wz-opt-mark"></span><span class="wz-opt-title">WordPress</span><div class="wz-opt-sub">LocalWP, Bricks, Elementor, custom téma</div></div>
+        <div class="wz-opt" id="wo1" onclick="wzSelOpt(1)"><span class="wz-opt-mark"></span><span class="wz-opt-title">HTML / CSS / JS</span><div class="wz-opt-sub">Statikus oldal, egyszerű frontend</div></div>
+        <div class="wz-opt" id="wo2" onclick="wzSelOpt(2)"><span class="wz-opt-mark"></span><span class="wz-opt-title">React / Vue / Node</span><div class="wz-opt-sub">Modern JS framework, dev szerver</div></div>
+        <div class="wz-opt" id="wo3" onclick="wzSelOpt(3)"><span class="wz-opt-mark"></span><span class="wz-opt-title">Laravel / PHP</span><div class="wz-opt-sub">PHP keretrendszer, artisan szerver</div></div>
+      </div>
+    </div>
+    <!-- P2: Mappa + GitHub -->
+    <div class="wz-panel" id="wp2">
+      <div class="wz-ptitle">Mappa és GitHub</div>
+      <div class="wz-psub">Hol lesz a projekt mappája és melyik GitHub repóhoz kapcsolódik?</div>
+      <div class="wz-fg">
+        <label class="wz-lbl">GitHub repo URL</label>
+        <input class="wz-inp" type="text" id="wz-github" placeholder="https://github.com/koltainorbert/ujprojekt" oninput="wzAutoFolder()"/>
+        <div class="wz-hint">Elhagyható. Ha megadod, a mappa automatikusan kitöltődik.</div>
+      </div>
+      <div class="wz-fg">
+        <label class="wz-lbl">Projekt mappa (teljes elérési út)</label>
+        <input class="wz-inp" type="text" id="wz-folder" placeholder="pl. C:\Users\SDH\projektek\ujoldal" oninput="wzFolderManual()"/>
+        <div class="wz-hint">Ha nem létezik, automatikusan létrehozza.</div>
+      </div>
+    </div>
+    <!-- P3: Site URL -->
+    <div class="wz-panel" id="wp3">
+      <div class="wz-ptitle">Dev szerver / URL</div>
+      <div class="wz-psub">Mi az oldal helyi fejlesztési URL-je? Browser Sync ehhez kapcsolódik.</div>
+      <div class="wz-fg">
+        <label class="wz-lbl">Site URL vagy dev szerver</label>
+        <input class="wz-inp" type="text" id="wz-siteurl" placeholder="pl. localhost:3000"/>
+      </div>
+    </div>
+    <!-- P4: Deploy -->
+    <div class="wz-panel" id="wp4">
+      <div class="wz-ptitle">Deploy beállítások</div>
+      <div class="wz-psub">Kell automatikus FTP deploy GitHub push-kor?</div>
+      <div class="wz-trow">
+        <div class="wz-tlbl">FTP auto-deploy<small>Push main → automatikusan felkerül a szerverre</small></div>
+        <div class="wz-tgl" id="wt-deploy" onclick="wzTglDeploy()"></div>
+      </div>
+      <div id="wz-ftp" style="display:none">
+        <div class="wz-fg"><label class="wz-lbl">FTP szerver</label><input class="wz-inp" type="text" id="wz-ftp-s" placeholder="ftp.pelda.hu"/></div>
+        <div class="wz-fg"><label class="wz-lbl">FTP felhasználónév</label><input class="wz-inp" type="text" id="wz-ftp-u" placeholder="ftp_user"/></div>
+        <div class="wz-fg"><label class="wz-lbl">FTP jelszó</label><input class="wz-inp" type="text" id="wz-ftp-p" placeholder="jelszó"/></div>
+        <div class="wz-fg"><label class="wz-lbl">FTP célmappa</label><input class="wz-inp" type="text" id="wz-ftp-d" placeholder="/public_html/"/></div>
+      </div>
+      <div class="wz-trow">
+        <div class="wz-tlbl">Branch stratégia<small>main / staging / develop ágak létrehozása</small></div>
+        <div class="wz-tgl" id="wt-branch" onclick="wzTglBranch()"></div>
+      </div>
+    </div>
+    <!-- P5: Összefoglalás + generálás -->
+    <div class="wz-panel" id="wp5">
+      <div class="wz-ptitle">Összefoglalás</div>
+      <div class="wz-psub">Ellenőrizd az adatokat, majd kattints a Létrehozás gombra.</div>
+      <div class="wz-sum" id="wz-sum"></div>
+      <div id="wz-log-wrap" style="display:none">
+        <label class="wz-lbl" style="margin-bottom:8px;display:block">Végrehajtás</label>
+        <div class="wz-log" id="wz-logbox"></div>
+      </div>
+    </div>
+  </div>
+  <div id="wz-btns">
+    <button class="wz-btn wz-back" id="wz-bbtn" onclick="wzBack()" style="display:none">← Vissza</button>
+    <button class="wz-btn wz-next" id="wz-nbtn" onclick="wzNext()">Tovább →</button>
+    <button class="wz-btn wz-create" id="wz-cbtn" onclick="wzRun()" style="display:none">⚡ LÉTREHOZÁS</button>
+  </div>
+</div>
+</div>
+
+<script>
+// ── Wizard state ──────────────────────────────────────────────────
+var wzStep=1, wzType=0, wzDeploy=false, wzBranch=false, wzFolderAuto=true;
+
+function wzOpen(){
+  document.getElementById('wz-overlay').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function wzClose(){
+  document.getElementById('wz-overlay').classList.remove('open');
+  document.body.style.overflow='';
+}
+
+function wzSelOpt(n){
+  for(var i=0;i<4;i++) document.getElementById('wo'+i).className='wz-opt';
+  document.getElementById('wo'+n).className='wz-opt wsel';
+  wzType=n;
+  var ph=['sdh2026.local','.','localhost:5173','localhost:8000'];
+  document.getElementById('wz-siteurl').placeholder='pl. '+ph[n];
+}
+
+function wzAutoFolder(){
+  var gh=document.getElementById('wz-github').value;
+  var fi=document.getElementById('wz-folder');
+  if(wzFolderAuto){
+    var m=gh.replace(/\.git$/,'').match(/\/([^\/]+)$/);
+    if(m){ fi.value='C:\\Users\\'+wzGetUser()+'\\projektek\\'+m[1]; }
+  }
+}
+function wzFolderManual(){ wzFolderAuto=false; }
+function wzGetUser(){
+  try{ return window.navigator.userAgent.match(/Windows NT/)?'SDH':'SDH'; }catch(e){return'SDH';}
+}
+
+function wzTglDeploy(){
+  wzDeploy=!wzDeploy;
+  document.getElementById('wt-deploy').className='wz-tgl'+(wzDeploy?' on':'');
+  document.getElementById('wz-ftp').style.display=wzDeploy?'block':'none';
+}
+function wzTglBranch(){
+  wzBranch=!wzBranch;
+  document.getElementById('wt-branch').className='wz-tgl'+(wzBranch?' on':'');
+}
+
+function wzNext(){ if(wzStep<5){wzStep++;wzShowStep(wzStep);} }
+function wzBack(){ if(wzStep>1){wzStep--;wzShowStep(wzStep);} }
+
+function wzShowStep(s){
+  for(var i=1;i<=5;i++){
+    document.getElementById('wp'+i).className='wz-panel'+(i===s?' wact':'');
+    var st=document.getElementById('ws'+i);
+    st.className='wz-step'+(i<s?' wdone':i===s?' wact':'');
+  }
+  document.getElementById('wz-prog-fill').style.width=(s/5*100)+'%';
+  document.getElementById('wz-bbtn').style.display=s>1?'inline-block':'none';
+  if(s===5){
+    document.getElementById('wz-nbtn').style.display='none';
+    document.getElementById('wz-cbtn').style.display='inline-block';
+    wzBuildSum();
+  } else {
+    document.getElementById('wz-nbtn').style.display='inline-block';
+    document.getElementById('wz-cbtn').style.display='none';
+  }
+}
+
+function wzBuildSum(){
+  var types=['WordPress','HTML / CSS / JS','React / Vue / Node','Laravel / PHP'];
+  var f=document.getElementById('wz-folder').value||'(nincs megadva)';
+  var g=document.getElementById('wz-github').value||'—';
+  var u=document.getElementById('wz-siteurl').value||'—';
+  var h='';
+  h+='<div class="wz-srow"><div class="wz-sk">Típus</div><div class="wz-sv red">'+types[wzType]+'</div></div>';
+  h+='<div class="wz-srow"><div class="wz-sk">Mappa</div><div class="wz-sv">'+f+'</div></div>';
+  h+='<div class="wz-srow"><div class="wz-sk">GitHub</div><div class="wz-sv">'+g+'</div></div>';
+  h+='<div class="wz-srow"><div class="wz-sk">Site URL</div><div class="wz-sv">'+u+'</div></div>';
+  h+='<div class="wz-srow"><div class="wz-sk">FTP deploy</div><div class="wz-sv">'+(wzDeploy?'✓ Igen':'— Nem')+'</div></div>';
+  h+='<div class="wz-srow"><div class="wz-sk">Branch</div><div class="wz-sv">'+(wzBranch?'✓ main/staging/develop':'— Nem')+'</div></div>';
+  document.getElementById('wz-sum').innerHTML=h;
+}
+
+function wzLog(msg,cls){
+  var box=document.getElementById('wz-logbox');
+  var d=document.createElement('div');
+  if(cls) d.className=cls;
+  d.textContent=msg;
+  box.appendChild(d);
+  box.scrollTop=box.scrollHeight;
+}
+
+function wzRun(){
+  var folder=document.getElementById('wz-folder').value;
+  if(!folder){ alert('Add meg a projekt mappa elérési útját!'); return; }
+
+  var github=document.getElementById('wz-github').value;
+  var siteurl=document.getElementById('wz-siteurl').value||'localhost:3000';
+
+  if(github && github.indexOf('://')===-1) github='https://'+github;
+  if(github && github.slice(-4)!=='.git') github=github+'.git';
+
+  var bsCmd=(wzType===1)
+    ?"npx browser-sync start --server --files '**/*.css,**/*.html,**/*.js' --port 3000 --open"
+    :"npx browser-sync start --proxy '"+siteurl.replace(/^https?:\/\//,'')+"' --files '**/*.css,**/*.php,**/*.js' --port 3000 --open";
+
+  // Generált parancs összeállítása
+  var gh2=github?github:'';
+  var cmd=wzBuildCmd(folder,gh2,siteurl,bsCmd);
+
+  // Megjelenítés + vágólap
+  document.getElementById('wz-sum').style.display='none';
+  document.getElementById('wz-log-wrap').style.display='block';
+  document.getElementById('wz-cbtn').style.display='none';
+  document.getElementById('wz-bbtn').style.display='none';
+
+  wzLog('Parancs generálva — másold be PowerShell-be:','info');
+  wzLog('','');
+  var cmdBox=document.createElement('div');
+  cmdBox.style.cssText='background:rgba(255,0,0,0.07);border:1px solid rgba(255,0,0,0.3);padding:10px;margin:4px 0;font-size:10px;word-break:break-all;color:#fff;cursor:pointer;';
+  cmdBox.textContent=cmd;
+  cmdBox.title='Kattints a másoláshoz';
+  cmdBox.onclick=function(){
+    navigator.clipboard.writeText(cmd).then(function(){
+      cmdBox.style.background='rgba(0,230,118,0.1)';
+      cmdBox.style.borderColor='rgba(0,230,118,0.4)';
+      wzLog('✓ Vágólapra másolva!','ok');
+    });
+  };
+  document.getElementById('wz-logbox').appendChild(cmdBox);
+  wzLog('','');
+  wzLog('► Win+R → powershell → Enter → Ctrl+V → Enter','info');
+  wzLog('   VAGY: kattints a fenti szövegre a másoláshoz','info');
+
+  // Auto copy
+  navigator.clipboard.writeText(cmd).catch(function(){});
+}
+
+function wzBuildCmd(folder,github,siteurl,bsCmd){
+  // Folder escape for PS
+  var f=folder.replace(/\\/g,'\\\\').replace(/'/g,"''");
+  var g=github?github.replace(/'/g,"''"):'';
+  var u=siteurl.replace(/'/g,"''");
+  var bs=bsCmd.replace(/'/g,"''");
+
+  var lines=[];
+  lines.push('$f=\''+f+'\'');
+  lines.push('if(-not(Test-Path $f)){New-Item -ItemType Directory -Force -Path $f|Out-Null}');
+  lines.push('Set-Location $f');
+  lines.push('New-Item -ItemType Directory -Force -Path ".vscode"|Out-Null');
+  lines.push('New-Item -ItemType Directory -Force -Path ".github"|Out-Null');
+  lines.push('New-Item -ItemType Directory -Force -Path ".github\\\\workflows"|Out-Null');
+
+  // tasks.json
+  lines.push('\'{"version":"2.0.0","tasks":[{"label":"Push","type":"shell","command":"git add . ; $d=git diff --cached --quiet ; if($LASTEXITCODE -ne 0){$m=\\\'Mentes_\\\'+(Get-Date -Format \\\'yyyy.MM.dd_HH.mm\\\');git commit -m $m;git push;Write-Host \\\'Kesz!\\\'}else{Write-Host \\\'Nincs valtozas.\\\'}","options":{"cwd":"${workspaceFolder}"},"group":{"kind":"build","isDefault":true},"problemMatcher":[]},{"label":"Pull","type":"shell","command":"git pull;Write-Host \\\'Kesz!\\\'","options":{"cwd":"${workspaceFolder}"},"group":"none","problemMatcher":[]},{"label":"Watcher","type":"shell","command":"powershell -ExecutionPolicy Bypass -File .vscode/naplo-watcher.ps1","options":{"cwd":"${workspaceFolder}"},"group":"none","isBackground":true,"runOptions":{"runOn":"folderOpen"},"problemMatcher":[]},{"label":"BrowserSync","type":"shell","command":"'+bs+'","options":{"cwd":"${workspaceFolder}"},"group":"none","isBackground":true,"problemMatcher":[]}]}\' | Set-Content ".vscode\\\\tasks.json" -Encoding UTF8');
+
+  lines.push('\'{"task.allowAutomaticTasks":"on"}\' | Set-Content ".vscode\\\\settings.json" -Encoding UTF8');
+
+  // Napló watcher
+  lines.push('@\''+"\n"+'$p=(Get-Location).Path'+"\n"+'while($true){$fj=@(git diff --name-only HEAD 2>$null)+@(git ls-files --others --exclude-standard 2>$null)|Where{$_ -ne ""};if($fj.Count -gt 0){git add .;git diff --cached --quiet;if($LASTEXITCODE -ne 0){git commit -m ("Auto_"+(Get-Date -Format "yyyy.MM.dd_HH.mm"));git push}};Start-Sleep -Seconds 60}'+"\n"+'\'@ | Set-Content ".vscode\\\\naplo-watcher.ps1" -Encoding UTF8');
+
+  lines.push('"# Fejlesztesi Naplo`n`n---`n`n## '+(new Date().toLocaleDateString('hu-HU'))+'`n`n### TODO:`n- [ ]`n`n---" | Set-Content "NAPLO.md" -Encoding UTF8');
+
+  // Git
+  lines.push('if(-not(Test-Path ".git")){git init}');
+  lines.push('git add .');
+  lines.push('git diff --cached --quiet;if($LASTEXITCODE -ne 0){git commit -m "setup_initial"}');
+
+  if(github){
+    lines.push('$r=git remote 2>$null;if($r -notcontains "origin"){git remote add origin \''+g+'\'}');
+    lines.push('git branch -M main;git pull origin main --allow-unrelated-histories 2>$null;git push -u origin main');
+  }
+
+  // VS Code megnyitás
+  lines.push('$e=@("$env:LOCALAPPDATA\\\\Programs\\\\Microsoft VS Code\\\\Code.exe","C:\\\\Program Files\\\\Microsoft VS Code\\\\Code.exe")|Where{Test-Path $_}|Select -First 1;if($e){Start-Process $e \''+f+'\'}elseif(Get-Command code -ErrorAction SilentlyContinue){code \''+f+'\'}');
+
+  return 'powershell -ExecutionPolicy Bypass -Command "'+lines.join(';').replace(/"/g,'\\"')+'"';
+}
+</script>
 </body>
 </html>
