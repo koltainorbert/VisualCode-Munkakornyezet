@@ -1333,12 +1333,14 @@ function wzRun(){
   if(!folder){ alert('Add meg a projekt mappa elérési útját!'); return; }
   var ps1=wzGeneratePs1();
 
-  // Polyglot BAT+PS1: a BAT önmagát futtatja PowerShell-lel
-  // CMD sor: @echo off + powershell -File "%~f0" + exit
-  // PowerShell: a <# ... #> blokkot megjegyzésként kihagyja, PS1 kód fut
-  var content='<# : batch script\r\n@echo off\r\npowershell -ExecutionPolicy Bypass -File \"%~f0\"\r\nexit /b\r\n#>\r\n\r\n'+ps1;
+  // A BAT önmagát olvassa, ::PS1START után mindent PS1-ként futtatja
+  var bat='@echo off\r\n';
+  bat+='powershell -ExecutionPolicy Bypass -Command "$lines=Get-Content \'%~f0\';$i=($lines|Select-String \'^::PS1START$\').LineNumber;$tmp=[IO.Path]::GetTempFileName()+\'.ps1\';[IO.File]::WriteAllText($tmp,($lines[$i..($lines.Length-1)] -join \"`n`\"));& $tmp;Remove-Item $tmp"\r\n';
+  bat+='exit /b\r\n';
+  bat+='::PS1START\r\n';
+  bat+=ps1.replace(/\r\n/g,'\n').replace(/\n/g,'\r\n');
 
-  var blob=new Blob([content],{type:'application/octet-stream'});
+  var blob=new Blob([bat],{type:'application/octet-stream'});
   var url=URL.createObjectURL(blob);
   var a=document.createElement('a');
   a.href=url; a.download='SDH-Setup.bat';
