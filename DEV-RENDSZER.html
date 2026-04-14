@@ -1255,19 +1255,6 @@ function wzLog(msg,cls){
   box.scrollTop=box.scrollHeight;
 }
 
-// UTF-16LE base64 encode for PowerShell -EncodedCommand
-function wzToBase64PS(str){
-  var bytes=[];
-  for(var i=0;i<str.length;i++){
-    var c=str.charCodeAt(i);
-    bytes.push(c&0xFF);
-    bytes.push((c>>8)&0xFF);
-  }
-  var bin='';
-  for(var j=0;j<bytes.length;j++) bin+=String.fromCharCode(bytes[j]);
-  return btoa(bin);
-}
-
 function wzGeneratePs1(){
   var folder=document.getElementById('wz-folder').value;
   var github=document.getElementById('wz-github').value.trim();
