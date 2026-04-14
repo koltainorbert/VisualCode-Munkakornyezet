@@ -940,11 +940,11 @@ jobs:
 
 <!-- ═══════════════ COOKIE BANNER ═══════════════ -->
 <div id="cookie-bar" style="
-  display:none;position:fixed;bottom:24px;left:50%;transform:translateX(-50%);
+  position:fixed;bottom:24px;left:50%;transform:translateX(-50%);
   z-index:9999;width:calc(100% - 48px);max-width:860px;
   background:rgba(12,12,12,0.97);border:1px solid rgba(255,0,0,0.25);
   border-radius:14px;padding:18px 24px;
-  display:flex;align-items:center;gap:20px;flex-wrap:wrap;
+  display:none;align-items:center;gap:20px;flex-wrap:wrap;
   box-shadow:0 8px 40px rgba(0,0,0,0.6),0 0 0 1px rgba(255,0,0,0.08);
   backdrop-filter:blur(12px);
   animation:cookie-in 0.5s cubic-bezier(.16,1,.3,1) both;
@@ -1546,7 +1546,19 @@ function anonShow(){
   var t=document.getElementById('anon-title');
   t.style.animation='none'; t.offsetHeight;
   t.style.animation='anon-txt-flash '+ANON_DUR+'ms ease forwards';
-  setTimeout(function(){ el.style.display='none'; }, ANON_DUR+100);
+  setTimeout(function(){ el.style.display='none'; showCookieIfNeeded(); }, ANON_DUR+100);
+}
+function showCookieIfNeeded(){
+  if(localStorage.getItem('sdh-cookie-ok')) return;
+  var bar=document.getElementById('cookie-bar');
+  bar.style.display='flex';
+}
+function cookieAccept(){
+  localStorage.setItem('sdh-cookie-ok','1');
+  var bar=document.getElementById('cookie-bar');
+  bar.style.transition='opacity .4s,transform .4s';
+  bar.style.opacity='0'; bar.style.transform='translateX(-50%) translateY(20px)';
+  setTimeout(function(){ bar.style.display='none'; }, 420);
 }
 // PAGE LOAD
 window.addEventListener('DOMContentLoaded', function(){ anonShow(); });
