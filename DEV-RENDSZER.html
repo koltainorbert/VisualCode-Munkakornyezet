@@ -1333,11 +1333,14 @@ function wzRun(){
   if(!folder){ alert('Add meg a projekt mappa elérési útját!'); return; }
   var ps1=wzGeneratePs1();
 
-  // A BAT önmagát olvassa, ::PS1START után mindent PS1-ként futtatja
+  // BAT fejléc: pontosan 6 sor, utána PS1
+  // more +6 kihagyja az első 6 sort → temp .ps1 fájlba menti → futtatja
   var bat='@echo off\r\n';
-  bat+='powershell -ExecutionPolicy Bypass -Command "$lines=Get-Content \'%~f0\';$i=($lines|Select-String \'^::PS1START$\').LineNumber;$tmp=[IO.Path]::GetTempFileName()+\'.ps1\';[IO.File]::WriteAllText($tmp,($lines[$i..($lines.Length-1)] -join \"`n`\"));& $tmp;Remove-Item $tmp"\r\n';
+  bat+='set "T=%TEMP%\\sdh%RANDOM%.ps1"\r\n';
+  bat+='more +6 "%~f0" > "%T%"\r\n';
+  bat+='powershell -ExecutionPolicy Bypass -File "%T%"\r\n';
+  bat+='del "%T%"\r\n';
   bat+='exit /b\r\n';
-  bat+='::PS1START\r\n';
   bat+=ps1.replace(/\r\n/g,'\n').replace(/\n/g,'\r\n');
 
   var blob=new Blob([bat],{type:'application/octet-stream'});
