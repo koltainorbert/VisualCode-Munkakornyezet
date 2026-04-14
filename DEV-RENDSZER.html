@@ -1579,7 +1579,7 @@ function anonShow(){
   var t=document.getElementById('anon-title');
   t.style.animation='none'; t.offsetHeight;
   t.style.animation='anon-txt-flash '+ANON_DUR+'ms ease forwards';
-  setTimeout(function(){ el.style.display='none'; showCookieIfNeeded(); }, ANON_DUR+100);
+  setTimeout(function(){ el.style.display='none'; showCookieIfNeeded(); startTitleGlitch(); }, ANON_DUR+100);
 }
 function showCookieIfNeeded(){
   if(localStorage.getItem('sdh-cookie-ok')) return;
@@ -1591,6 +1591,37 @@ function cookieAccept(){
   var bar=document.getElementById('cookie-bar');
   bar.style.animation='cookie-out 0.45s cubic-bezier(.4,0,1,1) forwards';
   setTimeout(function(){ bar.style.display='none'; }, 460);
+}
+function startTitleGlitch(){
+  var h=document.getElementById('hero-title');
+  if(!h) return;
+  /* glitch réteg elemek a .ln span-ok mindegyikébe */
+  var lns=h.querySelectorAll('.ln');
+  lns.forEach(function(ln){
+    var wd=ln.querySelector('.wd');
+    if(!wd||wd.querySelector('.ht-glitch-r')) return;
+    var txt=wd.textContent;
+    wd.style.position='relative';
+    var r=document.createElement('span');r.className='ht-glitch-r';r.textContent=txt;
+    var b=document.createElement('span');b.className='ht-glitch-b';b.textContent=txt;
+    wd.appendChild(r);wd.appendChild(b);
+  });
+  var glitchDur=4000; /* animáció hossza ms */
+  function doGlitch(){
+    var rs=h.querySelectorAll('.ht-glitch-r,.ht-glitch-b');
+    rs.forEach(function(el){
+      el.style.animation='none';
+      el.offsetHeight; /* reflow */
+    });
+    h.querySelectorAll('.ht-glitch-r').forEach(function(el){
+      el.style.animation='ttg-r '+glitchDur+'ms steps(1) forwards';
+    });
+    h.querySelectorAll('.ht-glitch-b').forEach(function(el){
+      el.style.animation='ttg-b '+glitchDur+'ms steps(1) forwards';
+    });
+  }
+  doGlitch();
+  setInterval(doGlitch, 10000);
 }
 // PAGE LOAD
 window.addEventListener('DOMContentLoaded', function(){ anonShow(); });
