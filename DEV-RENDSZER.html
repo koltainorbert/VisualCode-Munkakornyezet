@@ -1051,57 +1051,6 @@ function ccPre(btn){
   55%{clip-path:inset(75% 0 5% 0);transform:translateX(-6px)}
   70%{clip-path:inset(35% 0 45% 0);transform:translateX(10px)}
 }
-/* ── BOHÓC HÁTTÉR ANIMÁCIÓK ─────────────────────────────── */
-@keyframes clown-appear{0%{opacity:0}100%{opacity:1}}
-@keyframes clown-shake{
-  0%  {transform:scale(1.08) translate(0px,0px) rotate(0deg)}
-  2%  {transform:scale(1.09) translate(-4px,2px) rotate(-0.3deg)}
-  5%  {transform:scale(1.08) translate(3px,-1px) rotate(0.2deg)}
-  8%  {transform:scale(1.10) translate(-2px,4px) rotate(-0.4deg)}
-  /* TikTok slice */ 
-  12%  {transform:scale(1.08) translate(0,0)}
-  12.3%{transform:scale(1.08) translate(18px,0) skewX(4deg)}
-  12.6%{transform:scale(1.08) translate(-18px,0) skewX(-4deg)}
-  13%  {transform:scale(1.08) translate(0,0)}
-  20%  {transform:scale(1.11) translate(2px,3px) rotate(0.2deg)}
-  25%  {transform:scale(1.08) translate(-3px,-2px) rotate(-0.1deg)}
-  30%  {transform:scale(1.09) translate(4px,1px) rotate(0.3deg)}
-  /* Nagy glitch */
-  36%  {transform:scale(1.08) translate(0,0)}
-  36.4%{transform:scale(1.08) translate(22px,-6px) skewX(6deg) skewY(1deg)}
-  36.8%{transform:scale(1.08) translate(-22px,6px) skewX(-6deg)}
-  37.2%{transform:scale(1.08) translate(8px,0)}
-  37.6%{transform:scale(1.08) translate(0,0)}
-  44%  {transform:scale(1.12) translate(-2px,4px) rotate(-0.25deg)}
-  50%  {transform:scale(1.08) translate(1px,-2px)}
-  55%  {transform:scale(1.10) translate(-4px,2px) rotate(0.15deg)}
-  /* RGB split glitch */
-  60%  {transform:scale(1.08) translate(0,0)}
-  60.2%{transform:scale(1.08) translate(12px,0)}
-  60.5%{transform:scale(1.08) translate(-12px,0)}
-  61%  {transform:scale(1.08) translate(0,0)}
-  68%  {transform:scale(1.11) translate(3px,3px) rotate(-0.2deg)}
-  73%  {transform:scale(1.08) translate(-2px,-1px)}
-  78%  {transform:scale(1.09) translate(4px,2px) rotate(0.3deg)}
-  /* Vég glitch */
-  84%  {transform:scale(1.08) translate(0,0)}
-  84.3%{transform:scale(1.08) translate(25px,0) skewX(9deg)}
-  84.7%{transform:scale(1.08) translate(-5px,0) skewX(-2deg)}
-  85%  {transform:scale(1.08) translate(0,0)}
-  92%  {transform:scale(1.13) translate(-2px,4px) rotate(-0.15deg)}
-  96%  {transform:scale(1.08) translate(1px,-1px)}
-  100% {transform:scale(1.08) translate(0px,0px) rotate(0deg)}
-}
-@keyframes clown-rgb{
-  0%,11.8%,13.2%,35.8%,37.8%,59.8%,61.2%,83.8%,85.2%,100%{opacity:0}
-  12%,36%,60%,84%{opacity:0.35}
-}
-@keyframes clown-scan{
-  from{transform:translateY(-100%)} to{transform:translateY(100vh)}
-}
-@keyframes clown-vignette-pulse{
-  0%,100%{opacity:0.7} 50%{opacity:0.9}
-}
 @keyframes wz-pulse{0%,100%{box-shadow:0 0 24px rgba(255,0,0,0.6),0 0 60px rgba(255,0,0,0.25)}50%{box-shadow:0 0 40px rgba(255,0,0,0.9),0 0 80px rgba(255,0,0,0.45)}}
 #wz-hdr{
   background:rgba(255,0,0,0.05);border-bottom:1px solid rgba(255,0,0,0.2);
@@ -1475,58 +1424,6 @@ function wzRun(){
 </script>
 
 <!-- ═══════════════════════════════════════════════
-     BOHÓC HÁTTÉR — anon után jelenik meg
-═══════════════════════════════════════════════ -->
-<div id="clown-bg" style="display:none;position:fixed;inset:0;z-index:9997;pointer-events:none;overflow:hidden">
-  <!-- Fő kép -->
-  <div id="clown-img" style="
-    position:absolute;inset:-15%;z-index:1;
-    background:url('front-view-scary-clown-abandoned-building.jpg') center 20%/cover no-repeat;
-    animation:clown-shake 38s cubic-bezier(.37,.01,.63,.99) infinite;
-  "></div>
-  <!-- RGB vörös split -->
-  <div style="
-    position:absolute;inset:-15%;z-index:2;
-    background:url('front-view-scary-clown-abandoned-building.jpg') center 20%/cover no-repeat;
-    mix-blend-mode:screen;
-    filter:saturate(3) hue-rotate(295deg) brightness(1.5);
-    animation:clown-shake 38s cubic-bezier(.37,.01,.63,.99) infinite,clown-rgb 38s steps(1) infinite;
-    transform:translateX(6px);
-    opacity:0;
-  "></div>
-  <!-- RGB kék split -->
-  <div style="
-    position:absolute;inset:-15%;z-index:2;
-    background:url('front-view-scary-clown-abandoned-building.jpg') center 20%/cover no-repeat;
-    mix-blend-mode:screen;
-    filter:saturate(3) hue-rotate(180deg) brightness(1.2);
-    animation:clown-shake 38s cubic-bezier(.37,.01,.63,.99) infinite,clown-rgb 38s steps(1) infinite;
-    transform:translateX(-6px);
-    animation-delay:0s,0.1s;
-    opacity:0;
-  "></div>
-  <!-- Sötét vignette -->
-  <div style="
-    position:absolute;inset:0;z-index:3;
-    background:radial-gradient(ellipse at center, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.75) 70%, rgba(0,0,0,0.96) 100%);
-    animation:clown-vignette-pulse 8s ease-in-out infinite;
-  "></div>
-  <!-- Scan line futó csík -->
-  <div style="
-    position:absolute;left:0;right:0;height:4px;z-index:4;
-    background:linear-gradient(90deg,transparent,rgba(255,0,0,0.15),transparent);
-    animation:clown-scan 12s linear infinite;
-    pointer-events:none;
-  "></div>
-  <!-- Scanline texture -->
-  <div style="
-    position:absolute;inset:0;z-index:4;
-    background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,0.18) 3px,rgba(0,0,0,0.18) 4px);
-    pointer-events:none;
-  "></div>
-</div>
-
-<!-- ═══════════════════════════════════════════════
      ANONYMOUS OVERLAY — page load + wizard trigger
 ═══════════════════════════════════════════════ -->
 <div id="anon-overlay" style="
@@ -1575,14 +1472,6 @@ function wzRun(){
 
 <script>
 var ANON_DUR=5500;
-function clownShow(){
-  var cb=document.getElementById('clown-bg');
-  cb.style.display='block';
-  cb.style.transition='opacity 2.5s ease';
-  cb.style.opacity='0';
-  cb.offsetHeight;
-  cb.style.opacity='1';
-}
 function anonShow(){
   var el=document.getElementById('anon-overlay');
   el.style.display='flex';
@@ -1594,10 +1483,7 @@ function anonShow(){
   var t=document.getElementById('anon-title');
   t.style.animation='none'; t.offsetHeight;
   t.style.animation='anon-txt-flash '+ANON_DUR+'ms ease forwards';
-  setTimeout(function(){
-    el.style.display='none';
-    clownShow();
-  }, ANON_DUR+100);
+  setTimeout(function(){ el.style.display='none'; }, ANON_DUR+100);
 }
 // PAGE LOAD
 window.addEventListener('DOMContentLoaded', function(){ anonShow(); });
