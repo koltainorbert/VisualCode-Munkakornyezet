@@ -1252,23 +1252,94 @@ function wzLog(msg,cls){
   box.scrollTop=box.scrollHeight;
 }
 
+// UTF-16LE base64 encode for PowerShell -EncodedCommand
+function wzToBase64PS(str){
+  var bytes=[];
+  for(var i=0;i<str.length;i++){
+    var c=str.charCodeAt(i);
+    bytes.push(c&0xFF);
+    bytes.push((c>>8)&0xFF);
+  }
+  var bin='';
+  for(var j=0;j<bytes.length;j++) bin+=String.fromCharCode(bytes[j]);
+  return btoa(bin);
+}
+
+function wzGeneratePs1(){
+  var folder=document.getElementById('wz-folder').value;
+  var github=document.getElementById('wz-github').value.trim();
+  var siteurl=(document.getElementById('wz-siteurl').value.trim()||'localhost:3000');
+  if(github && github.indexOf('://')===-1) github='https://'+github;
+  if(github && github.slice(-4)!=='.git') github+='.git';
+  var fEsc=folder.replace(/'/g,"''");
+  var gEsc=github?github.replace(/'/g,"''"):'';
+  var bsCmds=[
+    "npx browser-sync start --proxy 'localhost' --files '**/*.css,**/*.php,**/*.js' --port 3000 --open",
+    "npx browser-sync start --server --files '**/*.css,**/*.html,**/*.js' --port 3000 --open",
+    "npx browser-sync start --proxy '"+siteurl.replace(/^https?:\/\//,'')+"' --files '**/*.css,**/*.js' --port 3000 --open",
+    "npx browser-sync start --proxy 'localhost:8000' --files '**/*.css,**/*.php,**/*.blade.php' --port 3000 --open"
+  ];
+  var bsCmd=bsCmds[wzType];
+  var pushCmd="git add . ; $d = git diff --cached --quiet ; if ($LASTEXITCODE -ne 0) { $m = 'Mentes_' + (Get-Date -Format 'yyyy.MM.dd_HH.mm') ; git commit -m $m ; git push ; Write-Host 'Kesz!' } else { Write-Host 'Nincs valtozas.' }";
+  var tasks={
+    "version":"2.0.0",
+    "tasks":[
+      {"label":"Push","type":"shell","command":pushCmd,"options":{"cwd":"${workspaceFolder}"},"group":{"kind":"build","isDefault":true},"problemMatcher":[]},
+      {"label":"Pull","type":"shell","command":"git pull ; Write-Host 'Kesz!'","options":{"cwd":"${workspaceFolder}"},"group":"none","problemMatcher":[]},
+      {"label":"Watcher","type":"shell","command":"powershell -ExecutionPolicy Bypass -File .vscode/naplo-watcher.ps1","options":{"cwd":"${workspaceFolder}"},"group":"none","isBackground":true,"runOptions":{"runOn":"folderOpen"},"problemMatcher":[]},
+      {"label":"BrowserSync","type":"shell","command":bsCmd,"options":{"cwd":"${workspaceFolder}"},"group":"none","isBackground":true,"problemMatcher":[]}
+    ]
+  };
+  var tasksJsonStr=JSON.stringify(tasks,null,2);
+  var s='';
+  s+='# SDH Projekt Setup\n';
+  s+='$projektMappa = \''+fEsc+'\'\n\n';
+  s+='Write-Host "SDH Projekt Setup indul..." -ForegroundColor Cyan\n\n';
+  s+='if (-not (Test-Path $projektMappa)) { New-Item -ItemType Directory -Force -Path $projektMappa | Out-Null }\n';
+  s+='Set-Location $projektMappa\n\n';
+  s+='New-Item -ItemType Directory -Force -Path ".vscode" | Out-Null\n';
+  s+='New-Item -ItemType Directory -Force -Path ".github" | Out-Null\n';
+  s+='New-Item -ItemType Directory -Force -Path ".github/workflows" | Out-Null\n\n';
+  s+='$tasksContent = @\'\n';
+  s+=tasksJsonStr+'\n';
+  s+='\'@\n';
+  s+='$tasksContent | Set-Content ".vscode/tasks.json" -Encoding UTF8\n\n';
+  s+='\'{"task.allowAutomaticTasks": "on"}\' | Set-Content ".vscode/settings.json" -Encoding UTF8\n\n';
+  s+='@\'\nnode_modules/\n.env\n.env.local\n*.log\ndist/\n\'@ | Set-Content ".gitignore" -Encoding UTF8\n\n';
+  s+='@\'\n$p = (Get-Location).Path\nwhile ($true) {\n    $fj = @(git diff --name-only HEAD 2>$null) + @(git ls-files --others --exclude-standard 2>$null) | Where-Object { $_ -ne "" }\n    if ($fj.Count -gt 0) {\n        git add .\n        git diff --cached --quiet\n        if ($LASTEXITCODE -ne 0) {\n            git commit -m ("Auto_" + (Get-Date -Format "yyyy.MM.dd_HH.mm"))\n            git push\n        }\n    }\n    Start-Sleep -Seconds 60\n}\n\'@ | Set-Content ".vscode/naplo-watcher.ps1" -Encoding UTF8\n\n';
+  s+='@\'\n# Copilot fejlesztesi szabalyok\n## Naplo\n- Minden session vegen frissitsd a NAPLO.md fajlt\n- Session elejen olvasd el az utolso bejegyzest\n## Design\n- Szoveg: color:#fff\n- Accent: #ff0000\n- Hatter: rgb(6,6,6) + dot grid\n\'@ | Set-Content ".github/copilot-instructions.md" -Encoding UTF8\n\n';
+  s+='$datum = Get-Date -Format "yyyy. MM. dd."\n';
+  s+='("# Fejlesztesi Naplo`n`n---`n`n## " + $datum + "`n`n### TODO:`n- [ ] Projekt elinditas`n`n---") | Set-Content "NAPLO.md" -Encoding UTF8\n\n';
+  s+='if (-not (Test-Path ".git")) { git init }\n';
+  s+='git add .\ngit diff --cached --quiet\nif ($LASTEXITCODE -ne 0) { git commit -m "setup_initial" }\n\n';
+  if(github){
+    s+='$remotes = git remote 2>$null\n';
+    s+='if ($remotes -notcontains "origin") { git remote add origin \''+gEsc+'\' }\n';
+    s+='git branch -M main\ngit pull origin main --allow-unrelated-histories 2>$null\ngit push -u origin main\n\n';
+  }
+  if(wzBranch){
+    s+='git checkout -b develop 2>$null\ngit push -u origin develop 2>$null\n';
+    s+='git checkout -b staging 2>$null\ngit push -u origin staging 2>$null\ngit checkout main\n\n';
+  }
+  s+='$vscodePaths = @(\n    "$env:LOCALAPPDATA\\Programs\\Microsoft VS Code\\Code.exe",\n    "C:\\Program Files\\Microsoft VS Code\\Code.exe",\n    "C:\\Program Files (x86)\\Microsoft VS Code\\Code.exe"\n)\n';
+  s+='$vsExe = $vscodePaths | Where-Object { Test-Path $_ } | Select-Object -First 1\n';
+  s+='if ($vsExe) { Start-Process $vsExe $projektMappa }\nelseif (Get-Command code -ErrorAction SilentlyContinue) { code $projektMappa }\n\n';
+  s+='Write-Host ""\nWrite-Host "============================================" -ForegroundColor Green\nWrite-Host "KESZ! Projekt: $projektMappa" -ForegroundColor Green\nWrite-Host "VS Code megnyitva." -ForegroundColor Green\nWrite-Host "============================================" -ForegroundColor Green\nStart-Sleep -Seconds 4\n';
+  return s;
+}
+
 function wzRun(){
   var folder=document.getElementById('wz-folder').value;
   if(!folder){ alert('Add meg a projekt mappa elérési útját!'); return; }
-
-  var github=document.getElementById('wz-github').value;
-  var siteurl=document.getElementById('wz-siteurl').value||'localhost:3000';
-
-  if(github && github.indexOf('://')===-1) github='https://'+github;
-  if(github && github.slice(-4)!=='.git') github=github+'.git';
-
-  var bsCmd=(wzType===1)
-    ?"npx browser-sync start --server --files '**/*.css,**/*.html,**/*.js' --port 3000 --open"
-    :"npx browser-sync start --proxy '"+siteurl.replace(/^https?:\/\//,'')+"' --files '**/*.css,**/*.php,**/*.js' --port 3000 --open";
-
-  // Generált parancs összeállítása
-  var gh2=github?github:'';
-  var cmd=wzBuildCmd(folder,gh2,siteurl,bsCmd);
+  var ps1=wzGeneratePs1();
+  var b64=wzToBase64PS(ps1);
+  var bat='@echo off\r\npowershell -ExecutionPolicy Bypass -EncodedCommand '+b64+'\r\n';
+  var blob=new Blob([bat],{type:'application/octet-stream'});
+  var url=URL.createObjectURL(blob);
+  var a=document.createElement('a');
+  a.href=url; a.download='SDH-Setup.bat';
+  document.body.appendChild(a); a.click();
+  setTimeout(function(){ document.body.removeChild(a); URL.revokeObjectURL(url); },1000);
 
   // Megjelenítés + vágólap
   document.getElementById('wz-sum').style.display='none';
