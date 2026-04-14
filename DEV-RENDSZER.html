@@ -1440,48 +1440,15 @@ function wzRun(){
   <div id="anon-glitch-r" style="position:absolute;inset:0;background:rgba(255,0,0,0.04);animation:anon-glitch-r 5.5s steps(1) forwards"></div>
   <!-- maszk -->
   <div style="position:relative;margin-bottom:40px">
-    <svg id="anon-svg" width="420" height="420" viewBox="0 0 100 100"
-      style="animation:anon-mask-in 5.5s ease forwards;filter:drop-shadow(0 0 50px #ff0000) drop-shadow(0 0 100px rgba(255,0,0,0.4))">
-      <!-- alap arc -->
-      <ellipse cx="50" cy="54" rx="30" ry="36" fill="#ede5d0" stroke="#1a1a1a" stroke-width="0.8"/>
-      <ellipse cx="50" cy="40" rx="28" ry="22" fill="#ede5d0"/>
-      <!-- szemek -->
-      <ellipse cx="37" cy="43" rx="8" ry="6" fill="#0a0a0a"/>
-      <ellipse cx="63" cy="43" rx="8" ry="6" fill="#0a0a0a"/>
-      <ellipse cx="35" cy="42" rx="2.5" ry="2.5" fill="#fff"/>
-      <ellipse cx="61" cy="42" rx="2.5" ry="2.5" fill="#fff"/>
-      <ellipse cx="35.5" cy="42.5" rx="1" ry="1" fill="#ff0000"/>
-      <ellipse cx="61.5" cy="42.5" rx="1" ry="1" fill="#ff0000"/>
-      <!-- szemöldök -->
-      <path d="M27 35 Q37 27 47 34" stroke="#1a1a1a" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-      <path d="M53 34 Q63 27 73 35" stroke="#1a1a1a" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-      <!-- orr -->
-      <path d="M47 50 Q50 57 53 50" stroke="#bbb" stroke-width="1.2" fill="none"/>
-      <ellipse cx="46" cy="54" rx="3" ry="2.5" fill="#d4c9b0" stroke="#bbb" stroke-width="0.5"/>
-      <ellipse cx="54" cy="54" rx="3" ry="2.5" fill="#d4c9b0" stroke="#bbb" stroke-width="0.5"/>
-      <!-- bajusz iconic -->
-      <path d="M35 64 Q42 60 50 64 Q58 60 65 64" stroke="#1a1a1a" stroke-width="2" fill="none" stroke-linecap="round"/>
-      <path d="M38 64 Q44 70 50 68 Q56 70 62 64" stroke="#1a1a1a" stroke-width="2" fill="none" stroke-linecap="round"/>
-      <!-- chin beard -->
-      <path d="M44 76 Q50 83 56 76" stroke="#1a1a1a" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-      <path d="M46 78 Q50 86 54 78" stroke="#1a1a1a" stroke-width="1" fill="none"/>
-      <!-- száj -->
-      <path d="M39 67 Q50 72 61 67" stroke="#cc0000" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-      <!-- arc árnyék -->
-      <ellipse cx="50" cy="54" rx="30" ry="36" fill="none" stroke="rgba(0,0,0,0.3)" stroke-width="0.3"/>
-      <!-- piros glitch csíkok -->
-      <rect x="0" y="0" width="100" height="100" fill="url(#scanlines)" opacity="0.15"/>
-      <defs>
-        <pattern id="scanlines" x="0" y="0" width="100" height="4" patternUnits="userSpaceOnUse">
-          <rect x="0" y="0" width="100" height="1" fill="#ff0000"/>
-          <rect x="0" y="2" width="100" height="0.5" fill="#ff0000"/>
-        </pattern>
-      </defs>
-    </svg>
-    <!-- piros glitch duplikált maszk -->
-    <svg style="position:absolute;top:0;left:0;width:420px;height:420px;opacity:0;mix-blend-mode:screen;animation:anon-glitch-r 5.5s steps(1) forwards" viewBox="0 0 100 100">
-      <ellipse cx="53" cy="54" rx="30" ry="36" fill="#ff0000" opacity="0.5"/>
-    </svg>
+    <img id="anon-svg" src="mime-shows-theatrical-emotions.jpg"
+      width="420" height="420"
+      style="object-fit:cover;border-radius:50%;
+        animation:anon-mask-in 5.5s ease forwards;
+        filter:drop-shadow(0 0 50px #ff0000) drop-shadow(0 0 100px rgba(255,0,0,0.4)) grayscale(0.3) contrast(1.2)">
+    <!-- piros glitch overlay -->
+    <div style="position:absolute;inset:0;border-radius:50%;
+      background:rgba(255,0,0,0);mix-blend-mode:screen;
+      animation:anon-glitch-r 5.5s steps(1) forwards;pointer-events:none"></div>
   </div>
   <!-- főcím -->
   <div id="anon-title" style="
@@ -1510,8 +1477,8 @@ function anonShow(){
   el.style.animation='none'; el.offsetHeight;
   el.style.animation='anon-bg-in '+ANON_DUR+'ms ease forwards';
   var svg=document.getElementById('anon-svg');
-  svg.style.animation='none'; svg.offsetHeight;
-  svg.style.animation='anon-mask-in '+ANON_DUR+'ms ease forwards';
+  if(svg){ svg.style.animation='none'; svg.offsetHeight;
+  svg.style.animation='anon-mask-in '+ANON_DUR+'ms ease forwards'; }
   var t=document.getElementById('anon-title');
   t.style.animation='none'; t.offsetHeight;
   t.style.animation='anon-txt-flash '+ANON_DUR+'ms ease forwards';
