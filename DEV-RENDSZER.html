@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="hu">
 <head>
 <meta charset="UTF-8">
@@ -22,14 +22,6 @@ body{
   min-height:100vh;overflow-x:hidden;
 }
 #cv{position:fixed;top:0;left:0;pointer-events:none;z-index:0;opacity:.55}
-#scanline{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:2;
-  background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.03) 2px,rgba(0,0,0,.03) 4px);
-  animation:scanmove 8s linear infinite;opacity:.4}
-@keyframes scanmove{0%{background-position:0 0}100%{background-position:0 100px}}
-#scanline2{position:fixed;top:-100%;left:0;width:100%;height:6px;z-index:3;pointer-events:none;
-  background:linear-gradient(transparent,rgba(255,0,0,.08) 50%,transparent);
-  animation:scan2 7s linear 1.5s infinite}
-@keyframes scan2{0%{top:-1%}100%{top:100%}}
 #prog{position:fixed;top:0;left:0;height:2px;z-index:999;
   background:linear-gradient(90deg,#ff0000,#ff6600,#ff0000);
   background-size:200% 100%;animation:shimmer 2s linear infinite;
@@ -66,32 +58,14 @@ nav a:hover{color:#fff}nav a:hover::after{transform:scaleX(1)}
   animation:fsup .7s cubic-bezier(.16,1,.3,1) .1s both}
 .hel{width:32px;height:1px;background:var(--red)}
 h1.ht{font-size:clamp(52px,9vw,96px);font-weight:900;
-  line-height:1.15;letter-spacing:-3px;margin-bottom:28px;padding:.1em 0}
-.ht .ln{display:block;overflow:visible;padding-bottom:0.06em}
-.ht .wd{display:inline-block;will-change:transform;
-  animation:wdup-tiktok 1s cubic-bezier(.16,1,.3,1) both}
-.ht .wd.r{
-  color:var(--red);
-  text-shadow:0 0 40px rgba(255,0,0,.45),0 0 80px rgba(255,0,0,.2);
-  animation:wdup-tiktok 1s cubic-bezier(.16,1,.3,1) both, glitch 6s steps(1) 2.5s infinite}
-.ht .ln:nth-child(1) .wd{animation-delay:.1s}
-.ht .ln:nth-child(2) .wd{animation-delay:.45s}
-.ht .ln:nth-child(3) .wd{animation-delay:.8s}
-@keyframes wdup-tiktok{
-  0%  {transform:translateY(160%) skewY(22deg) scaleX(1.12) rotate(-4deg);opacity:0;filter:blur(6px)}
-  40% {transform:translateY(-18%) skewY(-8deg) scaleX(.88) rotate(1.5deg);opacity:1;filter:blur(0)}
-  58% {transform:translateY(10%)  skewY(3.5deg) scaleX(1.06) rotate(-.5deg)}
-  72% {transform:translateY(-6%)  skewY(-1.5deg) scaleX(.97)}
-  84% {transform:translateY(3%)   skewY(.6deg)}
-  92% {transform:translateY(-1%)  skewY(-.2deg)}
-  100%{transform:translateY(0)    skewY(0)     scaleX(1) rotate(0);filter:blur(0)}}
-@keyframes glitch{
-  0%,94%,100%{text-shadow:0 0 40px rgba(255,0,0,.45),0 0 80px rgba(255,0,0,.2);transform:none;clip-path:none}
-  95%{transform:translate(-3px,0);text-shadow:-3px 0 rgba(0,255,255,.7),3px 0 rgba(255,0,255,.7),0 0 40px rgba(255,0,0,.6)}
-  96%{transform:translate(3px,0) skewX(-3deg);clip-path:inset(10% 0 50% 0)}
-  97%{transform:translate(-2px,0);clip-path:inset(60% 0 20% 0)}
-  98%{transform:translate(0);text-shadow:0 0 40px rgba(255,0,0,.45),0 0 80px rgba(255,0,0,.2);clip-path:none}
-}
+  line-height:.95;letter-spacing:-3px;margin-bottom:28px;overflow:hidden}
+.ht .ln{display:block;overflow:hidden}
+.ht .wd{display:inline-block;animation:wdup .8s cubic-bezier(.16,1,.3,1) both}
+.ht .wd.r{color:var(--red)}
+.ht .wd:nth-child(1){animation-delay:.15s}
+.ht .wd:nth-child(2){animation-delay:.3s}
+.ht .wd:nth-child(3){animation-delay:.45s}
+@keyframes wdup{from{transform:translateY(110%);opacity:0}to{transform:translateY(0);opacity:1}}
 @keyframes fsup{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
 .hs{font-size:16px;color:var(--text2);line-height:1.75;max-width:560px;margin-bottom:48px;
   animation:fsup .8s cubic-bezier(.16,1,.3,1) .55s both}
@@ -287,103 +261,14 @@ footer a:hover{color:rgba(255,0,0,.75)}
   .tbh{display:none}.mg,.qi{grid-template-columns:1fr}
   .qp{border-right:none;border-bottom:1px solid var(--border)}
 }
-/* ===== PROJEKTLEÍRÁS ===== */
-.pl-actions{display:flex;gap:12px;flex-wrap:wrap;margin:28px 0 0}
-.pl-print-btn,.pl-repo-btn{display:inline-flex;align-items:center;gap:8px;padding:10px 22px;border:1px solid rgba(255,0,0,.35);font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;cursor:pointer;transition:all .2s;font-family:var(--mono)}
-.pl-print-btn{background:rgba(255,0,0,.12);color:#fff}
-.pl-print-btn:hover{background:rgba(255,0,0,.25);border-color:var(--red)}
-.pl-repo-btn{background:transparent;color:rgba(255,255,255,.55);text-decoration:none}
-.pl-repo-btn:hover{color:#fff;border-color:rgba(255,255,255,.35)}
-.pl-meta-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin:32px 0 48px}
-.pl-meta-card{padding:16px 20px;border:1px solid var(--border);background:rgba(255,255,255,.025);font-size:11px;font-family:var(--mono);color:rgba(255,255,255,.55)}
-.pl-meta-card strong{display:block;color:#fff;font-size:12px;margin-bottom:4px}
-.pl-section{margin-bottom:56px}
-.pl-h3{font-size:clamp(14px,2vw,18px);font-weight:700;color:#fff;margin-bottom:20px;display:flex;align-items:center;gap:14px}
-.pl-num{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border:1px solid var(--red);color:var(--red);font-family:var(--mono);font-size:11px;font-weight:700;flex-shrink:0}
-.pl-card{padding:24px;border:1px solid var(--border);background:rgba(255,255,255,.02);line-height:1.7}
-.pl-card p{font-size:13px;color:rgba(255,255,255,.75);margin-bottom:12px}
-.pl-card p:last-child{margin-bottom:0}
-.pl-card ul{padding-left:20px;color:rgba(255,255,255,.65);font-size:12px;line-height:2}
-.pl-card strong{color:#fff}
-.pl-card code{font-family:var(--mono);font-size:11px;color:rgba(255,120,120,.9);background:rgba(255,0,0,.08);padding:1px 6px;border:1px solid rgba(255,0,0,.14)}
-.pl-timeline{position:relative;padding-left:32px}
-.pl-timeline::before{content:'';position:absolute;left:10px;top:0;bottom:0;width:1px;background:linear-gradient(to bottom,var(--red),rgba(255,0,0,.1))}
-.pl-ver{position:relative;margin-bottom:36px}
-.pl-ver-dot{position:absolute;left:-26px;top:4px;width:12px;height:12px;background:var(--red);border:2px solid rgb(6,6,6)}
-.pl-ver-tag{font-family:var(--mono);font-size:11px;color:var(--red);font-weight:700;letter-spacing:1px;margin-bottom:6px}
-.pl-ver h4{font-size:14px;color:#fff;font-weight:700;margin-bottom:8px}
-.pl-ver p{font-size:12px;color:rgba(255,255,255,.65);line-height:1.6;margin-bottom:6px}
-.pl-ver ul{padding-left:18px;font-size:12px;color:rgba(255,255,255,.55);line-height:1.9;margin-bottom:6px}
-.pl-ver-date{font-size:10px;color:rgba(255,255,255,.28);font-family:var(--mono);letter-spacing:1px;margin-top:4px}
-.pl-arch{display:flex;flex-direction:column;gap:0;align-items:center;padding:24px;border:1px solid var(--border);background:rgba(255,255,255,.02)}
-.pl-arch-row{display:flex;gap:12px;align-items:center;justify-content:center;flex-wrap:wrap}
-.pl-arch-box{padding:10px 18px;border:1px solid rgba(255,0,0,.25);background:rgba(255,0,0,.06);font-size:11px;font-family:var(--mono);text-align:center;color:#fff;min-width:120px;line-height:1.5}
-.pl-arch-box.main{border-color:var(--red);background:rgba(255,0,0,.14);font-weight:700}
-.pl-arch-arrow{color:var(--red);font-size:18px;padding:6px 0;text-align:center;width:100%;display:block}
-.pl-arch-label{font-size:9px;color:rgba(255,255,255,.28);font-family:var(--mono);letter-spacing:1px;text-align:center;margin:4px 0 10px}
-.pl-arch-split{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:0}
-.pl-table{width:100%;border-collapse:collapse;font-size:11px;font-family:var(--mono)}
-.pl-table th{background:rgba(255,0,0,.1);color:rgba(255,80,80,.9);padding:10px 14px;text-align:left;font-weight:700;letter-spacing:.5px;border:1px solid rgba(255,0,0,.15)}
-.pl-table td{padding:10px 14px;border:1px solid rgba(255,255,255,.06);color:rgba(255,255,255,.75);vertical-align:top;line-height:1.5}
-.pl-table tr:hover td{background:rgba(255,255,255,.02)}
-.pl-table td code{color:rgba(255,140,140,.9);background:rgba(255,0,0,.07);padding:1px 5px;border:1px solid rgba(255,0,0,.12)}
-.pl-table td strong{color:#fff}
-.pl-badge{display:inline-block;font-size:9px;font-family:var(--mono);padding:1px 7px;letter-spacing:1px;font-weight:700;background:rgba(255,0,0,.1);border:1px solid rgba(255,0,0,.2);color:rgba(255,120,120,.8);text-transform:uppercase;margin-right:4px}
-.pl-badge.opt{background:rgba(255,255,255,.04);border-color:rgba(255,255,255,.1);color:rgba(255,255,255,.35)}
-.pl-steps{display:flex;flex-direction:column;gap:0}
-.pl-step{display:flex;gap:0;padding:0}
-.pl-step-num{display:flex;flex-direction:column;align-items:center;padding-right:20px;flex-shrink:0}
-.pl-step-circle{width:28px;height:28px;border:1px solid var(--red);color:var(--red);font-family:var(--mono);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.pl-step-line{width:1px;background:rgba(255,0,0,.15);flex:1;min-height:20px}
-.pl-step-content{padding-bottom:28px;flex:1}
-.pl-step h4{font-size:13px;color:#fff;font-weight:700;margin-bottom:6px;margin-top:4px}
-.pl-step p{font-size:12px;color:rgba(255,255,255,.6);line-height:1.6;margin-bottom:4px}
-.pl-step code{font-family:var(--mono);font-size:10.5px;color:rgba(255,140,140,.9);background:rgba(255,0,0,.07);padding:1px 5px;border:1px solid rgba(255,0,0,.12)}
-.pl-summary{padding:28px 32px;border:1px solid var(--red);background:rgba(255,0,0,.06);position:relative;overflow:hidden}
-.pl-summary::after{content:'';position:absolute;top:0;right:0;width:30px;height:30px;background:linear-gradient(225deg,var(--red) 50%,transparent 50%)}
-.pl-summary h4{font-size:16px;font-weight:700;color:#fff;margin-bottom:12px}
-.pl-summary p{font-size:12px;color:rgba(255,255,255,.7);line-height:1.7;margin-bottom:8px}
-.pl-summary p:last-child{margin:0}
-.pl-divider{border:none;border-top:1px solid var(--border);margin:48px 0}
-@media(max-width:768px){.pl-arch-split{gap:8px}.pl-arch-box{min-width:90px;font-size:10px}.pl-step-num{padding-right:14px}}
-@media print{
-  body{background:#fff!important;color:#000!important}
-  #cv,nav,#prog,.pl-print-btn,.pl-repo-btn{display:none!important}
-  .hero,#hova,#wizard,#kerdesek,#script,footer{display:none!important}
-  #projektleiras{display:block!important}
-  .pl-card,.pl-summary{border-color:#ddd!important;background:#f9f9f9!important}
-  .pl-card p,.pl-card ul,.pl-ver p,.pl-ver ul,.pl-step p,.pl-summary p{color:#333!important}
-  .pl-table th{background:#eee!important;color:#222!important;border-color:#ccc!important}
-  .pl-table td{color:#333!important;border-color:#ddd!important}
-  .pl-table tr:hover td{background:transparent!important}
-  .pl-num,.pl-step-circle,.pl-ver-tag{color:#c00!important;border-color:#c00!important}
-  .pl-timeline::before{background:#c00!important}
-  .pl-ver-dot{background:#c00!important;border-color:#fff!important}
-  .pl-arch-box{border-color:#ccc!important;background:#f5f5f5!important;color:#000!important}
-  .pl-arch-box.main{border-color:#c00!important;background:#fee!important}
-  .pl-arch-arrow{color:#c00!important}
-  .pl-meta-card{border-color:#ddd!important;background:#fafafa!important;color:#333!important}
-  .pl-meta-card strong{color:#000!important}
-  .pl-badge{background:#eee!important;color:#333!important;border-color:#ccc!important}
-  .pl-summary{background:#fee!important;border-color:#c00!important}
-  .pl-summary h4,.pl-step h4,.pl-ver h4,.pl-h3,.st,.ss,.se{color:#000!important}
-  .pl-section{break-inside:avoid}
-  .rv{opacity:1!important;transform:none!important}
-  .pl-step-line{background:#ddd!important}
-  .pl-ver-date{color:#666!important}
-  a{color:#c00!important}
-  @page{margin:20mm;size:A4}
-}
 </style>
 </head>
 <body>
 <div id="prog"></div>
 <canvas id="cv"></canvas>
-<div id="scanline"></div>
-<div id="scanline2"></div>
-<nav><div class="nl"><div class="nd"></div>VS&nbsp;<span style="color:var(--red)">Wizard</span></div><a href="#hova">Beilllesztés</a><a href="#wizard">Wizard</a><a href="#kerdesek">Kérdések</a><a href="#script">Script</a><a href="#projektleiras">Leírás</a><div class="nr"><span style="font-size:11px;letter-spacing:1px;color:#fff;margin-right:16px;display:flex;align-items:center;gap:8px"><span style="width:7px;height:7px;border-radius:50%;background:#ff0000;display:inline-block;animation:pulse-dot 2s ease-in-out infinite;flex-shrink:0"></span>Koltai Norbert&nbsp;·&nbsp;<span style="color:var(--red)">v1.0</span></span><a class="ngh" href="https://github.com/koltainorbert/VisualCode-Munkakornyezet" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.168 6.839 9.49.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.604-3.369-1.34-3.369-1.34-.454-1.154-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836a9.59 9.59 0 012.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.741 0 .267.18.579.688.481C19.138 20.165 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>GitHub</a></div></nav>
+<nav><div class="nl"><div class="nd"></div>VS&nbsp;<span style="color:var(--red)">Wizard</span></div><a href="#hova">Beilllesztés</a><a href="#wizard">Wizard</a><a href="#kerdesek">Kérdések</a><a href="#script">Script</a><div class="nr"><a class="ngh" href="https://github.com/koltainorbert/VisualCode-Munkakornyezet" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.168 6.839 9.49.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.604-3.369-1.34-3.369-1.34-.454-1.154-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836a9.59 9.59 0 012.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.741 0 .267.18.579.688.481C19.138 20.165 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>GitHub</a></div></nav>
 <div class="hero"><div class="he"><div class="hel"></div>VS Code Munkaközeg · Wizard v2.0</div><h1 class="ht"><span class="ln"><span class="wd">Egy parancs</span></span><span class="ln"><span class="wd r">— minden</span></span><span class="ln"><span class="wd">kész.</span></span></h1><p class="hs">WordPress, HTML, React, Vue, Node.js, Laravel — bármilyen projekthez. A wizard megkérdez mindent, beállít mindent: Git, auto-mentés, Browser Sync, Task Scheduler, deploy.</p>
-<div class="mb"><div class="mbi"><div class="mbl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>Varázsparancs — másold be és futtasd</div><div class="mbr"><div class="mbc"><span class="kw">irm</span> <span class="str" id="magic-irm">irm "https://raw.githubusercontent.com/koltainorbert/VisualCode-Munkakornyezet/main/setup-projekt.ps1" -OutFile "$env:TEMP\setup-projekt.ps1" ; Set-ExecutionPolicy Bypass -Scope Process -Force ; &amp; "$env:TEMP\setup-projekt.ps1"</span></div><button class="mcp" onclick="copyMagic(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>Másolás</button></div><div class="mbf"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4m0 4h.01"/></svg><span>Win+R → <code style="font-family:var(--mono);color:rgba(255,130,80,.9);font-size:10px">powershell</code> → Enter → fekete ablakba illeszd be | <a href="#hova">Részletes útmutató ↓</a></span></div></div></div>
+<div class="mb"><div class="mbi"><div class="mbl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>Varázsparancs — másold be és futtasd</div><div class="mbr"><div class="mbc"><span class="kw">irm</span> <span class="str" id="magic-irm">&quot;https://raw.githubusercontent.com/koltainorbert/VisualCode-Munkakornyezet/main/setup-projekt.ps1&quot;</span> <span class="kw">|</span> iex</div><button class="mcp" onclick="copyMagic(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>Másolás</button></div><div class="mbf"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4m0 4h.01"/></svg><span>Win+R → <code style="font-family:var(--mono);color:rgba(255,130,80,.9);font-size:10px">powershell</code> → Enter → fekete ablakba illeszd be | <a href="#hova">Részletes útmutató ↓</a></span></div></div></div>
 <div class="hc"><a href="#hova" class="btn btn-r"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>Hova illesztem be?</a><a href="#wizard" class="btn btn-g"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v8m-4-4h8"/></svg>Mit csinál a wizard?</a><a href="https://github.com/koltainorbert/VisualCode-Munkakornyezet" target="_blank" class="btn btn-g"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.168 6.839 9.49.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.604-3.369-1.34-3.369-1.34-.454-1.154-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836a9.59 9.59 0 012.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.741 0 .267.18.579.688.481C19.138 20.165 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>GitHub repo</a></div>
 </div>
 <hr class="d">
@@ -403,265 +288,279 @@ footer a:hover{color:rgba(255,0,0,.75)}
 <div class="mbb"><div class="ml">2. módszer — Win+R-ból egyből (egy lépés)</div><div class="stps"><div class="si"><div class="sn">1</div><p><strong>Win+R</strong> → illeszd be az alábbi <em>teljes</em> parancsot → Enter (automatikusan PS-t nyit és futtatja)</p></div></div><div class="cr"><code id="cmd-winr">powershell -ExecutionPolicy Bypass -Command "irm 'https://raw.githubusercontent.com/koltainorbert/VisualCode-Munkakornyezet/main/setup-projekt.ps1' -OutFile '$env:TEMP\setup-projekt.ps1' ; & '$env:TEMP\setup-projekt.ps1'"</code><button class="cbtn" onclick="cbId(this,'cmd-winr')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Másolás</button></div></div>
 </div>
 <div class="tpanel" id="tp-1">
-<div class="stps" style="margin-bottom:20px"><div class="si"><div class="sn">1</div><p>VS Code-ban <strong>Ctrl+`</strong> → megnyílik az integrált terminál</p></div><div class="si"><div class="sn">2</div><p>Győződj meg róla, hogy <strong>PowerShell</strong> fut (terminál fejlécében látható)</p></div><div class="si"><div class="sn">3</div><p>Illeszd be (Ctrl+V) → Enter → letölti és futtatja a wizardot — és a végén VS Code automatikusan megnyitja a projekt mappát</p></div></div><div class="cr"><code id="cmd-vsc">irm "https://raw.githubusercontent.com/koltainorbert/VisualCode-Munkakornyezet/main/setup-projekt.ps1" -OutFile "$env:TEMP\setup-projekt.ps1" ; Set-ExecutionPolicy Bypass -Scope Process -Force ; & "$env:TEMP\setup-projekt.ps1"</code><button class="cbtn" onclick="cbId(this,'cmd-vsc')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Másolás</button></div>
+<div class="stps" style="margin-bottom:20px"><div class="si"><div class="sn">1</div><p>VS Code-ban <strong>Ctrl+`</strong> → megnyílik az integrált terminál</p></div><div class="si"><div class="sn">2</div><p>Győződj meg róla, hogy <strong>PowerShell</strong> fut (terminál fejlécében látható)</p></div><div class="si"><div class="sn">3</div><p>Illeszd be (Ctrl+V) → Enter → wizard elindul</p></div></div><div class="cr"><code id="cmd-vsc">irm "https://raw.githubusercontent.com/koltainorbert/VisualCode-Munkakornyezet/main/setup-projekt.ps1" -OutFile "$env:TEMP\setup-projekt.ps1" ; Set-ExecutionPolicy Bypass -Scope Process -Force ; & "$env:TEMP\setup-projekt.ps1"</code><button class="cbtn" onclick="cbId(this,'cmd-vsc')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Másolás</button></div>
 </div>
 <div class="tpanel" id="tp-2">
-<div class="stps" style="margin-bottom:20px"><div class="si"><div class="sn">1</div><p>VS Code-ban <strong>Ctrl+Alt+I</strong> → Copilot Chat megnyílik</p></div><div class="si"><div class="sn">2</div><p>Az <strong>Agent Mode</strong> legyen aktív (legu00f6rdu0151 a chat beviteli mező mellett)</p></div><div class="si"><div class="sn">3</div><p>Illeszd be az alábbi parancsot → Enter → Copilot futtatja a terminálban → wizard elindul, végén VS Code önmaggát újranyitja a projekt mappában</p></div><div class="si"><div class="sn">4</div><p>Ha felugró kéri a jóváhagyást, kattints <strong>Continue</strong></p></div></div><div class="cr"><code id="cmd-cpl">@terminal irm "https://raw.githubusercontent.com/koltainorbert/VisualCode-Munkakornyezet/main/setup-projekt.ps1" -OutFile "$env:TEMP\setup-projekt.ps1" ; Set-ExecutionPolicy Bypass -Scope Process -Force ; & "$env:TEMP\setup-projekt.ps1"</code><button class="cbtn" onclick="cbId(this,'cmd-cpl')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Másolás</button></div>
+<div class="stps" style="margin-bottom:20px"><div class="si"><div class="sn">1</div><p>VS Code-ban <strong>Ctrl+Alt+I</strong> → Copilot Chat megnyílik</p></div><div class="si"><div class="sn">2</div><p>Az <strong>Agent Mode</strong> legyen aktív (legu00f6rdu0151 a chat beviteli mező mellett)</p></div><div class="si"><div class="sn">3</div><p>Illeszd be az alábbi parancsot → Enter → Copilot futtatja a terminálban</p></div><div class="si"><div class="sn">4</div><p>Ha felugró kéri a jóváhagyást, kattints <strong>Continue</strong></p></div></div><div class="cr"><code id="cmd-cpl">@terminal irm "https://raw.githubusercontent.com/koltainorbert/VisualCode-Munkakornyezet/main/setup-projekt.ps1" -OutFile "$env:TEMP\setup-projekt.ps1" ; Set-ExecutionPolicy Bypass -Scope Process -Force ; & "$env:TEMP\setup-projekt.ps1"</code><button class="cbtn" onclick="cbId(this,'cmd-cpl')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Másolás</button></div>
 </div>
 <div class="tpanel" id="tp-3">
-<div class="stps" style="margin-bottom:20px"><div class="si"><div class="sn">!</div><p>Nincs internet, nincs GitHub — a <strong>teljes 493 soros wizard script</strong> beágyazva itt van</p></div><div class="si"><div class="sn">1</div><p><strong>MÁSOLÁS</strong> gomb → nyiss PowerShell ablakot → illeszd be → Enter</p></div><div class="si"><div class="sn">2</div><p>Vagy: <strong>LETÖLTÉS .ps1</strong> → ments el → <var>powershell -ExecutionPolicy Bypass -File setup-projekt.ps1</var></p></div></div>
-<div class="cw"><div class="ch"><div class="clg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="18" rx="2"/><path d="m6 8 4 4-4 4M12 16h6"/></svg>setup-projekt.ps1 &mdash; teljes wizard (493 sor)</div><div class="ca"><button class="csm" onclick="ccById(this,'ps1-inline')">Másolás</button><button class="csm" onclick="dlById('ps1-inline','setup-projekt.ps1')">Letöltés .ps1</button></div></div>
-<pre id="ps1-inline" class="cpre"># ================================================
+<div class="stps" style="margin-bottom:20px"><div class="si"><div class="sn">!</div><p>Nincs internet, nincs GitHub — a <strong>teljes 920 soros wizard script</strong> beágyazva itt van</p></div><div class="si"><div class="sn">1</div><p><strong>MÁSOLÁS</strong> gomb → nyiss PowerShell ablakot → illeszd be → Enter</p></div><div class="si"><div class="sn">2</div><p>Vagy: <strong>LETÖLTÉS .ps1</strong> → ments el → <var>powershell -ExecutionPolicy Bypass -File setup-projekt.ps1</var></p></div></div>
+<div class="cw"><div class="ch"><div class="clg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="18" rx="2"/><path d="m6 8 4 4-4 4M12 16h6"/></svg>setup-projekt.ps1 &mdash; teljes wizard (920 sor)</div><div class="ca"><button class="csm" onclick="ccById(this,'ps1-inline')">Másolás</button><button class="csm" onclick="dlById('ps1-inline','setup-projekt.ps1')">Letöltés .ps1</button></div></div>
+<pre id="ps1-inline" class="cpre">﻿# ================================================
 #  SDH UNIVERSAL PROJEKT SETUP
 #  WordPress, React, Laravel, sima HTML — bármi
 #  Terminálba bedobod, végigvezet mindenen.
 #
 #  Futtatás:
-#  powershell -ExecutionPolicy Bypass -File "C:\Users\SDH\tools\setup-projekt.ps1"
+#  powershell -ExecutionPolicy Bypass -File &quot;C:\Users\SDH\tools\setup-projekt.ps1&quot;
 # ================================================
 
 Clear-Host
-Write-Host "========================================" -ForegroundColor Cyan
-Write-Host "  SDH PROJEKT SETUP" -ForegroundColor Cyan
-Write-Host "========================================`n" -ForegroundColor Cyan
+Write-Host &quot;========================================&quot; -ForegroundColor Cyan
+Write-Host &quot;  SDH PROJEKT SETUP&quot; -ForegroundColor Cyan
+Write-Host &quot;========================================`n&quot; -ForegroundColor Cyan
 
 # ── 0. ÉLŐS VAGY LOKÁLIS? ─────────────────────────────────────────────────────
 
-Write-Host "Ez a projekt hol fut majd élesben?" -ForegroundColor Yellow
-Write-Host "  [0] Csak lokális — Windowson dolgozom, nincs élő szerver  ← ENTER" -ForegroundColor Green
-Write-Host "  [1] Élő szerver is van — pushkor auto-deploy FTP-n" -ForegroundColor White
-$elesValasztas = Read-Host "Szám (ENTER = 0)"
-if ([string]::IsNullOrWhiteSpace($elesValasztas)) { $elesValasztas = "0" }
-$elesDeployKell = ($elesValasztas -eq "1")
+Write-Host &quot;Ez a projekt hol fut majd élesben?&quot; -ForegroundColor Yellow
+Write-Host &quot;  [0] Csak lokális — Windowson dolgozom, nincs élő szerver  ← ENTER&quot; -ForegroundColor Green
+Write-Host &quot;  [1] Élő szerver is van — pushkor auto-deploy FTP-n&quot; -ForegroundColor White
+$elesValasztas = Read-Host &quot;Szám (ENTER = 0)&quot;
+if ([string]::IsNullOrWhiteSpace($elesValasztas)) { $elesValasztas = &quot;0&quot; }
+$elesDeployKell = ($elesValasztas -eq &quot;1&quot;)
 
-$ftpServer = $ftpUser = $ftpPass = $ftpDir = ""
-$ftpStagingServer = $ftpStagingUser = $ftpStagingPass = $ftpStagingDir = ""
+$ftpServer = $ftpUser = $ftpPass = $ftpDir = &quot;&quot;
+$ftpStagingServer = $ftpStagingUser = $ftpStagingPass = $ftpStagingDir = &quot;&quot;
 $stagingKell = $false
 $branchingKell = $false
 
 if ($elesDeployKell) {
-    Write-Host ""
-    Write-Host "FTP adatok — ÉLES szerver:" -ForegroundColor Yellow
-    $ftpServer = Read-Host "  FTP szerver (pl. ftp.sdh.hu)"
-    $ftpUser   = Read-Host "  FTP felhasználónév"
-    $ftpPass   = Read-Host "  FTP jelszó"
-    $ftpDir    = Read-Host "  FTP célmappa (pl. /public_html/wp-content/themes/bricks-child/)"
+    Write-Host &quot;&quot;
+    Write-Host &quot;FTP adatok — ÉLES szerver:&quot; -ForegroundColor Yellow
+    $ftpServer = Read-Host &quot;  FTP szerver (pl. ftp.sdh.hu)&quot;
+    $ftpUser   = Read-Host &quot;  FTP felhasználónév&quot;
+    $ftpPass   = Read-Host &quot;  FTP jelszó&quot;
+    $ftpDir    = Read-Host &quot;  FTP célmappa (pl. /public_html/wp-content/themes/bricks-child/)&quot;
 
-    Write-Host ""
-    Write-Host "Kell staging környezet? (tesztelés élesítés előtt)" -ForegroundColor Yellow
-    Write-Host "  [0] Nem kell" -ForegroundColor White
-    Write-Host "  [1] Igen — legyen külön staging szerver (pl. staging.sdh.hu)" -ForegroundColor White
-    $stagingValasztas = Read-Host "Szám"
-    $stagingKell = ($stagingValasztas -eq "1")
+    Write-Host &quot;&quot;
+    Write-Host &quot;Kell staging környezet? (tesztelés élesítés előtt)&quot; -ForegroundColor Yellow
+    Write-Host &quot;  [0] Nem kell&quot; -ForegroundColor White
+    Write-Host &quot;  [1] Igen — legyen külön staging szerver (pl. staging.sdh.hu)&quot; -ForegroundColor White
+    $stagingValasztas = Read-Host &quot;Szám&quot;
+    $stagingKell = ($stagingValasztas -eq &quot;1&quot;)
 
     if ($stagingKell) {
-        Write-Host ""
-        Write-Host "FTP adatok — STAGING szerver:" -ForegroundColor Yellow
-        $ftpStagingServer = Read-Host "  FTP szerver (pl. ftp.sdh.hu — ugyanaz lehet)"
-        $ftpStagingUser   = Read-Host "  FTP felhasználónév"
-        $ftpStagingPass   = Read-Host "  FTP jelszó"
-        $ftpStagingDir    = Read-Host "  FTP célmappa (pl. /public_html/staging/)"
+        Write-Host &quot;&quot;
+        Write-Host &quot;FTP adatok — STAGING szerver:&quot; -ForegroundColor Yellow
+        $ftpStagingServer = Read-Host &quot;  FTP szerver (pl. ftp.sdh.hu — ugyanaz lehet)&quot;
+        $ftpStagingUser   = Read-Host &quot;  FTP felhasználónév&quot;
+        $ftpStagingPass   = Read-Host &quot;  FTP jelszó&quot;
+        $ftpStagingDir    = Read-Host &quot;  FTP célmappa (pl. /public_html/staging/)&quot;
     }
-    Write-Host ""
+    Write-Host &quot;&quot;
 }
 
-Write-Host "Több fejlesztő dolgozik a projekten?" -ForegroundColor Yellow
-Write-Host "  [0] Nem — csak én  ← ENTER" -ForegroundColor Green
-Write-Host "  [1] Igen — legyen branching stratégia (main/staging/develop)" -ForegroundColor White
-$branchingValasztas = Read-Host "Szám (ENTER = 0)"
-if ([string]::IsNullOrWhiteSpace($branchingValasztas)) { $branchingValasztas = "0" }
-$branchingKell = ($branchingValasztas -eq "1")
-Write-Host ""
+Write-Host &quot;Több fejlesztő dolgozik a projekten?&quot; -ForegroundColor Yellow
+Write-Host &quot;  [0] Nem — csak én  ← ENTER&quot; -ForegroundColor Green
+Write-Host &quot;  [1] Igen — legyen branching stratégia (main/staging/develop)&quot; -ForegroundColor White
+$branchingValasztas = Read-Host &quot;Szám (ENTER = 0)&quot;
+if ([string]::IsNullOrWhiteSpace($branchingValasztas)) { $branchingValasztas = &quot;0&quot; }
+$branchingKell = ($branchingValasztas -eq &quot;1&quot;)
+Write-Host &quot;&quot;
 
 # ── 1. Projekt típus ─────────────────────────────────────────────────────────
 
-Write-Host "Milyen projekten dolgozol?" -ForegroundColor Yellow
-Write-Host "  [0] WordPress" -ForegroundColor White
-Write-Host "  [1] HTML / CSS / JS (statikus)" -ForegroundColor White
-Write-Host "  [2] React / Vue / Node.js" -ForegroundColor White
-Write-Host "  [3] Laravel / PHP" -ForegroundColor White
-Write-Host "  [4] Egyéb / bármi más" -ForegroundColor White
-$tipusValasztas = Read-Host "Szám"
+Write-Host &quot;Milyen projekten dolgozol?&quot; -ForegroundColor Yellow
+Write-Host &quot;  [0] WordPress&quot; -ForegroundColor White
+Write-Host &quot;  [1] HTML / CSS / JS (statikus)&quot; -ForegroundColor White
+Write-Host &quot;  [2] React / Vue / Node.js&quot; -ForegroundColor White
+Write-Host &quot;  [3] Laravel / PHP&quot; -ForegroundColor White
+Write-Host &quot;  [4] Egyéb / bármi más&quot; -ForegroundColor White
+$tipusValasztas = Read-Host &quot;Szám&quot;
+
+# ── 1b. GitHub URL (korán kérdezzük, hogy a mappa javaslathoz felhasználhassuk) ──
+
+Write-Host &quot;`nGitHub repo URL? (ENTER = kihagyom)&quot; -ForegroundColor Yellow
+Write-Host &quot;  pl. https://github.com/koltainorbert/ujprojekt&quot; -ForegroundColor DarkGray
+$githubUrl = Read-Host &quot;GitHub URL&quot;
+if ($githubUrl -and $githubUrl -notmatch &#x27;^https?://&#x27;) { $githubUrl = &quot;https://$githubUrl&quot; }
+if ($githubUrl -and $githubUrl -notmatch &#x27;\.git$&#x27;) { $githubUrl = &quot;$githubUrl.git&quot; }
+
+# Repo névből javasolt mappa
+$repoNev = &quot;&quot;
+if (-not [string]::IsNullOrWhiteSpace($githubUrl)) {
+    $repoNev = ($githubUrl -replace &#x27;\.git$&#x27;,&#x27;&#x27;) -replace &#x27;.+/&#x27;,&#x27;&#x27;
+}
 
 # ── 2. Projekt mappa ─────────────────────────────────────────────────────────
 
-Write-Host "`nHol van a projekt gyökér mappája?" -ForegroundColor Yellow
+Write-Host &quot;`nHol van a projekt gyökér mappája?&quot; -ForegroundColor Yellow
 
 switch ($tipusValasztas) {
-    "0" {
-        Write-Host "  pl. D:\LocalWP\sdh2026\app\public\wp-content\themes\bricks-child" -ForegroundColor DarkGray
-        Write-Host "  ENTER = automatikus keresés D:\LocalWP-ben" -ForegroundColor DarkGray
-        $projektMappa = Read-Host "Mappa"
+    &quot;0&quot; {
+        Write-Host &quot;  pl. D:\LocalWP\sdh2026\app\public\wp-content\themes\bricks-child&quot; -ForegroundColor DarkGray
+        Write-Host &quot;  ENTER = automatikus keresés D:\LocalWP-ben&quot; -ForegroundColor DarkGray
+        $projektMappa = Read-Host &quot;Mappa&quot;
         if ([string]::IsNullOrWhiteSpace($projektMappa)) {
-            $temak = Get-ChildItem "D:\LocalWP" -Recurse -Filter "themes" -Directory -ErrorAction SilentlyContinue | Select-Object -First 5
+            $temak = Get-ChildItem &quot;D:\LocalWP&quot; -Recurse -Filter &quot;themes&quot; -Directory -ErrorAction SilentlyContinue | Select-Object -First 5
             if ($temak.Count -ge 1) {
                 $egyTemak = @()
                 foreach ($t in $temak) {
-                    $egyTemak += Get-ChildItem $t.FullName -Directory | Where-Object { $_.Name -notmatch "^twenty" }
+                    $egyTemak += Get-ChildItem $t.FullName -Directory | Where-Object { $_.Name -notmatch &quot;^twenty&quot; }
                 }
-                Write-Host "`nElérhető témák:" -ForegroundColor Yellow
+                Write-Host &quot;`nElérhető témák:&quot; -ForegroundColor Yellow
                 for ($i = 0; $i -lt $egyTemak.Count; $i++) {
-                    Write-Host "  [$i] $($egyTemak[$i].FullName)" -ForegroundColor White
+                    Write-Host &quot;  [$i] $($egyTemak[$i].FullName)&quot; -ForegroundColor White
                 }
-                $tv = Read-Host "Szám"
+                $tv = Read-Host &quot;Szám&quot;
                 $projektMappa = $egyTemak[[int]$tv].FullName
             } else {
-                Write-Host "Nem találtam témát. Add meg manuálisan." -ForegroundColor Red
+                Write-Host &quot;Nem találtam témát. Add meg manuálisan.&quot; -ForegroundColor Red
                 exit 1
             }
         }
     }
     default {
-        Write-Host "  pl. D:\projektek\ujoldal" -ForegroundColor DarkGray
-        Write-Host "  pl. C:\Users\SDH\Documents\react-app" -ForegroundColor DarkGray
-        $projektMappa = Read-Host "Mappa"
+        if ($repoNev) {
+            $javasolt = &quot;C:\Users\$env:USERNAME\projektek\$repoNev&quot;
+            Write-Host &quot;  Javaslat (repo alapjan): $javasolt&quot; -ForegroundColor Green
+            Write-Host &quot;  ENTER = ezt hasznalja, vagy irj mas eleresi utat&quot; -ForegroundColor DarkGray
+        } else {
+            Write-Host &quot;  pl. D:\projektek\ujoldal&quot; -ForegroundColor DarkGray
+            Write-Host &quot;  pl. C:\Users\SDH\Documents\react-app&quot; -ForegroundColor DarkGray
+        }
+        $projektMappa = Read-Host &quot;Mappa&quot;
         if ([string]::IsNullOrWhiteSpace($projektMappa)) {
-            $projektMappa = Get-Location
+            $projektMappa = if ($repoNev) { &quot;C:\Users\$env:USERNAME\projektek\$repoNev&quot; } else { Get-Location }
         }
     }
 }
 
 if (-not (Test-Path $projektMappa)) {
-    Write-Host "Nem létezik: $projektMappa — létrehozom." -ForegroundColor Yellow
+    Write-Host &quot;Nem létezik: $projektMappa — létrehozom.&quot; -ForegroundColor Yellow
     New-Item -ItemType Directory -Force -Path $projektMappa | Out-Null
 }
 
 Set-Location $projektMappa
-New-Item -ItemType Directory -Force -Path ".vscode" | Out-Null
-New-Item -ItemType Directory -Force -Path ".github" | Out-Null
+New-Item -ItemType Directory -Force -Path &quot;.vscode&quot; | Out-Null
+New-Item -ItemType Directory -Force -Path &quot;.github&quot; | Out-Null
 
 # ── 3. Site URL / port ────────────────────────────────────────────────────────
 
-Write-Host "`nMi az oldal URL-je vagy dev szervere?" -ForegroundColor Yellow
+Write-Host &quot;`nMi az oldal URL-je vagy dev szervere?&quot; -ForegroundColor Yellow
 switch ($tipusValasztas) {
-    "0" { Write-Host "  pl. sdh2026.local   VAGY   https://sdh.hu" -ForegroundColor DarkGray }
-    "1" { Write-Host "  pl. . (pont = jelenlegi mappa, statikus fájlok)" -ForegroundColor DarkGray }
-    "2" { Write-Host "  pl. localhost:5173   VAGY   localhost:3000" -ForegroundColor DarkGray }
-    "3" { Write-Host "  pl. localhost:8000   VAGY   sajatoldal.test" -ForegroundColor DarkGray }
-    default { Write-Host "  pl. localhost:3000" -ForegroundColor DarkGray }
+    &quot;0&quot; { Write-Host &quot;  pl. sdh2026.local   VAGY   https://sdh.hu&quot; -ForegroundColor DarkGray }
+    &quot;1&quot; { Write-Host &quot;  pl. . (pont = jelenlegi mappa, statikus fájlok)&quot; -ForegroundColor DarkGray }
+    &quot;2&quot; { Write-Host &quot;  pl. localhost:5173   VAGY   localhost:3000&quot; -ForegroundColor DarkGray }
+    &quot;3&quot; { Write-Host &quot;  pl. localhost:8000   VAGY   sajatoldal.test&quot; -ForegroundColor DarkGray }
+    default { Write-Host &quot;  pl. localhost:3000&quot; -ForegroundColor DarkGray }
 }
-$siteUrl = (Read-Host "URL").TrimEnd("/")
-if ([string]::IsNullOrWhiteSpace($siteUrl)) { $siteUrl = "localhost:3000" }
-$proxyUrl = $siteUrl -replace "^https?://", ""
+$siteUrl = (Read-Host &quot;URL&quot;).TrimEnd(&quot;/&quot;)
+if ([string]::IsNullOrWhiteSpace($siteUrl)) { $siteUrl = &quot;localhost:3000&quot; }
+$proxyUrl = $siteUrl -replace &quot;^https?://&quot;, &quot;&quot;
 
 # Browser Sync mód: proxy vagy statikus
-$bsCommand = if ($tipusValasztas -eq "1") {
-    "npx browser-sync start --server --files '**/*.css,**/*.html,**/*.js' --port 3000 --open"
+$bsCommand = if ($tipusValasztas -eq &quot;1&quot;) {
+    &quot;npx browser-sync start --server --files &#x27;**/*.css,**/*.html,**/*.js&#x27; --port 3000 --open&quot;
 } else {
-    "npx browser-sync start --proxy '$proxyUrl' --files '**/*.css,**/*.php,**/*.js,**/*.html' --port 3000 --open"
+    &quot;npx browser-sync start --proxy &#x27;$proxyUrl&#x27; --files &#x27;**/*.css,**/*.php,**/*.js,**/*.html&#x27; --port 3000 --open&quot;
 }
 
-# ── 4. GitHub ─────────────────────────────────────────────────────────────────
-
-Write-Host "`nGitHub repo URL? (ENTER = kihagyom)" -ForegroundColor Yellow
-Write-Host "  pl. https://github.com/koltainorbert/ujprojekt.git" -ForegroundColor DarkGray
-$githubUrl = Read-Host "GitHub URL"
-if ($githubUrl -and $githubUrl -notmatch '^https?://') { $githubUrl = "https://$githubUrl" }
-if ($githubUrl -and $githubUrl -notmatch '\.git$') { $githubUrl = "$githubUrl.git" }
+# ── 4. GitHub — már megvan fentről ───────────────────────────────────────────
 
 # ── 5. Fájlok létrehozása ─────────────────────────────────────────────────────
 
-Write-Host "`n[1/5] VS Code tasks..." -ForegroundColor Yellow
-@"
+Write-Host &quot;`n[1/5] VS Code tasks...&quot; -ForegroundColor Yellow
+@&quot;
 {
-  "version": "2.0.0",
-  "tasks": [
+  &quot;version&quot;: &quot;2.0.0&quot;,
+  &quot;tasks&quot;: [
     {
-      "label": "⬆ Push (feltöltés GitHubra)",
-      "type": "shell",
-      "command": "git add . &amp;&amp; git diff --cached --quiet &amp;&amp; echo 'Nincs változás.' || (git commit -m \\"Mentés `$(Get-Date -Format 'yyyy.MM.dd HH:mm')\\" &amp;&amp; git push &amp;&amp; echo 'Kész!')",
-      "options": { "cwd": "`${workspaceFolder}" },
-      "group": { "kind": "build", "isDefault": true },
-      "presentation": { "reveal": "always", "panel": "shared", "clear": true },
-      "problemMatcher": []
+      &quot;label&quot;: &quot;⬆ Push (feltöltés GitHubra)&quot;,
+      &quot;type&quot;: &quot;shell&quot;,
+      &quot;command&quot;: &quot;git add . ; `$d = git diff --cached --quiet ; if (`$LASTEXITCODE -ne 0) { `$msg = &#x27;Mentes_&#x27; + (Get-Date -Format &#x27;yyyy.MM.dd_HH.mm&#x27;) ; git commit -m `$msg ; git push ; Write-Host &#x27;Kesz!&#x27; } else { Write-Host &#x27;Nincs valtozas.&#x27; }&quot;,
+      &quot;options&quot;: { &quot;cwd&quot;: &quot;`${workspaceFolder}&quot; },
+      &quot;group&quot;: { &quot;kind&quot;: &quot;build&quot;, &quot;isDefault&quot;: true },
+      &quot;presentation&quot;: { &quot;reveal&quot;: &quot;always&quot;, &quot;panel&quot;: &quot;shared&quot;, &quot;clear&quot;: true },
+      &quot;problemMatcher&quot;: []
     },
     {
-      "label": "↩ Visszagörgetés (undo napra/verzióra)",
-      "type": "shell",
-      "command": "powershell -ExecutionPolicy Bypass -Command \"`$commits = git log --oneline -20; `$i=0; `$lista = `$commits | ForEach-Object { `$i++; \"[`$i] `$_\" }; `$lista; `$v = Read-Host 'Melyik verzióhoz mész vissza? (szám)'; `$hash = (`$commits[([int]`$v)-1] -split ' ')[0]; Write-Host \"Visszaállítás: `$hash\" -ForegroundColor Yellow; `$mod = Read-Host 'Biztosan? (i/n)'; if (`$mod -eq 'i') { git checkout `$hash -- . ; git add . ; git commit -m \"Visszaallitas `$hash – `$(Get-Date -Format 'yyyy.MM.dd HH:mm')\" ; Write-Host 'Kész!' -ForegroundColor Green } else { Write-Host 'Megszakítva.' -ForegroundColor Red }\"",
-      "options": { "cwd": "`${workspaceFolder}" },
-      "group": "none",
-      "presentation": { "reveal": "always", "panel": "shared", "clear": true },
-      "problemMatcher": []
+      &quot;label&quot;: &quot;↩ Visszagörgetés (undo napra/verzióra)&quot;,
+      &quot;type&quot;: &quot;shell&quot;,
+      &quot;command&quot;: &quot;powershell -ExecutionPolicy Bypass -Command \&quot;`$commits = git log --oneline -20; `$i=0; `$lista = `$commits | ForEach-Object { `$i++; \&quot;[`$i] `$_\&quot; }; `$lista; `$v = Read-Host &#x27;Melyik verzióhoz mész vissza? (szám)&#x27;; `$hash = (`$commits[([int]`$v)-1] -split &#x27; &#x27;)[0]; Write-Host \&quot;Visszaállítás: `$hash\&quot; -ForegroundColor Yellow; `$mod = Read-Host &#x27;Biztosan? (i/n)&#x27;; if (`$mod -eq &#x27;i&#x27;) { git checkout `$hash -- . ; git add . ; git commit -m \&quot;Visszaallitas `$hash – `$(Get-Date -Format &#x27;yyyy.MM.dd HH:mm&#x27;)\&quot; ; Write-Host &#x27;Kész!&#x27; -ForegroundColor Green } else { Write-Host &#x27;Megszakítva.&#x27; -ForegroundColor Red }\&quot;&quot;,
+      &quot;options&quot;: { &quot;cwd&quot;: &quot;`${workspaceFolder}&quot; },
+      &quot;group&quot;: &quot;none&quot;,
+      &quot;presentation&quot;: { &quot;reveal&quot;: &quot;always&quot;, &quot;panel&quot;: &quot;shared&quot;, &quot;clear&quot;: true },
+      &quot;problemMatcher&quot;: []
     },
     {
-      "label": "⬇ Pull (frissítés GitHubról)",
-      "type": "shell",
-      "command": "git pull ; Write-Host 'Kesz!'",
-      "options": { "cwd": "`${workspaceFolder}" },
-      "group": "none",
-      "presentation": { "reveal": "always", "panel": "shared", "clear": true },
-      "problemMatcher": []
+      &quot;label&quot;: &quot;⬇ Pull (frissítés GitHubról)&quot;,
+      &quot;type&quot;: &quot;shell&quot;,
+      &quot;command&quot;: &quot;git pull ; Write-Host &#x27;Kész!&#x27;&quot;,
+      &quot;options&quot;: { &quot;cwd&quot;: &quot;`${workspaceFolder}&quot; },
+      &quot;group&quot;: &quot;none&quot;,
+      &quot;presentation&quot;: { &quot;reveal&quot;: &quot;always&quot;, &quot;panel&quot;: &quot;shared&quot;, &quot;clear&quot;: true },
+      &quot;problemMatcher&quot;: []
     },
     {
-      "label": "▶ Napló Watcher (auto-napló + auto-push)",
-      "type": "shell",
-      "command": "powershell -ExecutionPolicy Bypass -File .vscode/naplo-watcher.ps1",
-      "options": { "cwd": "`${workspaceFolder}" },
-      "group": "none",
-      "isBackground": true,
-      "runOptions": { "runOn": "folderOpen" },
-      "presentation": { "reveal": "silent", "panel": "dedicated", "clear": true },
-      "problemMatcher": []
+      &quot;label&quot;: &quot;▶ Napló Watcher (auto-napló + auto-push)&quot;,
+      &quot;type&quot;: &quot;shell&quot;,
+      &quot;command&quot;: &quot;powershell -ExecutionPolicy Bypass -File .vscode/naplo-watcher.ps1&quot;,
+      &quot;options&quot;: { &quot;cwd&quot;: &quot;`${workspaceFolder}&quot; },
+      &quot;group&quot;: &quot;none&quot;,
+      &quot;isBackground&quot;: true,
+      &quot;runOptions&quot;: { &quot;runOn&quot;: &quot;folderOpen&quot; },
+      &quot;presentation&quot;: { &quot;reveal&quot;: &quot;silent&quot;, &quot;panel&quot;: &quot;dedicated&quot;, &quot;clear&quot;: true },
+      &quot;problemMatcher&quot;: []
     },
     {
-      "label": "🌐 Browser Sync",
-      "type": "shell",
-      "command": "$bsCommand",
-      "options": { "cwd": "`${workspaceFolder}" },
-      "group": "none",
-      "isBackground": true,
-      "presentation": { "reveal": "always", "panel": "dedicated" },
-      "problemMatcher": []
+      &quot;label&quot;: &quot;🌐 Browser Sync&quot;,
+      &quot;type&quot;: &quot;shell&quot;,
+      &quot;command&quot;: &quot;$bsCommand&quot;,
+      &quot;options&quot;: { &quot;cwd&quot;: &quot;`${workspaceFolder}&quot; },
+      &quot;group&quot;: &quot;none&quot;,
+      &quot;isBackground&quot;: true,
+      &quot;presentation&quot;: { &quot;reveal&quot;: &quot;always&quot;, &quot;panel&quot;: &quot;dedicated&quot; },
+      &quot;problemMatcher&quot;: []
     }
   ]
 }
-"@ | Set-Content ".vscode/tasks.json" -Encoding UTF8
+&quot;@ | Set-Content &quot;.vscode/tasks.json&quot; -Encoding UTF8
 
-Write-Host "[2/5] Napló watcher script..." -ForegroundColor Yellow
-@'
+Write-Host &quot;[2/5] Napló watcher script...&quot; -ForegroundColor Yellow
+@&#x27;
 $temaMappa = (Get-Location).Path
-$naplo = "$temaMappa\NAPLO.md"
-Write-Host "Naplo watcher elindult..." -ForegroundColor Green
-$utolso = ""
+$naplo = &quot;$temaMappa\NAPLO.md&quot;
+Write-Host &quot;Naplo watcher elindult...&quot; -ForegroundColor Green
+$utolso = &quot;&quot;
 while ($true) {
     $most  = Get-Date
-    $datum = $most.ToString("yyyy. MMMM dd.")
-    $ido   = $most.ToString("HH:mm")
-    $fajlok = @(git diff --name-only HEAD 2&gt;$null) + @(git ls-files --others --exclude-standard 2&gt;$null) | Where-Object { $_ -ne "" }
+    $datum = $most.ToString(&quot;yyyy. MMMM dd.&quot;)
+    $ido   = $most.ToString(&quot;HH:mm&quot;)
+    $fajlok = @(git diff --name-only HEAD 2&gt;$null) + @(git ls-files --others --exclude-standard 2&gt;$null) | Where-Object { $_ -ne &quot;&quot; }
     if ($fajlok.Count -gt 0) {
-        $sor = "$ido — $($fajlok -join ', ')"
+        $sor = &quot;$ido — $($fajlok -join &#x27;, &#x27;)&quot;
         if ($sor -ne $utolso) {
             $utolso = $sor
             $tartalom = Get-Content $naplo -Raw -Encoding UTF8
-            if ($tartalom -match [regex]::Escape("## $datum")) {
-                $tartalom = $tartalom -replace "(?m)(## $([regex]::Escape($datum))[\s\S]*?)(---)", "`$1- $sor`n`$2"
+            if ($tartalom -match [regex]::Escape(&quot;## $datum&quot;)) {
+                $tartalom = $tartalom -replace &quot;(?m)(## $([regex]::Escape($datum))[\s\S]*?)(---)&quot;, &quot;`$1- $sor`n`$2&quot;
             } else {
-                $tartalom += "`n## $datum`n`n### Valtozasok:`n- $sor`n`n---`n"
+                $tartalom += &quot;`n## $datum`n`n### Valtozasok:`n- $sor`n`n---`n&quot;
             }
             Set-Content $naplo $tartalom -Encoding UTF8
             git add .
             git diff --cached --quiet
             if ($LASTEXITCODE -ne 0) {
-                git commit -m "Auto $ido — $($fajlok -join ', ')"
+                git commit -m &quot;Auto $ido — $($fajlok -join &#x27;, &#x27;)&quot;
                 git push
-                Write-Host "[$ido] Pushed: $($fajlok -join ', ')" -ForegroundColor Green
+                Write-Host &quot;[$ido] Pushed: $($fajlok -join &#x27;, &#x27;)&quot; -ForegroundColor Green
             }
         }
     } else {
-        Write-Host "[$ido] Nincs valtozas." -ForegroundColor DarkGray
+        Write-Host &quot;[$ido] Nincs valtozas.&quot; -ForegroundColor DarkGray
     }
     Start-Sleep -Seconds 60
 }
-'@ | Set-Content ".vscode/naplo-watcher.ps1" -Encoding UTF8
+&#x27;@ | Set-Content &quot;.vscode/naplo-watcher.ps1&quot; -Encoding UTF8
 
-Write-Host "[3/5] NAPLO.md..." -ForegroundColor Yellow
-@"
+Write-Host &quot;[3/5] NAPLO.md...&quot; -ForegroundColor Yellow
+@&quot;
 # Fejlesztési Napló
 
 ---
 
-## $(Get-Date -Format 'yyyy. MMMM dd.')
+## $(Get-Date -Format &#x27;yyyy. MMMM dd.&#x27;)
 
 ### Ma elvégezve:
 - Projekt beállítás, munkakörnyezet felállítva
@@ -673,13 +572,13 @@ Write-Host "[3/5] NAPLO.md..." -ForegroundColor Yellow
 - [ ]
 
 ---
-"@ | Set-Content "NAPLO.md" -Encoding UTF8
+&quot;@ | Set-Content &quot;NAPLO.md&quot; -Encoding UTF8
 
-Write-Host "[4/6] GitHub Actions deploy workflow..." -ForegroundColor Yellow
-New-Item -ItemType Directory -Force -Path ".github/workflows" | Out-Null
+Write-Host &quot;[4/6] GitHub Actions deploy workflow...&quot; -ForegroundColor Yellow
+New-Item -ItemType Directory -Force -Path &quot;.github/workflows&quot; | Out-Null
 if ($elesDeployKell) {
     # ÉLES deploy workflow (main branch)
-@"
+@&quot;
 name: Deploy ÉLES szerverre (FTP)
 on:
   push:
@@ -701,11 +600,11 @@ jobs:
             **/.vscode/**
             **/NAPLO.md
             **/NAPI-MUNKAREND.txt
-"@ | Set-Content ".github/workflows/deploy-production.yml" -Encoding UTF8
+&quot;@ | Set-Content &quot;.github/workflows/deploy-production.yml&quot; -Encoding UTF8
 
     # STAGING deploy workflow (staging branch)
     if ($stagingKell) {
-@"
+@&quot;
 name: Deploy STAGING szerverre (FTP)
 on:
   push:
@@ -727,13 +626,13 @@ jobs:
             **/.vscode/**
             **/NAPLO.md
             **/NAPI-MUNKAREND.txt
-"@ | Set-Content ".github/workflows/deploy-staging.yml" -Encoding UTF8
+&quot;@ | Set-Content &quot;.github/workflows/deploy-staging.yml&quot; -Encoding UTF8
     }
 
     # GitHub Secrets beállítása
     $ghCheck = Get-Command gh -ErrorAction SilentlyContinue
     if ($ghCheck -and -not [string]::IsNullOrWhiteSpace($githubUrl)) {
-        $repoPath = $githubUrl -replace "https://github.com/","" -replace "\.git$",""
+        $repoPath = $githubUrl -replace &quot;https://github.com/&quot;,&quot;&quot; -replace &quot;\.git$&quot;,&quot;&quot;
         gh secret set FTP_SERVER     --body $ftpServer --repo $repoPath 2&gt;$null
         gh secret set FTP_USERNAME   --body $ftpUser   --repo $repoPath 2&gt;$null
         gh secret set FTP_PASSWORD   --body $ftpPass   --repo $repoPath 2&gt;$null
@@ -744,23 +643,30 @@ jobs:
             gh secret set FTP_STAGING_PASSWORD --body $ftpStagingPass   --repo $repoPath 2&gt;$null
             gh secret set FTP_STAGING_DIR      --body $ftpStagingDir    --repo $repoPath 2&gt;$null
         }
-        Write-Host "  GitHub Secrets beállítva automatikusan!" -ForegroundColor Green
+        Write-Host &quot;  GitHub Secrets beállítva automatikusan!&quot; -ForegroundColor Green
     } else {
-        Write-Host ""
-        Write-Host "  !! Kézzel add meg a GitHub Secrets-t:" -ForegroundColor Yellow
-        Write-Host "  github.com → repo → Settings → Secrets → Actions" -ForegroundColor DarkGray
-        Write-Host "  FTP_SERVER=$ftpServer | FTP_USERNAME=$ftpUser | FTP_SERVER_DIR=$ftpDir" -ForegroundColor White
+        Write-Host &quot;&quot;
+        Write-Host &quot;  !! Kézzel add meg a GitHub Secrets-t:&quot; -ForegroundColor Yellow
+        Write-Host &quot;  github.com → repo → Settings → Secrets → Actions&quot; -ForegroundColor DarkGray
+        Write-Host &quot;  FTP_SERVER=$ftpServer | FTP_USERNAME=$ftpUser | FTP_SERVER_DIR=$ftpDir&quot; -ForegroundColor White
         if ($stagingKell) {
-            Write-Host "  FTP_STAGING_SERVER=$ftpStagingServer | FTP_STAGING_DIR=$ftpStagingDir" -ForegroundColor White
+            Write-Host &quot;  FTP_STAGING_SERVER=$ftpStagingServer | FTP_STAGING_DIR=$ftpStagingDir&quot; -ForegroundColor White
         }
-        Write-Host ""
+        Write-Host &quot;&quot;
     }
 } else {
-    Write-Host "  Csak lokális projekt — deploy kihagyva." -ForegroundColor DarkGray
+    Write-Host &quot;  Csak lokális projekt — deploy kihagyva.&quot; -ForegroundColor DarkGray
 }
 
-Write-Host "[5/6] Copilot instrukciók..." -ForegroundColor Yellow
-@"
+Write-Host &quot;[5/6] VS Code beállítások (auto-task engedélyezés)...&quot; -ForegroundColor Yellow
+@&quot;
+{
+  &quot;task.allowAutomaticTasks&quot;: &quot;on&quot;
+}
+&quot;@ | Set-Content &quot;.vscode/settings.json&quot; -Encoding UTF8
+
+Write-Host &quot;[6/7] Copilot instrukciók...&quot; -ForegroundColor Yellow
+@&quot;
 # Copilot Instrukciók
 
 ## URL: $siteUrl
@@ -782,10 +688,10 @@ Write-Host "[5/6] Copilot instrukciók..." -ForegroundColor Yellow
 - color:#fff, accent: #ff0000, háttér: rgb(6,6,6) + dot grid
 - Corner cut: ::after linear-gradient(225deg,#ff0000 50%,transparent 50%)
 - CSS prefix egyedi oldalanként, min-height:100vh minden wrapper-en
-"@ | Set-Content ".github/copilot-instructions.md" -Encoding UTF8
+&quot;@ | Set-Content &quot;.github/copilot-instructions.md&quot; -Encoding UTF8
 
-Write-Host "[6/6] NAPI-MUNKAREND.txt..." -ForegroundColor Yellow
-@"
+Write-Host &quot;[7/7] NAPI-MUNKAREND.txt...&quot; -ForegroundColor Yellow
+@&quot;
 ========================================
   NAPI MUNKAREND
 ========================================
@@ -801,111 +707,126 @@ ESTE:
 !! EGYSZER (első megnyitáskor):
   Ctrl+Shift+P → Manage Automatic Tasks → Allow
 ========================================
-"@ | Set-Content "NAPI-MUNKAREND.txt" -Encoding UTF8
+&quot;@ | Set-Content &quot;NAPI-MUNKAREND.txt&quot; -Encoding UTF8
 
 # ── 6. Git ────────────────────────────────────────────────────────────────────
 
-Write-Host "`n[GIT] Inicializálás..." -ForegroundColor Yellow
-if (-not (Test-Path ".git")) { git init }
-git config user.name "koltainorbert"
-git config user.email "koltainorbert@users.noreply.github.com"
+Write-Host &quot;`n[GIT] Inicializálás...&quot; -ForegroundColor Yellow
+if (-not (Test-Path &quot;.git&quot;)) { git init }
+git config user.name &quot;koltainorbert&quot;
+git config user.email &quot;koltainorbert@users.noreply.github.com&quot;
 git add .
-git commit -m "Projekt setup – initial commit"
+git commit -m &quot;Projekt setup – initial commit&quot;
 
 if (-not [string]::IsNullOrWhiteSpace($githubUrl)) {
     git branch -M main
     $remoteCheck = git remote 2&gt;$null
-    if ($remoteCheck -notcontains "origin") { git remote add origin $githubUrl }
+    if ($remoteCheck -notcontains &quot;origin&quot;) { git remote add origin $githubUrl }
     git pull origin main --allow-unrelated-histories 2&gt;$null
     git push -u origin main
 
     if ($stagingKell -or $branchingKell) {
-        Write-Host "`n[BRANCH] Branch stratégia beállítása..." -ForegroundColor Yellow
+        Write-Host &quot;`n[BRANCH] Branch stratégia beállítása...&quot; -ForegroundColor Yellow
         # staging branch
         git checkout -b staging
         git push -u origin staging
-        Write-Host "  staging branch létrehozva → deploy-staging.yml figyeli" -ForegroundColor Green
+        Write-Host &quot;  staging branch létrehozva → deploy-staging.yml figyeli&quot; -ForegroundColor Green
         # develop branch (ha többen dolgoznak)
         if ($branchingKell) {
             git checkout -b develop
             git push -u origin develop
-            Write-Host "  develop branch létrehozva → itt fejlesztesz, staging-be merge-lsz" -ForegroundColor Green
+            Write-Host &quot;  develop branch létrehozva → itt fejlesztesz, staging-be merge-lsz&quot; -ForegroundColor Green
         }
         # vissza a main-re
         git checkout main
 
-        Write-Host ""
-        Write-Host "  Branch munkafolyamat:" -ForegroundColor Cyan
+        Write-Host &quot;&quot;
+        Write-Host &quot;  Branch munkafolyamat:&quot; -ForegroundColor Cyan
         if ($branchingKell) {
-            Write-Host "  develop  → itt fejlesztesz" -ForegroundColor White
-            Write-Host "  staging  → tesztelés (staging.sdh.hu-n jelenik meg)" -ForegroundColor White
-            Write-Host "  main     → éles (sdh.hu-n jelenik meg)" -ForegroundColor White
-            Write-Host ""
-            Write-Host "  Parancsok:" -ForegroundColor DarkGray
-            Write-Host "  git checkout develop        # fejlesztés" -ForegroundColor DarkGray
-            Write-Host "  git merge develop staging   # tesztelésre" -ForegroundColor DarkGray
-            Write-Host "  git merge staging main      # élesítés" -ForegroundColor DarkGray
+            Write-Host &quot;  develop  → itt fejlesztesz&quot; -ForegroundColor White
+            Write-Host &quot;  staging  → tesztelés (staging.sdh.hu-n jelenik meg)&quot; -ForegroundColor White
+            Write-Host &quot;  main     → éles (sdh.hu-n jelenik meg)&quot; -ForegroundColor White
+            Write-Host &quot;&quot;
+            Write-Host &quot;  Parancsok:&quot; -ForegroundColor DarkGray
+            Write-Host &quot;  git checkout develop        # fejlesztés&quot; -ForegroundColor DarkGray
+            Write-Host &quot;  git merge develop staging   # tesztelésre&quot; -ForegroundColor DarkGray
+            Write-Host &quot;  git merge staging main      # élesítés&quot; -ForegroundColor DarkGray
         } else {
-            Write-Host "  staging  → tesztelés (staging szerveren jelenik meg)" -ForegroundColor White
-            Write-Host "  main     → éles (push = deploy élesre)" -ForegroundColor White
+            Write-Host &quot;  staging  → tesztelés (staging szerveren jelenik meg)&quot; -ForegroundColor White
+            Write-Host &quot;  main     → éles (push = deploy élesre)&quot; -ForegroundColor White
         }
     } else {
-        Write-Host "  GitHub push kész!" -ForegroundColor Green
+        Write-Host &quot;  GitHub push kész!&quot; -ForegroundColor Green
     }
 }
 
 # ── Task Scheduler (biztonsági auto-mentés) ───────────────────────────────────
 
-Write-Host "`n[BIZTONSÁGI MENTÉS] Task Scheduler beállítása..." -ForegroundColor Yellow
-$scriptPath = "$projektMappa\.vscode\naplo-watcher-bg.ps1"
+Write-Host &quot;`n[BIZTONSÁGI MENTÉS] Task Scheduler beállítása...&quot; -ForegroundColor Yellow
+$scriptPath = &quot;$projektMappa\.vscode\naplo-watcher-bg.ps1&quot;
 
 # Background verzió (ablak nélkül, VS Code-tól független)
-@"
-Set-Location "$projektMappa"
-`$naplo = "$projektMappa\NAPLO.md"
-`$ido = Get-Date -Format 'HH:mm:ss'
-`$fajlok = @(git diff --name-only HEAD 2&gt;`$null) + @(git ls-files --others --exclude-standard 2&gt;`$null) | Where-Object { `$_ -ne "" }
+@&quot;
+Set-Location &quot;$projektMappa&quot;
+`$naplo = &quot;$projektMappa\NAPLO.md&quot;
+`$ido = Get-Date -Format &#x27;HH:mm:ss&#x27;
+`$fajlok = @(git diff --name-only HEAD 2&gt;`$null) + @(git ls-files --others --exclude-standard 2&gt;`$null) | Where-Object { `$_ -ne &quot;&quot; }
 if (`$fajlok.Count -gt 0) {
     git add .
     git diff --cached --quiet
     if (`$LASTEXITCODE -ne 0) {
-        git commit -m "AutoSave `$ido — `$(`$fajlok -join ', ')"
+        git commit -m &quot;AutoSave `$ido — `$(`$fajlok -join &#x27;, &#x27;)&quot;
         git push 2&gt;`$null
     }
 }
-"@ | Set-Content $scriptPath -Encoding UTF8
+&quot;@ | Set-Content $scriptPath -Encoding UTF8
 
-$taskName = "SDH-AutoSave-$(Split-Path $projektMappa -Leaf)"
-Start-Process powershell -Verb RunAs -ArgumentList @"
--ExecutionPolicy Bypass -Command "
-Unregister-ScheduledTask -TaskName '$taskName' -Confirm:`$false -ErrorAction SilentlyContinue;
-`$a = New-ScheduledTaskAction -Execute 'powershell.exe' -Argument '-ExecutionPolicy Bypass -WindowStyle Hidden -File ""$scriptPath""';
+$taskName = &quot;SDH-AutoSave-$(Split-Path $projektMappa -Leaf)&quot;
+Start-Process powershell -Verb RunAs -ArgumentList @&quot;
+-ExecutionPolicy Bypass -Command &quot;
+Unregister-ScheduledTask -TaskName &#x27;$taskName&#x27; -Confirm:`$false -ErrorAction SilentlyContinue;
+`$a = New-ScheduledTaskAction -Execute &#x27;powershell.exe&#x27; -Argument &#x27;-ExecutionPolicy Bypass -WindowStyle Hidden -File &quot;&quot;$scriptPath&quot;&quot;&#x27;;
 `$t1 = New-ScheduledTaskTrigger -AtLogOn;
 `$t2 = New-ScheduledTaskTrigger -RepetitionInterval (New-TimeSpan -Minutes 5) -Once -At (Get-Date);
 `$s = New-ScheduledTaskSettingsSet -StartWhenAvailable -ExecutionTimeLimit (New-TimeSpan -Minutes 2);
-Register-ScheduledTask -TaskName '$taskName' -Action `$a -Trigger `$t1 -Settings `$s -RunLevel Highest -Force;
-Write-Host 'Task beregisztralva!'; Start-Sleep 2"
-"@ -Wait -WindowStyle Normal
+Register-ScheduledTask -TaskName &#x27;$taskName&#x27; -Action `$a -Trigger `$t1 -Settings `$s -RunLevel Highest -Force;
+Write-Host &#x27;Task beregisztralva!&#x27;; Start-Sleep 2&quot;
+&quot;@ -Wait -WindowStyle Normal
 
 # ── Kész ──────────────────────────────────────────────────────────────────────
 
-Write-Host "`n========================================" -ForegroundColor Green
-Write-Host "  KÉSZ! Indulhatsz dolgozni." -ForegroundColor Green
-Write-Host "========================================" -ForegroundColor Green
-Write-Host "  Projekt:      $projektMappa" -ForegroundColor White
-Write-Host "  URL:          $siteUrl" -ForegroundColor White
+Write-Host &quot;`n========================================&quot; -ForegroundColor Green
+Write-Host &quot;  KÉSZ! Indulhatsz dolgozni.&quot; -ForegroundColor Green
+Write-Host &quot;========================================&quot; -ForegroundColor Green
+Write-Host &quot;  Projekt:      $projektMappa&quot; -ForegroundColor White
+Write-Host &quot;  URL:          $siteUrl&quot; -ForegroundColor White
 if (-not [string]::IsNullOrWhiteSpace($githubUrl)) {
-    Write-Host "  GitHub:       $githubUrl" -ForegroundColor White
+    Write-Host &quot;  GitHub:       $githubUrl&quot; -ForegroundColor White
 }
-Write-Host ""
-Write-Host "  Ctrl+Shift+B         = Push GitHubra" -ForegroundColor Cyan
-Write-Host "  Pull Task            = Letöltés" -ForegroundColor Cyan
-Write-Host "  Browser Sync Task    = Live preview" -ForegroundColor Cyan
-Write-Host "  Auto-mentés          = 5 percenként (Task Scheduler)" -ForegroundColor Cyan
-Write-Host ""
-Write-Host "  !! Ctrl+Shift+P → Manage Automatic Tasks → Allow" -ForegroundColor Yellow
-Write-Host "     (ha még nem tetted meg egyszer)" -ForegroundColor Yellow
-Write-Host "========================================`n" -ForegroundColor Green
+Write-Host &quot;&quot;
+Write-Host &quot;  Ctrl+Shift+B         = Push GitHubra&quot; -ForegroundColor Cyan
+Write-Host &quot;  Pull Task            = Letöltés&quot; -ForegroundColor Cyan
+Write-Host &quot;  Browser Sync Task    = Live preview&quot; -ForegroundColor Cyan
+Write-Host &quot;  Auto-mentés          = 5 percenként (Task Scheduler)&quot; -ForegroundColor Cyan
+Write-Host &quot;&quot;
+Write-Host &quot;  Auto-task watcher     = automatikusan engedélyezve&quot; -ForegroundColor Cyan
+Write-Host &quot;========================================`n&quot; -ForegroundColor Green
+
+Write-Host &quot;VS Code megnyitasa: $projektMappa&quot; -ForegroundColor Cyan
+Start-Sleep -Seconds 1
+$vscodePaths = @(
+    &quot;$env:LOCALAPPDATA\Programs\Microsoft VS Code\Code.exe&quot;,
+    &quot;C:\Program Files\Microsoft VS Code\Code.exe&quot;,
+    &quot;C:\Program Files (x86)\Microsoft VS Code\Code.exe&quot;
+)
+$vscodeExe = $vscodePaths | Where-Object { Test-Path $_ } | Select-Object -First 1
+if ($vscodeExe) {
+    Start-Process $vscodeExe $projektMappa
+} elseif (Get-Command code -ErrorAction SilentlyContinue) {
+    code $projektMappa
+} else {
+    Write-Host &quot;VS Code nem talalhato. Nyisd meg manualisan: $projektMappa&quot; -ForegroundColor Yellow
+}
 </pre>
 <button class="expbtn" id="exp-ps1" onclick="expById('ps1-inline',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg> Összes sor megjelenítése</button></div>
 </div>
@@ -979,439 +900,7 @@ jobs:
             **/node_modules/**
             **/.vscode/**</pre></div>
 </div></section>
-<section id="projektleiras">
-<div class="wrap" style="padding-top:100px;padding-bottom:80px">
-
-  <div class="rv">
-    <div class="se">Dokumentáció &nbsp;·&nbsp; PDF-ready</div>
-    <h2 class="st">Komplett Projektleírás</h2>
-    <p class="ss">Teljes technikai dokumentáció a VS Code Munkaközeg Wizard rendszerről. Nyomtasd ki, mentsd PDF-ként, vagy oszd meg a linket — minden benne van, internet-kapcsolat sem kell.</p>
-    <div class="pl-actions">
-      <button onclick="window.print()" class="pl-print-btn">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-1-9H6v4h12V3z"/></svg>
-        PDF mentés / Nyomtatás
-      </button>
-      <a href="https://github.com/koltainorbert/VisualCode-Munkakornyezet" target="_blank" class="pl-repo-btn">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.168 6.839 9.49.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.604-3.369-1.34-3.369-1.34-.454-1.154-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836a9.59 9.59 0 012.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.741 0 .267.18.579.688.481C19.138 20.165 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
-        GitHub Repo
-      </a>
-    </div>
-  </div>
-
-  <div class="pl-meta-grid rv">
-    <div class="pl-meta-card"><strong>Projekt neve</strong>VS Code Munkaközeg Wizard</div>
-    <div class="pl-meta-card"><strong>Aktuális verzió</strong>v3.1 — 2026</div>
-    <div class="pl-meta-card"><strong>Repo</strong>koltainorbert / VisualCode-Munkakornyezet</div>
-    <div class="pl-meta-card"><strong>Típus</strong>PowerShell 5.1+ · HTML · GitHub Actions</div>
-    <div class="pl-meta-card"><strong>Kompatibilitás</strong>Windows 10/11 · VS Code 1.80+</div>
-    <div class="pl-meta-card"><strong>Telepítés</strong>Egy parancs — irm … | iex</div>
-  </div>
-
-  <!-- 01 -->
-  <div class="pl-section rv">
-    <h3 class="pl-h3"><span class="pl-num">01</span> Rendszer célja és koncepciója</h3>
-    <div class="pl-card">
-      <p>A <strong>VS Code Munkaközeg Wizard</strong> egy interaktív PowerShell-alapú rendszer, amelynek célja, hogy bármilyen típusú fejlesztőprojekthez egyetlen parancs futtatásával felállítson egy teljes, profi munkaközeg-infrastruktúrát. A fejlesztőnek nem kell manuálisan konfigurálni a VS Code taszkokat, a Git repót, az auto-save folyamatokat, a napló rendszert vagy a CI/CD pipeline-t.</p>
-      <p>A wizard egyszer kérdez, aztán mindent automatikusan készít el:</p>
-      <ul>
-        <li><strong>VS Code feladatok</strong> (tasks.json) — Push, Pull, Visszagörgetés, Napló, Browser Sync, Branch kezelés</li>
-        <li><strong>Auto-mentés háttérfolyamat</strong> — Windows Task Schedulerben fut, 15 percenként automatikusan commitol</li>
-        <li><strong>Napló watcher</strong> — FileSystemWatcher alapú, minden mentéskor frissíti a NAPLO.md-t</li>
-        <li><strong>GitHub Copilot instrukciók</strong> — projektspecifikus AI utasítások (.github/copilot-instructions.md)</li>
-        <li><strong>Deploy pipeline</strong> — opcionális GitHub Actions FTP-deploy workflow</li>
-      </ul>
-      <p>A rendszer mottója: <strong>"Egy parancs — minden kész."</strong> Új gépen, új projektnél: beilleszted a varázs-parancsot a PowerShell-be, válaszolsz a kérdésekre, és teljes értékű munkaközeg áll rendelkezésre.</p>
-    </div>
-  </div>
-
-  <!-- 02 -->
-  <div class="pl-section rv">
-    <h3 class="pl-h3"><span class="pl-num">02</span> Verziótörténet</h3>
-    <div class="pl-timeline">
-
-      <div class="pl-ver">
-        <div class="pl-ver-dot"></div>
-        <div class="pl-ver-tag">v1.0</div>
-        <h4>Alaprendszer — WordPress wizard</h4>
-        <p>Az első verzió WordPress-projektekre fókuszált. Elkészítette a tasks.json alapverzióját, a .gitignore-t és a NAPLO.md-t.</p>
-        <ul>
-          <li>WordPress-specifikus tasks.json (Push / Pull feladatok)</li>
-          <li>NAPLO.md alapszintű munkanapló</li>
-          <li>Alapszintű Git integráció, manuális futtatás PowerShell-ből</li>
-        </ul>
-        <div class="pl-ver-date">Repo: VisualCode-Munkakornyezet / main · initial commit</div>
-      </div>
-
-      <div class="pl-ver">
-        <div class="pl-ver-dot"></div>
-        <div class="pl-ver-tag">v2.0</div>
-        <h4>Universális wizard — bármilyen projekt, one-liner telepítés</h4>
-        <p>A wizard bővítve lett 6 projekttípusra. Hozzáadva az auto-save háttérfolyamat, a napló watcher, a deploy.yml generátor és az irm one-liner. DEV-RENDSZER.html dashboard 3 füllel. Win+R hiba javítva.</p>
-        <ul>
-          <li>6 projekttípus: WordPress · HTML/CSS/JS · React/Vue · Node.js · Laravel · Egyéb</li>
-          <li>autosave-background.ps1 + install-autosave-task.ps1 (Task Scheduler)</li>
-          <li>naplo-watcher.ps1 — FileSystemWatcher alapú auto-napló</li>
-          <li>copilot-instructions.md generálás (.github/)</li>
-          <li>Opcionális deploy.yml (GitHub Actions → FTP)</li>
-          <li>irm "URL" | iex one-liner telepítési mód</li>
-          <li>DEV-RENDSZER.html dashboard, Win+R 2-módszeres fix</li>
-        </ul>
-        <div class="pl-ver-date">Commit: 0c5783e · Repo: VisualCode-Munkakornyezet / main</div>
-      </div>
-
-      <div class="pl-ver">
-        <div class="pl-ver-dot"></div>
-        <div class="pl-ver-tag">v3.0</div>
-        <h4>Vizuális redesign — animált dashboard, PS1 inline</h4>
-        <p>Teljes HTML vizuális újratervezés Python build script segítségével. Animált SVG ikonok, particle canvas háttér, scroll-reveal animációk, 4-fülű tab rendszer. A teljes PS1 script beágyazva (GitHub-függőség nélkül).</p>
-        <ul>
-          <li>Animált SVG ikonok minden tabnál (PowerShell · VS Code · Copilot · Kód)</li>
-          <li>Particle canvas háttér (85 pont, piros összekötések)</li>
-          <li>IntersectionObserver scroll-reveal animációk</li>
-          <li>4. fül: teljes 493 soros PS1 inline — MÁSOLÁS + LETÖLTÉS + Kinyit</li>
-          <li>Scroll progress bar, warning box, staggered animációk</li>
-          <li>_build_v3.py Python build script (PS1 tartalom megőrizve)</li>
-        </ul>
-        <div class="pl-ver-date">Commit: 8a90e58 · 2026</div>
-      </div>
-
-      <div class="pl-ver">
-        <div class="pl-ver-dot"></div>
-        <div class="pl-ver-tag">v3.1</div>
-        <h4>Komplett projektleírás — PDF-ready dokumentáció</h4>
-        <p>Ez az oldal. Teljes önálló dokumentáció beágyazva a dashboardba: architektúra, verziótörténet, fájlok, taskok, wizard kérdések, telepítési útmutató. PDF-mentés gomb, print CSS.</p>
-        <ul>
-          <li>Komplett projektleírás szekció (ezt most olvasod)</li>
-          <li>PDF-ready @media print CSS — böngészőből közvetlenül nyomtatható/menthető</li>
-          <li>Nav link: Leírás</li>
-          <li>Architektúra diagram, verziótörténet timeline, táblázatok</li>
-        </ul>
-        <div class="pl-ver-date">2026 · github.com/koltainorbert/VisualCode-Munkakornyezet</div>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- 03 -->
-  <div class="pl-section rv">
-    <h3 class="pl-h3"><span class="pl-num">03</span> Teljes rendszer architektúra</h3>
-    <div class="pl-arch">
-      <div class="pl-arch-row">
-        <div class="pl-arch-box main">setup-projekt.ps1<br><span style="font-size:9px;opacity:.6;font-weight:400">493 sor · interaktív PowerShell wizard</span></div>
-      </div>
-      <span class="pl-arch-arrow">↓</span>
-      <div class="pl-arch-label">kérdések megválaszolása után generálja ezeket a fájlokat:</div>
-      <div class="pl-arch-split">
-        <div class="pl-arch-box">.vscode/tasks.json</div>
-        <div class="pl-arch-box">scripts/naplo-watcher.ps1</div>
-        <div class="pl-arch-box">scripts/autosave-background.ps1</div>
-        <div class="pl-arch-box">scripts/install-autosave-task.ps1</div>
-        <div class="pl-arch-box">.github/copilot-instructions.md</div>
-        <div class="pl-arch-box">NAPLO.md</div>
-        <div class="pl-arch-box">.gitignore</div>
-        <div class="pl-arch-box">.github/workflows/deploy.yml <span style="opacity:.4">(opt.)</span></div>
-      </div>
-      <span class="pl-arch-arrow">↓</span>
-      <div class="pl-arch-row" style="gap:24px;align-items:flex-start">
-        <div style="text-align:center">
-          <div class="pl-arch-box" style="margin-bottom:6px">VS Code Tasks</div>
-          <div class="pl-arch-label">Ctrl+Shift+P → Run Task<br>Push · Pull · Vissza · Sync</div>
-        </div>
-        <div style="text-align:center">
-          <div class="pl-arch-box" style="margin-bottom:6px">Task Scheduler</div>
-          <div class="pl-arch-label">15 perces auto-commit<br>bejelentkezéstől fut</div>
-        </div>
-        <div style="text-align:center">
-          <div class="pl-arch-box" style="margin-bottom:6px">FileSystemWatcher</div>
-          <div class="pl-arch-label">Napló auto-frissítés<br>minden mentésnél</div>
-        </div>
-      </div>
-      <span class="pl-arch-arrow">↓</span>
-      <div class="pl-arch-row" style="gap:24px">
-        <div style="text-align:center">
-          <div class="pl-arch-box" style="margin-bottom:6px">Git (lokális)</div>
-          <div class="pl-arch-label">commit · branch · reset</div>
-        </div>
-        <div style="text-align:center">
-          <div class="pl-arch-box main" style="margin-bottom:6px">GitHub Remote</div>
-          <div class="pl-arch-label">origin · main branch</div>
-        </div>
-      </div>
-      <span class="pl-arch-arrow">↓  <span style="font-size:10px;opacity:.4">(ha deploy.yml generálva lett)</span></span>
-      <div class="pl-arch-row">
-        <div class="pl-arch-box main">GitHub Actions CI/CD → FTP Deploy → Éles szerver</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- 04 -->
-  <div class="pl-section rv">
-    <h3 class="pl-h3"><span class="pl-num">04</span> Létrehozott fájlok és funkciójuk</h3>
-    <div style="overflow-x:auto">
-    <table class="pl-table">
-      <tr><th>Fájl</th><th>Elérési út</th><th>Funkció</th><th>Típus</th></tr>
-      <tr>
-        <td><strong>tasks.json</strong></td>
-        <td><code>.vscode/tasks.json</code></td>
-        <td>VS Code feladatok konfigurációja: Git Push (commit+push), Pull, Visszagörgetés (soft reset), Napló Watcher indítás, Browser Sync helyi szerver, Új Branch létrehozás. Ctrl+Shift+P → Run Task menüből érhető el.</td>
-        <td><span class="pl-badge">kötelező</span></td>
-      </tr>
-      <tr>
-        <td><strong>naplo-watcher.ps1</strong></td>
-        <td><code>scripts/naplo-watcher.ps1</code></td>
-        <td>PowerShell FileSystemWatcher alapú folyamat — figyeli a projekt összes fájlját, és minden Created/Changed/Renamed eseményre automatikusan bejegyzi az időbélyeget, fájlnevet és eseménytípust a NAPLO.md-be.</td>
-        <td><span class="pl-badge">kötelező</span></td>
-      </tr>
-      <tr>
-        <td><strong>autosave-background.ps1</strong></td>
-        <td><code>scripts/autosave-background.ps1</code></td>
-        <td>Háttérben futó folyamat: beállított időközönként (alap: 15 perc) automatikusan végrehajtja a git add → git commit "auto: [dátum]" → git push folyamatot. VS Code és internet nélkül is fut, amíg a gép be van kapcsolva.</td>
-        <td><span class="pl-badge">kötelező</span></td>
-      </tr>
-      <tr>
-        <td><strong>install-autosave-task.ps1</strong></td>
-        <td><code>scripts/install-autosave-task.ps1</code></td>
-        <td>Windows Task Schedulerbe regisztrálja az autosave-background.ps1-t, hogy minden bejelentkezéskor automatikusan elinduljon. Egyszer kell futtatni, rendszergazdai jogosultsággal.</td>
-        <td><span class="pl-badge">kötelező</span></td>
-      </tr>
-      <tr>
-        <td><strong>copilot-instructions.md</strong></td>
-        <td><code>.github/copilot-instructions.md</code></td>
-        <td>GitHub Copilot számára projektspecifikus utasítások: technológia stack, kódolási stílus, tiltott minták, preferált megközelítések, projekt kontextus. A VS Code automatikusan betölti és alkalmazza Copilot kérésekre.</td>
-        <td><span class="pl-badge">kötelező</span></td>
-      </tr>
-      <tr>
-        <td><strong>NAPLO.md</strong></td>
-        <td><code>NAPLO.md</code></td>
-        <td>Automatikusan frissülő munkanapló. A naplo-watcher.ps1 minden fájlmentéskor hozzáfűzi: időbélyeg + fájlnév + eseménytípus. Manuálisan is szerkeszthető fejlesztési megjegyzésekkel.</td>
-        <td><span class="pl-badge">kötelező</span></td>
-      </tr>
-      <tr>
-        <td><strong>.gitignore</strong></td>
-        <td><code>.gitignore</code></td>
-        <td>Git kizárások a projekttípusnak megfelelően generálva. WordPress: wp-config.php, /uploads/, node_modules · Node.js: .env, dist, node_modules · React: build/, .env.local · stb.</td>
-        <td><span class="pl-badge">kötelező</span></td>
-      </tr>
-      <tr>
-        <td><strong>deploy.yml</strong></td>
-        <td><code>.github/workflows/deploy.yml</code></td>
-        <td>GitHub Actions workflow: main branchre való push esetén automatikusan FTP-deploy-olja a projektet az éles szerverre. SamKirkland/FTP-Deploy-Action alapú. Szükséges GitHub Secrets: FTP_SERVER, FTP_USERNAME, FTP_PASSWORD, FTP_SERVER_DIR.</td>
-        <td><span class="pl-badge opt">opcionális</span></td>
-      </tr>
-    </table>
-    </div>
-  </div>
-
-  <!-- 05 -->
-  <div class="pl-section rv">
-    <h3 class="pl-h3"><span class="pl-num">05</span> VS Code Taskok részletesen</h3>
-    <div style="overflow-x:auto">
-    <table class="pl-table">
-      <tr><th>Task neve</th><th>Mit csinál pontosan</th><th>Mikor használd</th></tr>
-      <tr>
-        <td><strong>🔴 Git Push</strong></td>
-        <td>Bekéri a commit üzenetet, majd: <code>git add .</code> → <code>git commit -m "..."</code> → <code>git push origin [branch]</code></td>
-        <td>Manuális mentésnél — napi munka végén, fontos mérföldköveknél, release előtt</td>
-      </tr>
-      <tr>
-        <td><strong>⬇ Git Pull</strong></td>
-        <td><code>git pull origin [branch]</code> — letölti a remote repository legújabb változásait</td>
-        <td>Más gépen vagy kollégával végzett munkánál, munka elején szinkronizáláshoz</td>
-      </tr>
-      <tr>
-        <td><strong>↩ Visszagörgetés</strong></td>
-        <td><code>git reset --soft HEAD~1</code> — az utolsó commitot visszavonja, a fájlok változatlanok maradnak, csak az index törlődik</td>
-        <td>Ha rossz commit üzenetet adtál, vagy az utolsó commitot módosítani szeretnéd</td>
-      </tr>
-      <tr>
-        <td><strong>📝 Napló Watcher</strong></td>
-        <td>Elindítja a <code>scripts/naplo-watcher.ps1</code>-t egy új terminálban — FileSystemWatcher figyeli az összes fájlváltozást</td>
-        <td>Munka elején indítsd el — terminálablakot nyit, folyamatosan fut a háttérben</td>
-      </tr>
-      <tr>
-        <td><strong>🌐 Browser Sync</strong></td>
-        <td><code>npx browser-sync start --server --files "**/*"</code> — helyi fejlesztői szerver + automatikus böngésző-reload fájlváltozásnál</td>
-        <td>HTML/CSS/JS fejlesztésnél — böngészőben élőben látod a változásokat mentés után</td>
-      </tr>
-      <tr>
-        <td><strong>🌿 Új Branch</strong></td>
-        <td>Bekéri a branch nevét, majd: <code>git checkout -b [nev]</code> → <code>git push -u origin [nev]</code></td>
-        <td>Új funkció fejlesztésekor — ne main-en dolgozz közvetlen, használj feature branch-et</td>
-      </tr>
-    </table>
-    </div>
-    <div class="pl-card" style="margin-top:16px">
-      <p><strong>Hogyan éred el:</strong> <code>Ctrl+Shift+P</code> → gépeld: <code>Tasks: Run Task</code> → Enter → válaszd ki a listából. Alternatíva: VS Code alsó státuszsor → terminál ikon → Run Task.</p>
-    </div>
-  </div>
-
-  <!-- 06 -->
-  <div class="pl-section rv">
-    <h3 class="pl-h3"><span class="pl-num">06</span> Wizard kérdések és paraméterek</h3>
-    <div style="overflow-x:auto">
-    <table class="pl-table">
-      <tr><th>#</th><th>Kérdés (prompt)</th><th>Alap</th><th>Hatás a generált fájlokra</th></tr>
-      <tr>
-        <td><strong>1</strong></td>
-        <td>Projekt neve</td>
-        <td><span class="pl-badge">aktuális mappa</span></td>
-        <td>NAPLO.md fejléc, tasks.json label-ek, copilot-instructions.md projekt neve ezt kapják</td>
-      </tr>
-      <tr>
-        <td><strong>2</strong></td>
-        <td>Projekt típusa</td>
-        <td><span class="pl-badge">WordPress</span></td>
-        <td><code>1</code> WordPress · <code>2</code> HTML/CSS/JS · <code>3</code> React/Vue · <code>4</code> Node.js · <code>5</code> Laravel · <code>6</code> Egyéb — a .gitignore és copilot-instructions.md tartalma ettől függ</td>
-      </tr>
-      <tr>
-        <td><strong>3</strong></td>
-        <td>GitHub username</td>
-        <td><span class="pl-badge">—</span></td>
-        <td>Remote URL összeállításához: <code>https://github.com/[username]/[repo].git</code></td>
-      </tr>
-      <tr>
-        <td><strong>4</strong></td>
-        <td>Repo neve</td>
-        <td><span class="pl-badge">projekt neve</span></td>
-        <td>Ha a GitHub repository neve eltér a projekt nevétől — remote URL-be kerül</td>
-      </tr>
-      <tr>
-        <td><strong>5</strong></td>
-        <td>Fő branch neve</td>
-        <td><span class="pl-badge">main</span></td>
-        <td>Push / Pull taskok és az auto-commit erre a branchre dolgoznak</td>
-      </tr>
-      <tr>
-        <td><strong>6</strong></td>
-        <td>Browser Sync port</td>
-        <td><span class="pl-badge">3000</span></td>
-        <td>A Browser Sync task ezen a porton indít helyi szervert (<code>localhost:3000</code>)</td>
-      </tr>
-      <tr>
-        <td><strong>7</strong></td>
-        <td>Auto-commit időköz</td>
-        <td><span class="pl-badge">15 perc</span></td>
-        <td>Az autosave-background.ps1-be kerül — ennyire percenként commitol automatikusan</td>
-      </tr>
-      <tr>
-        <td><strong>8</strong></td>
-        <td>Deploy workflow?</td>
-        <td><span class="pl-badge">N</span></td>
-        <td><code>I</code> = generálja a .github/workflows/deploy.yml-t. FTP adatokat GitHub Secrets-be kell beilleszteni (FTP_SERVER, FTP_USERNAME, FTP_PASSWORD, FTP_SERVER_DIR)</td>
-      </tr>
-    </table>
-    </div>
-  </div>
-
-  <!-- 07 -->
-  <div class="pl-section rv">
-    <h3 class="pl-h3"><span class="pl-num">07</span> Telepítési útmutató (új gépen, lépésről lépésre)</h3>
-    <div class="pl-steps">
-      <div class="pl-step">
-        <div class="pl-step-num"><div class="pl-step-circle">1</div><div class="pl-step-line"></div></div>
-        <div class="pl-step-content">
-          <h4>VS Code telepítése</h4>
-          <p>Töltsd le és telepítsd: <strong>code.visualstudio.com</strong></p>
-          <p>Ajánlott kiterjesztések: <code>GitHub Copilot</code>, <code>GitLens</code>, <code>Prettier - Code formatter</code></p>
-        </div>
-      </div>
-      <div class="pl-step">
-        <div class="pl-step-num"><div class="pl-step-circle">2</div><div class="pl-step-line"></div></div>
-        <div class="pl-step-content">
-          <h4>Git telepítése és konfigurálása</h4>
-          <p>Töltsd le: <strong>git-scm.com</strong> — telepítés után konfiguráld:</p>
-          <p><code>git config --global user.name "Neved"</code></p>
-          <p><code>git config --global user.email "email@cim.hu"</code></p>
-        </div>
-      </div>
-      <div class="pl-step">
-        <div class="pl-step-num"><div class="pl-step-circle">3</div><div class="pl-step-line"></div></div>
-        <div class="pl-step-content">
-          <h4>PowerShell futtatási házirend beállítása</h4>
-          <p>Rendszergazdaként nyisd meg a PowerShell-t (Win+X → Windows PowerShell (Admin)) és add ki:</p>
-          <p><code>Set-ExecutionPolicy RemoteSigned -Scope CurrentUser</code></p>
-          <p>Ez engedélyezi a lokálisan letöltött .ps1 szkriptek futtatását.</p>
-        </div>
-      </div>
-      <div class="pl-step">
-        <div class="pl-step-num"><div class="pl-step-circle">4</div><div class="pl-step-line"></div></div>
-        <div class="pl-step-content">
-          <h4>Navigálás a projekt mappájába</h4>
-          <p>Nyiss egy sima (nem admin) PowerShell terminált a projekt mappájában:</p>
-          <p><code>cd D:\Projektek\uj-projektem</code></p>
-          <p>Ha még nincs a mappa: <code>mkdir D:\Projektek\uj-projektem ; cd $_</code></p>
-        </div>
-      </div>
-      <div class="pl-step">
-        <div class="pl-step-num"><div class="pl-step-circle">5</div><div class="pl-step-line"></div></div>
-        <div class="pl-step-content">
-          <h4>A varázs-parancs futtatása</h4>
-          <p>Másold be és futtasd a PowerShell terminálba (nem Win+R, nem CMD!):</p>
-          <p><strong>⚠ VS Code terminálban <code>irm | iex</code> NEM működik</strong> — az interaktív kérdések nem jelennek meg! Helyette:</p>
-          <p><code>irm "https://raw.githubusercontent.com/koltainorbert/VisualCode-Munkakornyezet/main/setup-projekt.ps1" -OutFile "$env:TEMP\setup-projekt.ps1" ; Set-ExecutionPolicy Bypass -Scope Process -Force ; & "$env:TEMP\setup-projekt.ps1"</code></p>
-          <p>Win+R → standalone PowerShell ablakban az <code>irm ... | iex</code> működik.</p>
-        </div>
-      </div>
-      <div class="pl-step">
-        <div class="pl-step-num"><div class="pl-step-circle">6</div><div class="pl-step-line"></div></div>
-        <div class="pl-step-content">
-          <h4>Wizard kérdések megválaszolása</h4>
-          <p>A wizard sorra megkérdez mindent (ld. 06. fejezet). Ha megfelel az alapértelmezett érték, csak nyomj <strong>Enter</strong>-t.</p>
-          <p>A folyamat kb. 1-2 percet vesz igénybe — a végén az összes fájl kész a projekt mappában.</p>
-        </div>
-      </div>
-      <div class="pl-step">
-        <div class="pl-step-num"><div class="pl-step-circle">7</div><div class="pl-step-line"></div></div>
-        <div class="pl-step-content">
-          <h4>Auto-save Task Scheduler regisztráció (opcionális)</h4>
-          <p>Ha szeretnéd, hogy 15 percenként automatikusan commitoljon, futtasd <strong>rendszergazdaként</strong>:</p>
-          <p><code>scripts\install-autosave-task.ps1</code></p>
-          <p>Ez regisztrálja a feladatot a Windows Task Schedulerbe — bejelentkezéstől fut.</p>
-        </div>
-      </div>
-      <div class="pl-step">
-        <div class="pl-step-num"><div class="pl-step-circle">8</div></div>
-        <div class="pl-step-content">
-          <h4>VS Code megnyitása és munka</h4>
-          <p>Nyisd meg a projektmappát VS Code-ban: <code>code .</code></p>
-          <p><code>Ctrl+Shift+P</code> → <code>Tasks: Run Task</code> → az összes wizard által létrehozott feladat elérhető.</p>
-          <p>Napló-watcher indításához válaszd: <code>📝 Napló Watcher</code> — ez fut, amíg a terminál nyitva van.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- 08 -->
-  <div class="pl-section rv">
-    <h3 class="pl-h3"><span class="pl-num">08</span> Repo fájljainak áttekintése</h3>
-    <div style="overflow-x:auto">
-    <table class="pl-table">
-      <tr><th>Fájl / Mappa</th><th>Leírás</th></tr>
-      <tr><td><code>setup-projekt.ps1</code></td><td>A fő wizard script (493 sor) — ez fut le az irm parancs hatására. Tartalmazza az összes kérdést, generáló logikát, fájlíró funkciókat.</td></tr>
-      <tr><td><code>DEV-RENDSZER.html</code></td><td>Ez az oldal — önálló share-elhető dashboard: 4-fülű telepítési segéd + wizard dokumentáció + inline PS1 (letölthető) + teljes projektleírás.</td></tr>
-      <tr><td><code>_build_v3.py</code></td><td>Python build script — generálja a DEV-RENDSZER.html-t. A PS1 inline tartalmat regex-szel megőrzi. Módosítások után ezzel kell újra buildelni.</td></tr>
-      <tr><td><code>README.md</code></td><td>GitHub repo főoldal leírása — gyors összefoglaló és az irm parancs.</td></tr>
-      <tr><td><code>.github/workflows/</code></td><td>GitHub Actions workflow fájlok (ha deployt generált a wizard).</td></tr>
-    </table>
-    </div>
-  </div>
-
-  <hr class="pl-divider">
-
-  <!-- 09 -->
-  <div class="pl-section rv">
-    <h3 class="pl-h3"><span class="pl-num">09</span> Összefoglalás</h3>
-    <div class="pl-summary">
-      <h4>Ez a HTML önálló dokumentum — minden benne van.</h4>
-      <p>A <strong>DEV-RENDSZER.html</strong> fájl tartalmaz mindent, ami a rendszer használatához kell: a teljes PS1 wizard scriptet (4. fül — letölthető), a telepítési útmutatót, az összes VS Code feladat leírását és ezt a komplett dokumentációt. Ha elveszíted a linket, megtalálod a GitHub repóban.</p>
-      <p>Nincs szükség internet-kapcsolatra a dokumentum megtekintéséhez — egy link megosztásával (GitHub raw vagy GitHub Pages) bárki megnyithatja böngészőből. A <strong>"PDF mentés / Nyomtatás"</strong> gomb a böngésző nyomtatási dialógusát nyitja meg (Ctrl+P is működik), ahol PDF-ként menthető — a fekete háttér, az animációk elrejtve, A4 méretű fehér oldalon jelenik meg a tartalom.</p>
-      <p>A rendszer open-source, szabadon bővíthető. Az irm URL mindig a main branch legfrissebb verzióját futtatja automatikusan.</p>
-    </div>
-  </div>
-
-</div>
-</section>
-<footer><div class="wrap"><strong>VS Code Munkaközeg Wizard</strong> &nbsp;&middot;&nbsp; v3.1 &nbsp;&middot;&nbsp; <span style="color:var(--red)">2026</span><br><a href="https://github.com/koltainorbert/VisualCode-Munkakornyezet" target="_blank" style="margin-top:10px;display:inline-block">github.com/koltainorbert/VisualCode-Munkakornyezet</a></div></footer>
+<footer><div class="wrap"><strong>VS Code Munkaközeg Wizard</strong> &nbsp;&middot;&nbsp; v3.0 &nbsp;&middot;&nbsp; <span style="color:var(--red)">2026</span><br><a href="https://github.com/koltainorbert/VisualCode-Munkakornyezet" target="_blank" style="margin-top:10px;display:inline-block">github.com/koltainorbert/VisualCode-Munkakornyezet</a></div></footer>
 <script>
 const cv=document.getElementById('cv'),cx=cv.getContext('2d');
 let W,H,pts=[];
@@ -1492,4 +981,3 @@ function ccPre(btn){
 </script>
 </body>
 </html>
-
