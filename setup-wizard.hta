@@ -1,0 +1,614 @@
+<html>
+<head>
+<HTA:APPLICATION ID="oHTA" APPLICATIONNAME="SDH Projekt Setup Wizard"
+  BORDER="thin" BORDERSTYLE="normal" CAPTION="yes"
+  MAXIMIZEBUTTON="no" MINIMIZEBUTTON="yes" SHOWINTASKBAR="yes"
+  SINGLEINSTANCE="yes" SYSMENU="yes" SCROLL="no"
+  INNERBORDER="no" SELECTION="no" CONTEXTMENU="no"/>
+<meta charset="utf-8">
+<title>SDH Projekt Setup Wizard</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  background:rgb(6,6,6);
+  background-image:radial-gradient(rgba(255,255,255,0.04) 1px,transparent 1px);
+  background-size:30px 30px;
+  color:#fff;
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  height:100vh;overflow:hidden;
+  display:flex;flex-direction:column;
+}
+::-webkit-scrollbar{width:4px;background:rgb(6,6,6)}
+::-webkit-scrollbar-thumb{background:#ff0000}
+
+/* Header */
+.hdr{
+  background:rgba(6,6,6,0.9);border-bottom:1px solid rgba(255,0,0,0.2);
+  padding:14px 28px;display:flex;align-items:center;gap:12px;flex-shrink:0;
+}
+.hdr-dot{width:8px;height:8px;border-radius:50%;background:#ff0000;
+  box-shadow:0 0 8px rgba(255,0,0,0.8)}
+.hdr-title{font-size:13px;font-weight:800;letter-spacing:3px;text-transform:uppercase}
+.hdr-sub{font-size:11px;color:rgba(255,255,255,0.4);margin-left:auto;letter-spacing:1px}
+
+/* Progress */
+.progress-bar{height:2px;background:rgba(255,255,255,0.05);flex-shrink:0}
+.progress-fill{height:100%;background:linear-gradient(90deg,#ff0000,#ff6600);
+  transition:width 0.4s ease}
+
+/* Steps nav */
+.steps{display:flex;padding:16px 28px;gap:6px;flex-shrink:0;
+  border-bottom:1px solid rgba(255,255,255,0.05)}
+.step{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;
+  padding:5px 14px;border:1px solid rgba(255,255,255,0.07);
+  color:rgba(255,255,255,0.3);cursor:default;transition:all 0.2s}
+.step.active{border-color:rgba(255,0,0,0.5);color:#ff0000;
+  background:rgba(255,0,0,0.07)}
+.step.done{border-color:rgba(255,255,255,0.15);color:rgba(255,255,255,0.5);
+  background:rgba(255,255,255,0.03)}
+
+/* Content */
+.content{flex:1;overflow-y:auto;padding:28px}
+.panel{display:none}
+.panel.active{display:block}
+
+.panel-title{font-size:22px;font-weight:800;letter-spacing:-0.5px;margin-bottom:6px}
+.panel-sub{font-size:13px;color:rgba(255,255,255,0.4);margin-bottom:28px;line-height:1.6}
+
+/* Form */
+.fgroup{margin-bottom:20px}
+label{display:block;font-size:10px;letter-spacing:2px;text-transform:uppercase;
+  color:rgba(255,0,0,0.8);margin-bottom:8px;font-weight:700}
+input[type=text]{
+  width:100%;background:rgba(255,255,255,0.03);
+  border:1px solid rgba(255,255,255,0.1);
+  color:#fff;font-size:13px;padding:11px 14px;
+  outline:none;font-family:inherit;
+  transition:border-color 0.2s;
+}
+input[type=text]:focus{border-color:rgba(255,0,0,0.5);
+  background:rgba(255,0,0,0.03)}
+input[type=text]::placeholder{color:rgba(255,255,255,0.2)}
+.hint{font-size:11px;color:rgba(255,255,255,0.3);margin-top:6px}
+
+/* Radio / option cards */
+.options{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:8px}
+.opt{
+  border:1px solid rgba(255,255,255,0.07);
+  padding:14px 16px;cursor:pointer;
+  transition:all 0.2s;background:rgba(255,255,255,0.02);
+}
+.opt:hover{border-color:rgba(255,0,0,0.3);background:rgba(255,0,0,0.04)}
+.opt.sel{border-color:rgba(255,0,0,0.6);background:rgba(255,0,0,0.08)}
+.opt-title{font-size:13px;font-weight:700;margin-bottom:3px}
+.opt-sub{font-size:11px;color:rgba(255,255,255,0.35)}
+.opt-mark{width:14px;height:14px;border-radius:50%;
+  border:1px solid rgba(255,255,255,0.2);
+  display:inline-block;margin-right:8px;vertical-align:middle;
+  transition:all 0.2s;position:relative;top:-1px}
+.opt.sel .opt-mark{background:#ff0000;border-color:#ff0000;
+  box-shadow:0 0 6px rgba(255,0,0,0.5)}
+
+/* Toggle */
+.toggle-row{display:flex;align-items:center;gap:12px;margin-bottom:16px;
+  padding:12px 14px;border:1px solid rgba(255,255,255,0.07);
+  background:rgba(255,255,255,0.02)}
+.toggle-label{flex:1;font-size:13px}
+.toggle-label small{display:block;font-size:11px;color:rgba(255,255,255,0.3);margin-top:2px}
+.toggle{width:38px;height:20px;background:rgba(255,255,255,0.1);
+  border-radius:10px;position:relative;cursor:pointer;transition:background 0.2s;flex-shrink:0}
+.toggle.on{background:rgba(255,0,0,0.7)}
+.toggle::after{content:'';position:absolute;top:2px;left:2px;
+  width:16px;height:16px;border-radius:50%;background:#fff;
+  transition:left 0.2s;box-shadow:0 1px 3px rgba(0,0,0,0.4)}
+.toggle.on::after{left:20px}
+
+/* Summary */
+.summary{background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.07);
+  padding:20px;margin-bottom:20px}
+.sum-row{display:flex;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.04);
+  font-size:13px}
+.sum-row:last-child{border-bottom:none}
+.sum-key{color:rgba(255,255,255,0.4);width:160px;flex-shrink:0;font-size:11px;
+  letter-spacing:1px;text-transform:uppercase;padding-top:1px}
+.sum-val{color:#fff;font-weight:600;word-break:break-all}
+.sum-val.red{color:#ff0000}
+
+/* Buttons */
+.btns{display:flex;gap:10px;justify-content:flex-end;padding:18px 28px;
+  border-top:1px solid rgba(255,255,255,0.05);flex-shrink:0;
+  background:rgba(6,6,6,0.8)}
+.btn{padding:11px 28px;font-size:11px;letter-spacing:2px;font-weight:700;
+  text-transform:uppercase;border:none;cursor:pointer;font-family:inherit;
+  transition:all 0.2s}
+.btn-back{background:rgba(255,255,255,0.05);color:rgba(255,255,255,0.5);
+  border:1px solid rgba(255,255,255,0.1)}
+.btn-back:hover{background:rgba(255,255,255,0.08);color:#fff}
+.btn-next{background:#ff0000;color:#fff}
+.btn-next:hover{background:#cc0000}
+.btn-next:disabled{background:rgba(255,0,0,0.2);color:rgba(255,255,255,0.3);cursor:not-allowed}
+.btn-create{background:#ff0000;color:#fff;font-size:13px;padding:13px 36px}
+.btn-create:hover{background:#cc0000}
+
+/* Log */
+.log-box{
+  background:rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.07);
+  padding:16px;font-size:12px;font-family:'Cascadia Code','Consolas',monospace;
+  height:240px;overflow-y:auto;color:rgba(255,255,255,0.7);line-height:1.7;
+}
+.log-box .ok{color:#00e676}
+.log-box .err{color:#ff5252}
+.log-box .info{color:rgba(255,200,100,0.9)}
+
+/* Corner cut decoration */
+.corner-cut{position:relative}
+.corner-cut::after{
+  content:'';position:absolute;bottom:0;right:0;
+  width:16px;height:16px;
+  background:linear-gradient(225deg,#ff0000 50%,transparent 50%);
+}
+</style>
+</head>
+<body>
+
+<div class="hdr">
+  <div class="hdr-dot"></div>
+  <div class="hdr-title">SDH Projekt Setup</div>
+  <div class="hdr-sub">v2.0 — grafikus wizard</div>
+</div>
+
+<div class="progress-bar">
+  <div class="progress-fill" id="prog" style="width:20%"></div>
+</div>
+
+<div class="steps">
+  <div class="step active" id="s1">1 · Típus</div>
+  <div class="step" id="s2">2 · Mappa</div>
+  <div class="step" id="s3">3 · Szerver</div>
+  <div class="step" id="s4">4 · Deploy</div>
+  <div class="step" id="s5">5 · Összefoglalás</div>
+</div>
+
+<div class="content">
+
+  <!-- Panel 1: Típus -->
+  <div class="panel active" id="p1">
+    <div class="panel-title">Milyen projekt?</div>
+    <div class="panel-sub">Válaszd ki a projekt típusát — ez befolyásolja a generált konfigurációt.</div>
+    <div class="options">
+      <div class="opt sel" id="opt0" onclick="selOpt(0)">
+        <span class="opt-mark"></span><span class="opt-title">WordPress</span>
+        <div class="opt-sub">LocalWP, Bricks, Elementor, custom téma</div>
+      </div>
+      <div class="opt" id="opt1" onclick="selOpt(1)">
+        <span class="opt-mark"></span><span class="opt-title">HTML / CSS / JS</span>
+        <div class="opt-sub">Statikus oldal, egyszerű frontend</div>
+      </div>
+      <div class="opt" id="opt2" onclick="selOpt(2)">
+        <span class="opt-mark"></span><span class="opt-title">React / Vue / Node</span>
+        <div class="opt-sub">Modern JS framework, dev szerver</div>
+      </div>
+      <div class="opt" id="opt3" onclick="selOpt(3)">
+        <span class="opt-mark"></span><span class="opt-title">Laravel / PHP</span>
+        <div class="opt-sub">PHP keretrendszer, artisan szerver</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Panel 2: Mappa + GitHub -->
+  <div class="panel" id="p2">
+    <div class="panel-title">Mappa és GitHub</div>
+    <div class="panel-sub">Hol lesz a projekt, és melyik GitHub repóhoz kapcsolód?</div>
+    <div class="fgroup">
+      <label>Projekt mappa (teljes elérési út)</label>
+      <input type="text" id="folder" placeholder="pl. C:\Users\SDH\projektek\ujoldal" oninput="updateFolderFromGithub()"/>
+      <div class="hint">Ha nem létezik, létrehozza automatikusan.</div>
+    </div>
+    <div class="fgroup">
+      <label>GitHub repo URL</label>
+      <input type="text" id="github" placeholder="https://github.com/koltainorbert/ujprojekt" oninput="autoFillFolder()"/>
+      <div class="hint">ENTER = kihagyja a GitHub kapcsolatot.</div>
+    </div>
+  </div>
+
+  <!-- Panel 3: Site URL -->
+  <div class="panel" id="p3">
+    <div class="panel-title">Dev szerver / URL</div>
+    <div class="panel-sub">Mi az oldal helyi fejlesztési URL-je? Ez kerül a Browser Sync konfigba.</div>
+    <div class="fgroup">
+      <label>Site URL vagy dev szerver</label>
+      <input type="text" id="siteurl" placeholder=""/>
+    </div>
+  </div>
+
+  <!-- Panel 4: Deploy -->
+  <div class="panel" id="p4">
+    <div class="panel-title">Deploy beállítások</div>
+    <div class="panel-sub">Kell éles szerverre automatikus deploy GitHub push-kor?</div>
+    <div class="toggle-row">
+      <div class="toggle-label">
+        FTP auto-deploy
+        <small>Push main branch → automatikusan felkerül az éles szerverre</small>
+      </div>
+      <div class="toggle" id="tgl-deploy" onclick="toggleDeploy()"></div>
+    </div>
+    <div id="ftp-fields" style="display:none">
+      <div class="fgroup">
+        <label>FTP szerver</label>
+        <input type="text" id="ftp-server" placeholder="ftp.pelda.hu"/>
+      </div>
+      <div class="fgroup">
+        <label>FTP felhasználónév</label>
+        <input type="text" id="ftp-user" placeholder="ftp_user"/>
+      </div>
+      <div class="fgroup">
+        <label>FTP jelszó</label>
+        <input type="text" id="ftp-pass" placeholder="jelszó"/>
+      </div>
+      <div class="fgroup">
+        <label>FTP célmappa</label>
+        <input type="text" id="ftp-dir" placeholder="/public_html/"/>
+      </div>
+    </div>
+    <div class="toggle-row">
+      <div class="toggle-label">
+        Branch stratégia
+        <small>main / staging / develop ágak létrehozása</small>
+      </div>
+      <div class="toggle" id="tgl-branch" onclick="toggleBranch()"></div>
+    </div>
+  </div>
+
+  <!-- Panel 5: Összefoglalás -->
+  <div class="panel" id="p5">
+    <div class="panel-title">Összefoglalás</div>
+    <div class="panel-sub">Ellenőrizd az adatokat, majd kattints a Létrehozás gombra.</div>
+    <div class="summary corner-cut" id="sum-box"></div>
+    <div id="log-wrap" style="display:none">
+      <label style="margin-bottom:8px;display:block">Végrehajtás naplója</label>
+      <div class="log-box" id="logbox"></div>
+    </div>
+  </div>
+
+</div><!-- /content -->
+
+<div class="btns">
+  <button class="btn btn-back" id="btn-back" onclick="goBack()" style="display:none">← Vissza</button>
+  <button class="btn btn-next" id="btn-next" onclick="goNext()">Tovább →</button>
+  <button class="btn btn-create" id="btn-create" onclick="runSetup()" style="display:none">⚡ LÉTREHOZÁS</button>
+</div>
+
+<script language="JScript">
+var step = 1;
+var totalSteps = 5;
+var projType = 0;
+var deployOn = false;
+var branchOn = false;
+
+// Típus választás
+function selOpt(n) {
+  for (var i = 0; i < 4; i++) {
+    document.getElementById('opt'+i).className = 'opt';
+  }
+  document.getElementById('opt'+n).className = 'opt sel';
+  projType = n;
+
+  // Site URL placeholder
+  var ph = ['sdh2026.local', '.', 'localhost:5173', 'localhost:8000'];
+  document.getElementById('siteurl').placeholder = 'pl. ' + ph[n];
+}
+
+// GitHub URL → auto mappa javaslat
+function autoFillFolder() {
+  var gh = document.getElementById('github').value;
+  var folder = document.getElementById('folder');
+  if (folder.value === '' || folder.getAttribute('data-auto') === '1') {
+    var match = gh.replace(/\.git$/, '').match(/\/([^\/]+)$/);
+    if (match) {
+      var username = '';
+      try {
+        var sh = new ActiveXObject('WScript.Shell');
+        username = sh.ExpandEnvironmentStrings('%USERNAME%');
+      } catch(e) { username = 'SDH'; }
+      folder.value = 'C:\\Users\\' + username + '\\projektek\\' + match[1];
+      folder.setAttribute('data-auto', '1');
+    }
+  }
+}
+
+function updateFolderFromGithub() {
+  document.getElementById('folder').setAttribute('data-auto', '0');
+}
+
+// Toggle deploy
+function toggleDeploy() {
+  deployOn = !deployOn;
+  var t = document.getElementById('tgl-deploy');
+  t.className = deployOn ? 'toggle on' : 'toggle';
+  document.getElementById('ftp-fields').style.display = deployOn ? 'block' : 'none';
+}
+
+// Toggle branch
+function toggleBranch() {
+  branchOn = !branchOn;
+  var t = document.getElementById('tgl-branch');
+  t.className = branchOn ? 'toggle on' : 'toggle';
+}
+
+// Navigation
+function goNext() {
+  if (step < totalSteps) {
+    step++;
+    showStep(step);
+  }
+}
+function goBack() {
+  if (step > 1) {
+    step--;
+    showStep(step);
+  }
+}
+
+function showStep(s) {
+  // Hide all panels
+  for (var i = 1; i <= totalSteps; i++) {
+    document.getElementById('p'+i).className = 'panel';
+    var st = document.getElementById('s'+i);
+    if (i < s) st.className = 'step done';
+    else if (i === s) st.className = 'step active';
+    else st.className = 'step';
+  }
+  document.getElementById('p'+s).className = 'panel active';
+
+  // Progress
+  document.getElementById('prog').style.width = (s / totalSteps * 100) + '%';
+
+  // Back button
+  document.getElementById('btn-back').style.display = s > 1 ? 'inline-block' : 'none';
+
+  // Next / Create
+  if (s === totalSteps) {
+    document.getElementById('btn-next').style.display = 'none';
+    document.getElementById('btn-create').style.display = 'inline-block';
+    buildSummary();
+  } else {
+    document.getElementById('btn-next').style.display = 'inline-block';
+    document.getElementById('btn-create').style.display = 'none';
+  }
+}
+
+function buildSummary() {
+  var types = ['WordPress', 'HTML / CSS / JS', 'React / Vue / Node', 'Laravel / PHP'];
+  var folder = document.getElementById('folder').value || '(nincs megadva)';
+  var github = document.getElementById('github').value || '—';
+  var siteurl = document.getElementById('siteurl').value || '—';
+
+  var html = '';
+  html += '<div class="sum-row"><div class="sum-key">Projekt típus</div><div class="sum-val red">' + types[projType] + '</div></div>';
+  html += '<div class="sum-row"><div class="sum-key">Mappa</div><div class="sum-val">' + folder + '</div></div>';
+  html += '<div class="sum-row"><div class="sum-key">GitHub</div><div class="sum-val">' + github + '</div></div>';
+  html += '<div class="sum-row"><div class="sum-key">Site URL</div><div class="sum-val">' + siteurl + '</div></div>';
+  html += '<div class="sum-row"><div class="sum-key">FTP Deploy</div><div class="sum-val">' + (deployOn ? '✓ Igen' : '— Nem') + '</div></div>';
+  html += '<div class="sum-row"><div class="sum-key">Branch stratégia</div><div class="sum-val">' + (branchOn ? '✓ main/staging/develop' : '— Nem') + '</div></div>';
+
+  document.getElementById('sum-box').innerHTML = html;
+}
+
+function log(msg, cls) {
+  var box = document.getElementById('logbox');
+  var line = document.createElement('div');
+  if (cls) line.className = cls;
+  line.innerText = msg;
+  box.appendChild(line);
+  box.scrollTop = box.scrollHeight;
+}
+
+function runSetup() {
+  var folder = document.getElementById('folder').value;
+  if (!folder) {
+    alert('Add meg a projekt mappa elérési útját!');
+    return;
+  }
+
+  document.getElementById('btn-create').disabled = true;
+  document.getElementById('btn-back').style.display = 'none';
+  document.getElementById('log-wrap').style.display = 'block';
+  document.getElementById('sum-box').style.display = 'none';
+
+  log('SDH Projekt Setup indul...', 'info');
+
+  // Értékek összegyűjtése
+  var github = document.getElementById('github').value;
+  var siteurl = document.getElementById('siteurl').value || 'localhost:3000';
+  var ftpServer = document.getElementById('ftp-server') ? document.getElementById('ftp-server').value : '';
+  var ftpUser = document.getElementById('ftp-user') ? document.getElementById('ftp-user').value : '';
+  var ftpPass = document.getElementById('ftp-pass') ? document.getElementById('ftp-pass').value : '';
+  var ftpDir = document.getElementById('ftp-dir') ? document.getElementById('ftp-dir').value : '';
+
+  if (github && github.indexOf('://') === -1) github = 'https://' + github;
+  if (github && github.slice(-4) !== '.git') github = github + '.git';
+
+  var bsCmd = (projType === 1)
+    ? "npx browser-sync start --server --files '**/*.css,**/*.html,**/*.js' --port 3000 --open"
+    : "npx browser-sync start --proxy '" + siteurl.replace(/^https?:\/\//, '') + "' --files '**/*.css,**/*.php,**/*.js' --port 3000 --open";
+
+  // PS script generálás
+  var ps = buildPS(folder, github, siteurl, bsCmd, ftpServer, ftpUser, ftpPass, ftpDir);
+
+  // Temp fájlba írás és futtatás
+  try {
+    var fso = new ActiveXObject('Scripting.FileSystemObject');
+    var tempPath = fso.GetSpecialFolder(2) + '\\sdh_setup_' + new Date().getTime() + '.ps1';
+    var f = fso.CreateTextFile(tempPath, true, true);
+    f.Write(ps);
+    f.Close();
+    log('Script generálva: ' + tempPath, 'info');
+
+    var sh = new ActiveXObject('WScript.Shell');
+    sh.Run('powershell.exe -ExecutionPolicy Bypass -File "' + tempPath + '"', 1, true);
+
+    log('', '');
+    log('✓ Kész! VS Code megnyílik...', 'ok');
+    document.getElementById('btn-create').innerText = '✓ KÉSZ';
+    document.getElementById('btn-create').style.background = '#00e676';
+    document.getElementById('btn-create').style.color = 'rgb(6,6,6)';
+  } catch(e) {
+    log('HIBA: ' + e.message, 'err');
+    document.getElementById('btn-create').disabled = false;
+  }
+}
+
+function buildPS(folder, github, siteurl, bsCmd, ftpServer, ftpUser, ftpPass, ftpDir) {
+  var repoNev = '';
+  if (github) {
+    var m = github.replace(/\.git$/, '').match(/\/([^\/]+)$/);
+    if (m) repoNev = m[1];
+  }
+
+  var username = '';
+  try {
+    var sh2 = new ActiveXObject('WScript.Shell');
+    username = sh2.ExpandEnvironmentStrings('%USERNAME%');
+  } catch(e) { username = 'dev'; }
+
+  var ps = '';
+  ps += 'Set-Location "' + folder.replace(/"/g, '\\"') + '"\r\n';
+  ps += 'if (-not (Test-Path "' + folder.replace(/"/g, '\\"') + '")) { New-Item -ItemType Directory -Force -Path "' + folder.replace(/"/g, '\\"') + '" | Out-Null }\r\n';
+  ps += 'New-Item -ItemType Directory -Force -Path ".vscode" | Out-Null\r\n';
+  ps += 'New-Item -ItemType Directory -Force -Path ".github" | Out-Null\r\n';
+  ps += 'New-Item -ItemType Directory -Force -Path ".github\\workflows" | Out-Null\r\n\r\n';
+
+  // tasks.json
+  ps += '@"\r\n';
+  ps += '{\r\n';
+  ps += '  "version": "2.0.0",\r\n';
+  ps += '  "tasks": [\r\n';
+  ps += '    {\r\n';
+  ps += '      "label": "\\u2b06 Push (feltoltes GitHubra)",\r\n';
+  ps += '      "type": "shell",\r\n';
+  ps += '      "command": "git add . ; $d = git diff --cached --quiet ; if ($LASTEXITCODE -ne 0) { $msg = \'Mentes_\' + (Get-Date -Format \'yyyy.MM.dd_HH.mm\') ; git commit -m $msg ; git push ; Write-Host \'Kesz!\' } else { Write-Host \'Nincs valtozas.\' }",\r\n';
+  ps += '      "options": { "cwd": "${workspaceFolder}" },\r\n';
+  ps += '      "group": { "kind": "build", "isDefault": true },\r\n';
+  ps += '      "presentation": { "reveal": "always", "panel": "shared", "clear": true },\r\n';
+  ps += '      "problemMatcher": []\r\n';
+  ps += '    },\r\n';
+  ps += '    {\r\n';
+  ps += '      "label": "\\u2b07 Pull (frissites GitHubrol)",\r\n';
+  ps += '      "type": "shell",\r\n';
+  ps += '      "command": "git pull ; Write-Host \'Kesz!\'",\r\n';
+  ps += '      "options": { "cwd": "${workspaceFolder}" },\r\n';
+  ps += '      "group": "none",\r\n';
+  ps += '      "presentation": { "reveal": "always", "panel": "shared", "clear": true },\r\n';
+  ps += '      "problemMatcher": []\r\n';
+  ps += '    },\r\n';
+  ps += '    {\r\n';
+  ps += '      "label": "\\u25b6 Naplo Watcher (auto-naplo + auto-push)",\r\n';
+  ps += '      "type": "shell",\r\n';
+  ps += '      "command": "powershell -ExecutionPolicy Bypass -File .vscode/naplo-watcher.ps1",\r\n';
+  ps += '      "options": { "cwd": "${workspaceFolder}" },\r\n';
+  ps += '      "group": "none",\r\n';
+  ps += '      "isBackground": true,\r\n';
+  ps += '      "runOptions": { "runOn": "folderOpen" },\r\n';
+  ps += '      "presentation": { "reveal": "silent", "panel": "dedicated", "clear": true },\r\n';
+  ps += '      "problemMatcher": []\r\n';
+  ps += '    },\r\n';
+  ps += '    {\r\n';
+  ps += '      "label": "\\ud83c\\udf10 Browser Sync",\r\n';
+  ps += '      "type": "shell",\r\n';
+  ps += '      "command": "' + bsCmd.replace(/"/g, '\\"') + '",\r\n';
+  ps += '      "options": { "cwd": "${workspaceFolder}" },\r\n';
+  ps += '      "group": "none",\r\n';
+  ps += '      "isBackground": true,\r\n';
+  ps += '      "presentation": { "reveal": "always", "panel": "dedicated" },\r\n';
+  ps += '      "problemMatcher": []\r\n';
+  ps += '    }\r\n';
+  ps += '  ]\r\n';
+  ps += '}\r\n';
+  ps += '"@ | Set-Content ".vscode\\tasks.json" -Encoding UTF8\r\n\r\n';
+
+  // settings.json
+  ps += '@"\r\n{ "task.allowAutomaticTasks": "on" }\r\n"@ | Set-Content ".vscode\\settings.json" -Encoding UTF8\r\n\r\n';
+
+  // naplo-watcher.ps1
+  ps += "@'\r\n";
+  ps += '$temaMappa = (Get-Location).Path\r\n';
+  ps += '$naplo = "$temaMappa\\NAPLO.md"\r\n';
+  ps += 'Write-Host "Naplo watcher elindult..." -ForegroundColor Green\r\n';
+  ps += '$utolso = ""\r\n';
+  ps += 'while ($true) {\r\n';
+  ps += '    $most = Get-Date\r\n';
+  ps += '    $datum = $most.ToString("yyyy. MMMM dd.")\r\n';
+  ps += '    $ido = $most.ToString("HH:mm")\r\n';
+  ps += '    $fajlok = @(git diff --name-only HEAD 2>$null) + @(git ls-files --others --exclude-standard 2>$null) | Where-Object { $_ -ne "" }\r\n';
+  ps += '    if ($fajlok.Count -gt 0) {\r\n';
+  ps += '        $sor = "$ido — $($fajlok -join ", ")"\r\n';
+  ps += '        if ($sor -ne $utolso) {\r\n';
+  ps += '            $utolso = $sor\r\n';
+  ps += '            git add .\r\n';
+  ps += '            git diff --cached --quiet\r\n';
+  ps += '            if ($LASTEXITCODE -ne 0) {\r\n';
+  ps += '                $msg = "Auto_" + (Get-Date -Format "yyyy.MM.dd_HH.mm")\r\n';
+  ps += '                git commit -m $msg\r\n';
+  ps += '                git push\r\n';
+  ps += '                Write-Host "[$ido] Pushed" -ForegroundColor Green\r\n';
+  ps += '            }\r\n';
+  ps += '        }\r\n';
+  ps += '    }\r\n';
+  ps += '    Start-Sleep -Seconds 60\r\n';
+  ps += '}\r\n';
+  ps += "'@ | Set-Content \".vscode\\naplo-watcher.ps1\" -Encoding UTF8\r\n\r\n";
+
+  // NAPLO.md
+  ps += '@"\r\n';
+  ps += '# Fejlesztesi Naplo\r\n\r\n---\r\n\r\n';
+  ps += '## ' + new Date().toLocaleDateString('hu-HU', {year:'numeric',month:'long',day:'numeric'}) + '\r\n\r\n';
+  ps += '### Ma elvegezve:\r\n- Projekt beallitas, munkakörnyezet felallitva\r\n\r\n';
+  ps += '### Nyitott TODO-k:\r\n- [ ]\r\n\r\n---\r\n';
+  ps += '"@ | Set-Content "NAPLO.md" -Encoding UTF8\r\n\r\n';
+
+  // copilot-instructions.md
+  ps += '@"\r\n';
+  ps += '# Copilot Instrukciok\r\n\r\n';
+  ps += '## URL: ' + siteurl + '\r\n';
+  ps += '## GitHub: ' + (github || 'nincs') + '\r\n\r\n';
+  ps += '## Munkamenet ELEJEN: olvasd el NAPLO.md-t, mondj el hol tartott, kerdd meg mi a mai cel.\r\n';
+  ps += '## Munkamenet VEGEN: irj bejegyzest NAPLO.md-be, emlekeztest Ctrl+Shift+B push-ra.\r\n';
+  ps += '"@ | Set-Content ".github\\copilot-instructions.md" -Encoding UTF8\r\n\r\n';
+
+  // Git init
+  ps += 'if (-not (Test-Path ".git")) { git init }\r\n';
+  ps += 'git config user.name "' + username + '"\r\n';
+  ps += 'git add .\r\n';
+  ps += 'git diff --cached --quiet ; if ($LASTEXITCODE -ne 0) { git commit -m "Projekt_setup_initial" }\r\n\r\n';
+
+  if (github) {
+    ps += '$remoteCheck = git remote 2>$null\r\n';
+    ps += 'if ($remoteCheck -notcontains "origin") { git remote add origin "' + github + '" }\r\n';
+    ps += 'git branch -M main\r\n';
+    ps += 'git pull origin main --allow-unrelated-histories 2>$null\r\n';
+    ps += 'git push -u origin main\r\n\r\n';
+  }
+
+  if (branchOn) {
+    ps += 'git checkout -b staging ; git push -u origin staging 2>$null\r\n';
+    ps += 'git checkout -b develop ; git push -u origin develop 2>$null\r\n';
+    ps += 'git checkout main\r\n\r\n';
+  }
+
+  // VS Code megnyitás
+  ps += '$vscodePaths = @(\r\n';
+  ps += '    "$env:LOCALAPPDATA\\Programs\\Microsoft VS Code\\Code.exe",\r\n';
+  ps += '    "C:\\Program Files\\Microsoft VS Code\\Code.exe"\r\n';
+  ps += ')\r\n';
+  ps += '$vscExe = $vscodePaths | Where-Object { Test-Path $_ } | Select-Object -First 1\r\n';
+  ps += 'if ($vscExe) { Start-Process $vscExe "' + folder.replace(/\\/g, '\\\\').replace(/"/g, '\\"') + '" }\r\n';
+  ps += 'elseif (Get-Command code -ErrorAction SilentlyContinue) { code "' + folder.replace(/\\/g, '\\\\').replace(/"/g, '\\"') + '" }\r\n';
+
+  return ps;
+}
+
+// Init
+selOpt(0);
+</script>
+</body>
+</html>
