@@ -1575,6 +1575,14 @@ function wzRun(){
 
 <script>
 var ANON_DUR=5500;
+function clownShow(){
+  var cb=document.getElementById('clown-bg');
+  cb.style.display='block';
+  cb.style.transition='opacity 2.5s ease';
+  cb.style.opacity='0';
+  cb.offsetHeight;
+  cb.style.opacity='1';
+}
 function anonShow(){
   var el=document.getElementById('anon-overlay');
   el.style.display='flex';
@@ -1586,7 +1594,10 @@ function anonShow(){
   var t=document.getElementById('anon-title');
   t.style.animation='none'; t.offsetHeight;
   t.style.animation='anon-txt-flash '+ANON_DUR+'ms ease forwards';
-  setTimeout(function(){ el.style.display='none'; }, ANON_DUR+100);
+  setTimeout(function(){
+    el.style.display='none';
+    clownShow();
+  }, ANON_DUR+100);
 }
 // PAGE LOAD
 window.addEventListener('DOMContentLoaded', function(){ anonShow(); });
