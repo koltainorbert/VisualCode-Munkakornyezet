@@ -69,42 +69,66 @@ h1.ht{font-size:clamp(52px,9vw,96px);font-weight:900;
 @keyframes wdup{from{transform:translateY(110%);opacity:0}to{transform:translateY(0);opacity:1}}
 /* ── TIKTOK GLITCH ── */
 .ht{position:relative}
-@keyframes ttg-shake{
-  /* hosszú csend, majd erős vízszintes rezgés sávos clip-path vagdosással */
-  0%,59%,100%{transform:none;clip-path:none}
-  /* 1. burst */
-  60%{transform:translateX(-12px);clip-path:polygon(0 5%,100% 5%,100% 20%,0 20%)}
-  61%{transform:translateX(14px);clip-path:polygon(0 55%,100% 55%,100% 72%,0 72%)}
-  62%{transform:translateX(-10px);clip-path:polygon(0 28%,100% 28%,100% 44%,0 44%)}
-  63%{transform:translateX(16px);clip-path:polygon(0 78%,100% 78%,100% 92%,0 92%)}
-  64%{transform:translateX(-14px);clip-path:polygon(0 10%,100% 10%,100% 30%,0 30%)}
-  65%{transform:translateX(10px);clip-path:none}
-  66%{transform:none;clip-path:none}
-  /* szünet */
-  67%,74%{transform:none;clip-path:none}
-  /* 2. burst — erősebb */
-  75%{transform:translateX(18px);clip-path:polygon(0 2%,100% 2%,100% 16%,0 16%)}
-  76%{transform:translateX(-20px);clip-path:polygon(0 40%,100% 40%,100% 58%,0 58%)}
-  77%{transform:translateX(15px);clip-path:polygon(0 68%,100% 68%,100% 85%,0 85%)}
-  78%{transform:translateX(-18px);clip-path:polygon(0 20%,100% 20%,100% 36%,0 36%)}
-  79%{transform:translateX(20px);clip-path:polygon(0 82%,100% 82%,100% 96%,0 96%)}
-  80%{transform:translateX(-16px);clip-path:polygon(0 48%,100% 48%,100% 63%,0 63%)}
-  81%{transform:translateX(12px);clip-path:none}
-  82%{transform:none;clip-path:none}
-  /* szünet */
-  83%,90%{transform:none;clip-path:none}
-  /* 3. gyors záró burst */
-  91%{transform:translateX(-22px);clip-path:polygon(0 15%,100% 15%,100% 35%,0 35%)}
-  92%{transform:translateX(22px);clip-path:polygon(0 60%,100% 60%,100% 78%,0 78%)}
-  93%{transform:translateX(-18px);clip-path:polygon(0 35%,100% 35%,100% 52%,0 52%)}
-  94%{transform:translateX(16px);clip-path:none}
-  95%{transform:translateX(-10px);clip-path:polygon(0 5%,100% 5%,100% 18%,0 18%)}
-  96%{transform:none;clip-path:none}
+/* piros szín az 1. és 3. sorra mindig */
+.ht .ln:first-child .wd,.ht .ln:last-child .wd{color:#ff0000}
+/* alap elem: középső sáv ide-oda csúszik */
+@keyframes ttg-base{
+  0%,49%,100%{transform:none;clip-path:none}
+  50%{clip-path:polygon(0 30%,100% 30%,100% 68%,0 68%);transform:translateX(28px)}
+  51%{clip-path:polygon(0 30%,100% 30%,100% 68%,0 68%);transform:translateX(-32px)}
+  52%{clip-path:polygon(0 30%,100% 30%,100% 68%,0 68%);transform:translateX(24px)}
+  53%{clip-path:none;transform:none}
+  54%,59%{transform:none;clip-path:none}
+  60%{clip-path:polygon(0 20%,100% 20%,100% 55%,0 55%);transform:translateX(-36px)}
+  61%{clip-path:polygon(0 20%,100% 20%,100% 55%,0 55%);transform:translateX(40px)}
+  62%{clip-path:polygon(0 20%,100% 20%,100% 55%,0 55%);transform:translateX(-28px)}
+  63%{clip-path:none;transform:none}
+  64%,69%{transform:none;clip-path:none}
+  70%{clip-path:polygon(0 40%,100% 40%,100% 72%,0 72%);transform:translateX(44px)}
+  71%{clip-path:polygon(0 40%,100% 40%,100% 72%,0 72%);transform:translateX(-48px)}
+  72%{clip-path:polygon(0 40%,100% 40%,100% 72%,0 72%);transform:translateX(36px)}
+  73%{clip-path:none;transform:none}
+}
+/* felső sáv: erősen JOBBRA repül */
+@keyframes ttg-top{
+  0%,49%,100%{clip-path:none;transform:none;opacity:1}
+  50%{clip-path:polygon(0 0,100% 0,100% 30%,0 30%);transform:translateX(60px);opacity:1}
+  51%{clip-path:polygon(0 0,100% 0,100% 30%,0 30%);transform:translateX(-54px);opacity:1}
+  52%{clip-path:polygon(0 0,100% 0,100% 30%,0 30%);transform:translateX(44px);opacity:1}
+  53%{clip-path:none;transform:none;opacity:1}
+  54%,59%{clip-path:none;transform:none;opacity:1}
+  60%{clip-path:polygon(0 0,100% 0,100% 20%,0 20%);transform:translateX(-68px);opacity:1}
+  61%{clip-path:polygon(0 0,100% 0,100% 20%,0 20%);transform:translateX(72px);opacity:1}
+  62%{clip-path:polygon(0 0,100% 0,100% 20%,0 20%);transform:translateX(-50px);opacity:1}
+  63%{clip-path:none;transform:none;opacity:1}
+  64%,69%{clip-path:none;transform:none;opacity:1}
+  70%{clip-path:polygon(0 0,100% 0,100% 40%,0 40%);transform:translateX(80px);opacity:1}
+  71%{clip-path:polygon(0 0,100% 0,100% 40%,0 40%);transform:translateX(-76px);opacity:1}
+  72%{clip-path:polygon(0 0,100% 0,100% 40%,0 40%);transform:translateX(60px);opacity:1}
+  73%{clip-path:none;transform:none;opacity:1}
+}
+/* alsó sáv: erősen BALRA repül */
+@keyframes ttg-bot{
+  0%,49%,100%{clip-path:none;transform:none;opacity:1}
+  50%{clip-path:polygon(0 68%,100% 68%,100% 100%,0 100%);transform:translateX(-60px);opacity:1}
+  51%{clip-path:polygon(0 68%,100% 68%,100% 100%,0 100%);transform:translateX(54px);opacity:1}
+  52%{clip-path:polygon(0 68%,100% 68%,100% 100%,0 100%);transform:translateX(-44px);opacity:1}
+  53%{clip-path:none;transform:none;opacity:1}
+  54%,59%{clip-path:none;transform:none;opacity:1}
+  60%{clip-path:polygon(0 55%,100% 55%,100% 100%,0 100%);transform:translateX(68px);opacity:1}
+  61%{clip-path:polygon(0 55%,100% 55%,100% 100%,0 100%);transform:translateX(-72px);opacity:1}
+  62%{clip-path:polygon(0 55%,100% 55%,100% 100%,0 100%);transform:translateX(50px);opacity:1}
+  63%{clip-path:none;transform:none;opacity:1}
+  64%,69%{clip-path:none;transform:none;opacity:1}
+  70%{clip-path:polygon(0 72%,100% 72%,100% 100%,0 100%);transform:translateX(-80px);opacity:1}
+  71%{clip-path:polygon(0 72%,100% 72%,100% 100%,0 100%);transform:translateX(76px);opacity:1}
+  72%{clip-path:polygon(0 72%,100% 72%,100% 100%,0 100%);transform:translateX(-60px);opacity:1}
+  73%{clip-path:none;transform:none;opacity:1}
 }
 .ht-glitch{position:relative;display:inline}
 .ht-glitch-r,.ht-glitch-b{position:absolute;inset:0;pointer-events:none;white-space:nowrap;color:inherit}
-.ht-glitch-r{opacity:0}
-.ht-glitch-b{opacity:0}
+.ht-glitch-r{opacity:1}
+.ht-glitch-b{opacity:1}
 @keyframes fsup{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
 .hs{font-size:16px;color:var(--text2);line-height:1.75;max-width:560px;margin-bottom:48px;
   animation:fsup .8s cubic-bezier(.16,1,.3,1) .55s both}
@@ -1614,13 +1638,18 @@ function startTitleGlitch(){
     var b=document.createElement('span');b.className='ht-glitch-b';b.textContent=txt;
     wd.appendChild(r);wd.appendChild(b);
   });
-  var glitchDur=8000; /* 8mp — lassú, hosszú glitch burst */
+  var glitchDur=9000; /* 9mp teljes ciklus */
   function doGlitch(){
-    /* a .wd elemekre alkalmazzuk közvetlenül (nem a ghost span-okra) */
     h.querySelectorAll('.wd').forEach(function(el){
-      el.style.animation='none';
-      el.offsetHeight;
-      el.style.animation='ttg-shake '+glitchDur+'ms steps(1) forwards';
+      /* alap réteg */
+      el.style.animation='none'; el.offsetHeight;
+      el.style.animation='ttg-base '+glitchDur+'ms steps(1) forwards';
+      /* felső ghost */
+      var r=el.querySelector('.ht-glitch-r');
+      if(r){r.style.animation='none'; r.offsetHeight; r.style.animation='ttg-top '+glitchDur+'ms steps(1) forwards';}
+      /* alsó ghost */
+      var b=el.querySelector('.ht-glitch-b');
+      if(b){b.style.animation='none'; b.offsetHeight; b.style.animation='ttg-bot '+glitchDur+'ms steps(1) forwards';}
     });
   }
   doGlitch();
