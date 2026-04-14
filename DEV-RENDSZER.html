@@ -1236,11 +1236,10 @@ function wzBuildSum(){
   var h='';
   h+='<div class="wz-srow"><div class="wz-sk">Típus</div><div class="wz-sv red">'+types[wzType]+'</div></div>';
   h+='<div class="wz-srow"><div class="wz-sk">Mappa</div><div class="wz-sv">'+f+'</div></div>';
-  var gn=document.getElementById('wz-gitname').value||'—';
-  var ge=document.getElementById('wz-gitemail').value||'—';
+  var gn=document.getElementById('wz-gitname') ? document.getElementById('wz-gitname').value||'auto' : 'auto (Windows felhasználó)';
+  var ge=document.getElementById('wz-gitemail') ? document.getElementById('wz-gitemail').value||'auto' : 'auto';
   h+='<div class="wz-srow"><div class="wz-sk">GitHub</div><div class="wz-sv">'+g+'</div></div>';
-  h+='<div class="wz-srow"><div class="wz-sk">Git név</div><div class="wz-sv">'+gn+'</div></div>';
-  h+='<div class="wz-srow"><div class="wz-sk">Git email</div><div class="wz-sv">'+ge+'</div></div>';
+  h+='<div class="wz-srow"><div class="wz-sk">Git azonosító</div><div class="wz-sv" style="color:rgba(255,255,255,0.5);font-size:11px">auto (Windows felhasználónév)</div></div>';
   h+='<div class="wz-srow"><div class="wz-sk">Site URL</div><div class="wz-sv">'+u+'</div></div>';
   h+='<div class="wz-srow"><div class="wz-sk">FTP deploy</div><div class="wz-sv">'+(wzDeploy?'✓ Igen':'— Nem')+'</div></div>';
   h+='<div class="wz-srow"><div class="wz-sk">Branch</div><div class="wz-sv">'+(wzBranch?'✓ main/staging/develop':'— Nem')+'</div></div>';
@@ -1314,9 +1313,16 @@ function wzGeneratePs1(){
   s+='@\'\n# Copilot fejlesztesi szabalyok\n## Naplo\n- Minden session vegen frissitsd a NAPLO.md fajlt\n- Session elejen olvasd el az utolso bejegyzest\n## Design\n- Szoveg: color:#fff\n- Accent: #ff0000\n- Hatter: rgb(6,6,6) + dot grid\n\'@ | Set-Content ".github/copilot-instructions.md" -Encoding UTF8\n\n';
   s+='$datum = Get-Date -Format "yyyy. MM. dd."\n';
   s+='("# Fejlesztesi Naplo`n`n---`n`n## " + $datum + "`n`n### TODO:`n- [ ] Projekt elinditas`n`n---") | Set-Content "NAPLO.md" -Encoding UTF8\n\n';
-  if(gitname) s+="git config --global user.name '" + gitname.replace(/'/g,"''") + "'\n";
-  if(gitemail) s+="git config --global user.email '" + gitemail.replace(/'/g,"''") + "'\n";
-  if(gitname||gitemail) s+='\n';
+  s+='$gitName = git config --global user.name 2>$null\n';
+  s+='$gitEmail = git config --global user.email 2>$null\n';
+  if(github){
+    var ghUser=github.replace(/\.git$/,'').replace(/https?:\/\/github\.com\//,'').split('/')[0];
+    s+='if (-not $gitName) { git config --global user.name \''+ghUser+'\' }\n';
+    s+='if (-not $gitEmail) { git config --global user.email \''+ghUser+'@users.noreply.github.com\' }\n\n';
+  } else {
+    s+='if (-not $gitName) { git config --global user.name $env:USERNAME }\n';
+    s+='if (-not $gitEmail) { git config --global user.email "$env:USERNAME@users.noreply.github.com" }\n\n';
+  }
   s+='if (-not (Test-Path ".git")) { git init }\n';
   s+='git add .\ngit diff --cached --quiet\nif ($LASTEXITCODE -ne 0) { git commit -m "setup_initial" }\n\n';
   if(github){
