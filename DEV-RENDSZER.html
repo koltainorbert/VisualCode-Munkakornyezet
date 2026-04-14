@@ -1488,5 +1488,75 @@ function anonShow(){
 // PAGE LOAD
 window.addEventListener('DOMContentLoaded', function(){ anonShow(); });
 </script>
+
+<!-- ═══════════════════════════════════════
+     SAROKBOHÓC — jobb felső sark
+═══════════════════════════════════════ -->
+<style>
+#corner-clown{
+  position:fixed;top:0;right:0;z-index:9000;
+  width:140px;height:140px;
+  cursor:pointer;
+  animation:clown-idle 6s ease-in-out infinite;
+  transform-origin:top right;
+}
+#corner-clown img{
+  width:100%;height:100%;
+  object-fit:cover;
+  border-radius:0 0 0 100%;
+  filter:contrast(1.3) saturate(0.5) brightness(0.85) hue-rotate(10deg);
+  transition:filter 0.2s;
+  border-left:2px solid #ff0000;
+  border-bottom:2px solid #ff0000;
+  box-shadow:-4px 4px 30px rgba(255,0,0,0.5);
+}
+#corner-clown:hover img{
+  filter:contrast(2) saturate(0) brightness(1.5) hue-rotate(0deg) drop-shadow(0 0 20px #ff0000);
+  animation:clown-scream 0.5s steps(1) infinite;
+}
+#corner-clown .clown-eye{
+  position:absolute;top:28%;left:22%;width:14px;height:14px;
+  background:#ff0000;border-radius:50%;
+  box-shadow:0 0 12px #ff0000, 0 0 30px #ff0000;
+  animation:clown-blink 4s steps(1) infinite;
+  pointer-events:none;
+}
+#corner-clown .clown-eye.r{left:48%;}
+
+@keyframes clown-idle{
+  0%  {transform:rotate(0deg) scale(1);}
+  15% {transform:rotate(-3deg) scale(1.04);}
+  30% {transform:rotate(2deg) scale(0.98);}
+  50% {transform:rotate(-1deg) scale(1.03);}
+  65% {transform:rotate(4deg) scale(1.01);}
+  80% {transform:rotate(-2deg) scale(1.05);}
+  100%{transform:rotate(0deg) scale(1);}
+}
+@keyframes clown-scream{
+  0%  {transform:scale(1)   skew(0deg);}
+  25% {transform:scale(1.1) skew(-4deg,2deg);}
+  50% {transform:scale(0.95) skew(3deg,-1deg);}
+  75% {transform:scale(1.08) skew(-2deg,3deg);}
+  100%{transform:scale(1) skew(0deg);}
+}
+@keyframes clown-blink{
+  0%,94%{opacity:1;transform:scaleY(1);}
+  95%   {opacity:0;transform:scaleY(0.1);}
+  97%   {opacity:1;transform:scaleY(1);}
+  98%   {opacity:0;transform:scaleY(0.1);}
+  100%  {opacity:1;transform:scaleY(1);}
+}
+@keyframes clown-flash{
+  0%,100%{box-shadow:-4px 4px 30px rgba(255,0,0,0.5);}
+  50%    {box-shadow:-4px 4px 80px rgba(255,0,0,1), 0 0 120px rgba(255,0,0,0.8);}
+}
+#corner-clown img{ animation:clown-flash 3s ease-in-out infinite; }
+</style>
+
+<div id="corner-clown" onclick="anonShow()" title="Nyomj meg ha mersz...">
+  <img src="mime-shows-theatrical-emotions.jpg" alt="">
+  <div class="clown-eye"></div>
+  <div class="clown-eye r"></div>
+</div>
 </body>
 </html>
