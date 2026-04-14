@@ -587,7 +587,7 @@ Write-Host "`n[1/5] VS Code tasks..." -ForegroundColor Yellow
     {
       "label": "⬇ Pull (frissítés GitHubról)",
       "type": "shell",
-      "command": "git pull &amp;&amp; echo 'Kész!'",
+      "command": "git pull ; Write-Host 'Kesz!'",
       "options": { "cwd": "`${workspaceFolder}" },
       "group": "none",
       "presentation": { "reveal": "always", "panel": "shared", "clear": true },
