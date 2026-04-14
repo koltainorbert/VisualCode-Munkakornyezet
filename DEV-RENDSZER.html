@@ -59,7 +59,9 @@ nav a:hover{color:#fff}nav a:hover::after{transform:scaleX(1)}
   animation:fsup .7s cubic-bezier(.16,1,.3,1) .1s both}
 .hel{width:32px;height:1px;background:var(--red)}
 h1.ht{font-size:clamp(52px,9vw,96px);font-weight:900;
-  line-height:.95;letter-spacing:-3px;margin-bottom:28px;overflow:hidden}
+  line-height:.95;letter-spacing:-3px;margin-bottom:28px;overflow:visible;
+  position:relative;
+  animation:ttg-main 10s linear infinite;}
 .ht .ln{display:block;overflow:hidden}
 .ht .wd{display:inline-block;animation:wdup .8s cubic-bezier(.16,1,.3,1) both}
 .ht .wd.r{color:var(--red)}
@@ -67,13 +69,94 @@ h1.ht{font-size:clamp(52px,9vw,96px);font-weight:900;
 .ht .wd:nth-child(2){animation-delay:.3s}
 .ht .wd:nth-child(3){animation-delay:.45s}
 @keyframes wdup{from{transform:translateY(110%);opacity:0}to{transform:translateY(0);opacity:1}}
-/* ── TIKTOK GLITCH ── */
-.ht{position:relative;overflow:visible}
+/* ── TIKTOK GLITCH (GYIK-stílus: drop-shadow + skewX) ── */
 /* piros szín az 1. és 3. sorra mindig */
 .ht .ln:first-child .wd,.ht .ln:last-child .wd{color:#ff0000}
-/* ghost span-ok explicit színnel */
-.ht-glitch-r{color:#ff0000 !important;opacity:0;position:absolute;inset:0;pointer-events:none;white-space:nowrap}
-.ht-glitch-b{color:#00cfff !important;opacity:0;position:absolute;inset:0;pointer-events:none;white-space:nowrap}
+/* pseudo sávok */
+h1.ht::before,h1.ht::after{
+  content:'';
+  position:absolute;
+  left:-4%;width:108%;
+  pointer-events:none;
+  opacity:0;
+  z-index:10;
+}
+h1.ht::before{
+  height:3px;
+  background:rgba(255,0,0,0.95);
+  animation:ttg-bar1 10s linear infinite;
+}
+h1.ht::after{
+  height:2px;
+  background:rgba(0,210,255,0.9);
+  animation:ttg-bar2 10s linear infinite;
+}
+/* Fő glitch: 10s ciklus, glitch 40–68%-nál (~2.8s tartam) */
+@keyframes ttg-main{
+  0%,39%,69%,100%{transform:none;filter:none;}
+  /* 1. hullám */
+  40%{transform:translateX(-9px) skewX(-7deg);
+      filter:drop-shadow(9px 0 rgba(255,0,0,1)) drop-shadow(-9px 0 rgba(0,210,255,1));}
+  41%{transform:translateX(11px) skewX(6deg);
+      filter:drop-shadow(-10px 0 rgba(255,0,0,1)) drop-shadow(10px 0 rgba(0,210,255,1));}
+  42%{transform:translateX(-8px) skewX(-9deg);
+      filter:drop-shadow(8px 0 rgba(255,0,0,.9)) drop-shadow(-8px 0 rgba(0,210,255,.9));}
+  43%{transform:translateX(6px) skewX(4deg);
+      filter:drop-shadow(-5px 0 rgba(255,0,0,.7)) drop-shadow(5px 0 rgba(0,210,255,.6));}
+  44%{transform:none;filter:none;}
+  /* 2. hullám — csúcsintenzitás */
+  47%{transform:translateX(-16px) skewX(-12deg);
+      filter:drop-shadow(16px 0 rgba(255,0,0,1)) drop-shadow(-16px 0 rgba(0,210,255,1)) brightness(1.4);}
+  48%{transform:translateX(14px) skewX(10deg);
+      filter:drop-shadow(-14px 0 rgba(255,0,0,1)) drop-shadow(14px 0 rgba(0,210,255,1));}
+  49%{transform:translateX(-10px) skewX(-6deg);
+      filter:drop-shadow(10px 0 rgba(255,0,0,.8)) drop-shadow(-5px 0 rgba(0,210,255,.6));}
+  50%{transform:translateX(6px);filter:drop-shadow(-4px 0 rgba(0,210,255,.4));}
+  51%{transform:none;filter:none;}
+  /* 3. hullám — utórezgés */
+  54%{transform:translateX(-12px) skewX(-9deg);
+      filter:drop-shadow(12px 0 rgba(255,0,0,.9)) drop-shadow(-12px 0 rgba(0,210,255,.8));}
+  55%{transform:translateX(9px) skewX(7deg);
+      filter:drop-shadow(-9px 0 rgba(255,0,0,.7)) drop-shadow(7px 0 rgba(0,210,255,.5));}
+  56%{transform:translateX(-5px) skewX(-3deg);
+      filter:drop-shadow(5px 0 rgba(255,0,0,.5));}
+  57%{transform:none;filter:none;}
+  /* 4. hullám — elhaló */
+  60%{transform:translateX(-7px) skewX(-5deg);
+      filter:drop-shadow(7px 0 rgba(255,0,0,.6)) drop-shadow(-5px 0 rgba(0,210,255,.4));}
+  61%{transform:translateX(5px) skewX(3deg);
+      filter:drop-shadow(-4px 0 rgba(255,0,0,.4));}
+  62%{transform:none;filter:none;}
+  /* 5. hullám — mikrozaj */
+  65%{transform:translateX(-3px);
+      filter:drop-shadow(3px 0 rgba(255,0,0,.3)) drop-shadow(-2px 0 rgba(0,210,255,.25));}
+  66%{transform:translateX(2px);}
+  67%{transform:none;filter:none;}
+}
+@keyframes ttg-bar1{
+  0%,39%,69%,100%{opacity:0;top:20%;}
+  40%{opacity:1;top:15%;}  41%{opacity:0;top:50%;}
+  42%{opacity:1;top:47%;}  43%{opacity:0;}
+  47%{opacity:1;top:24%;}  48%{opacity:0;top:68%;}
+  49%{opacity:1;top:64%;}  50%{opacity:0;}
+  54%{opacity:.9;top:82%;} 55%{opacity:0;top:36%;}
+  56%{opacity:.7;top:34%;} 57%{opacity:0;}
+  60%{opacity:.6;top:57%;} 61%{opacity:0;}
+  65%{opacity:.4;top:72%;} 66%{opacity:0;}
+}
+@keyframes ttg-bar2{
+  0%,39%,69%,100%{opacity:0;top:60%;}
+  40%{opacity:1;top:57%;}  41%{opacity:0;top:28%;}
+  42%{opacity:1;top:25%;}  43%{opacity:0;}
+  47%{opacity:1;top:74%;}  48%{opacity:0;top:42%;}
+  49%{opacity:.8;top:40%;} 50%{opacity:0;}
+  54%{opacity:.8;top:88%;} 55%{opacity:0;top:20%;}
+  56%{opacity:.6;top:18%;} 57%{opacity:0;}
+  60%{opacity:.5;top:44%;} 61%{opacity:0;}
+  65%{opacity:.3;top:64%;} 66%{opacity:0;}
+}
+/* ghost span-ok — nem használtak, CSS viseli a glitchet */
+.ht-glitch-r,.ht-glitch-b{display:none}
 /* ── főelem: egész cím erős oldalsó rázkódás ── */
 @keyframes ttg-shake{
   0%,43%,100%{transform:none}
@@ -1647,7 +1730,7 @@ function anonShow(){
   var t=document.getElementById('anon-title');
   t.style.animation='none'; t.offsetHeight;
   t.style.animation='anon-txt-flash '+ANON_DUR+'ms ease forwards';
-  setTimeout(function(){ el.style.display='none'; showCookieIfNeeded(); startTitleGlitch(); }, ANON_DUR+100);
+  setTimeout(function(){ el.style.display='none'; showCookieIfNeeded(); }, ANON_DUR+100);
 }
 function showCookieIfNeeded(){
   if(localStorage.getItem('sdh-cookie-ok')) return;
