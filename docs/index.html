@@ -1,0 +1,1110 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Dokumentáció — VS Code Munkaközeg Wizard</title>
+<meta name="description" content="Teljes dokumentáció a VS Code Munkaközeg Wizardhoz. Hogyan készült, hogyan működik, GYIK, használati útmutató.">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --red:#ff0000;--bg:rgb(6,6,6);
+  --border:rgba(255,255,255,.07);--border2:rgba(255,0,0,.2);
+  --text:rgba(255,255,255,.42);--text2:rgba(255,255,255,.7);
+  --green:#00e676;--mono:'Cascadia Code','Fira Code','Consolas',monospace;
+}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);
+  background-image:radial-gradient(rgba(255,0,0,.025) 1px,transparent 1px),
+    radial-gradient(rgba(255,255,255,.012) 1px,transparent 1px);
+  background-size:60px 60px,30px 30px;background-position:0 0,15px 15px;
+  color:#fff;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  min-height:100vh;overflow-x:hidden;
+}
+/* ── PROGRESS ── */
+#prog{position:fixed;top:0;left:0;height:2px;z-index:999;
+  background:linear-gradient(90deg,#ff0000,#ff6600,#ff0000);
+  background-size:200% 100%;animation:shimmer 2s linear infinite;
+  width:0;transition:width .1s}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+/* ── NAV ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;
+  display:flex;align-items:center;gap:24px;padding:0 40px;height:56px;
+  background:rgba(6,6,6,.92);backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border)}
+.nl{font-size:12px;font-weight:800;letter-spacing:2.5px;color:#fff;
+  display:flex;align-items:center;gap:9px;text-decoration:none}
+.nd{width:7px;height:7px;border-radius:50%;background:var(--red);
+  animation:pulse-dot 2s ease-in-out infinite}
+@keyframes pulse-dot{0%,100%{box-shadow:0 0 0 0 rgba(255,0,0,.5)}
+  50%{box-shadow:0 0 0 6px rgba(255,0,0,0)}}
+nav a{font-size:10px;letter-spacing:1.5px;color:var(--text);
+  text-decoration:none;text-transform:uppercase;transition:color .2s;position:relative}
+nav a::after{content:'';position:absolute;bottom:-3px;left:0;right:0;
+  height:1px;background:var(--red);transform:scaleX(0);transition:transform .25s;transform-origin:left}
+nav a:hover{color:#fff}nav a:hover::after{transform:scaleX(1)}
+.nr{margin-left:auto;display:flex;align-items:center;gap:10px}
+.nbtn{display:flex;align-items:center;gap:6px;
+  background:rgba(255,0,0,.07);border:1px solid var(--border2);
+  color:#fff;font-size:10px;letter-spacing:1px;padding:6px 14px;
+  text-decoration:none;transition:all .22s;text-transform:uppercase;border-radius:8px}
+.nbtn:hover{background:rgba(255,0,0,.18);border-color:var(--red)}
+.nbtn::after{display:none !important}
+/* ── LAYOUT ── */
+.layout{display:grid;grid-template-columns:260px 1fr;min-height:100vh;padding-top:56px}
+/* ── SIDEBAR ── */
+aside{position:sticky;top:56px;height:calc(100vh - 56px);overflow-y:auto;
+  border-right:1px solid var(--border);padding:32px 0;
+  scrollbar-width:thin;scrollbar-color:rgba(255,0,0,.2) transparent}
+aside::-webkit-scrollbar{width:3px}
+aside::-webkit-scrollbar-thumb{background:rgba(255,0,0,.2);border-radius:2px}
+.sg{margin-bottom:28px}
+.sg-title{font-size:9px;letter-spacing:3px;text-transform:uppercase;
+  color:rgba(255,0,0,.5);font-weight:800;padding:0 24px;margin-bottom:8px}
+.sg a{display:flex;align-items:center;gap:8px;padding:7px 24px;
+  font-size:12px;color:var(--text);text-decoration:none;
+  transition:all .18s;border-left:2px solid transparent}
+.sg a:hover{color:#fff;background:rgba(255,255,255,.03)}
+.sg a.act{color:#fff;border-left-color:var(--red);background:rgba(255,0,0,.05)}
+.sg a svg{width:13px;height:13px;flex-shrink:0;opacity:.5}
+.sg a.act svg{opacity:1;color:var(--red)}
+/* ── MAIN ── */
+main{padding:60px 72px;max-width:900px}
+/* ── HERO ── */
+.doc-hero{padding:0 0 64px;border-bottom:1px solid var(--border);margin-bottom:64px}
+.doc-badge{font-size:9px;letter-spacing:4px;text-transform:uppercase;
+  color:var(--red);margin-bottom:20px;display:flex;align-items:center;gap:10px}
+.doc-badge::before{content:'';width:20px;height:1px;background:var(--red)}
+.doc-hero h1{font-size:clamp(36px,5vw,64px);font-weight:900;
+  letter-spacing:-2px;line-height:.95;margin-bottom:20px}
+.doc-hero h1 span{color:var(--red)}
+.doc-hero p{font-size:15px;color:var(--text2);line-height:1.75;max-width:580px}
+.version-row{display:flex;align-items:center;gap:12px;margin-top:24px;flex-wrap:wrap}
+.chip{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;
+  padding:4px 12px;border-radius:6px;border:1px solid var(--border)}
+.chip-r{background:rgba(255,0,0,.08);border-color:rgba(255,0,0,.25);color:var(--red)}
+.chip-g{background:rgba(0,230,118,.06);border-color:rgba(0,230,118,.2);color:var(--green)}
+.chip-w{background:rgba(255,255,255,.04);color:rgba(255,255,255,.55)}
+/* ── SECTION ── */
+.doc-section{margin-bottom:80px;scroll-margin-top:80px}
+.doc-section h2{font-size:28px;font-weight:800;letter-spacing:-.8px;
+  margin-bottom:8px;display:flex;align-items:center;gap:12px}
+.doc-section h2 svg{width:22px;height:22px;color:var(--red);flex-shrink:0}
+.doc-section h2 .num{font-size:11px;font-weight:900;letter-spacing:2px;
+  color:var(--red);background:rgba(255,0,0,.08);border:1px solid rgba(255,0,0,.2);
+  padding:2px 8px;border-radius:5px}
+.doc-lead{font-size:14px;color:var(--text);line-height:1.7;
+  margin-bottom:32px;max-width:620px}
+.doc-section h3{font-size:16px;font-weight:700;margin:32px 0 12px;
+  display:flex;align-items:center;gap:8px}
+.doc-section h3::before{content:'';width:3px;height:16px;background:var(--red);border-radius:2px;flex-shrink:0}
+/* ── CARDS ── */
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px}
+.card{background:rgba(255,255,255,.025);border:1px solid var(--border);
+  border-radius:12px;padding:20px;position:relative;overflow:hidden;
+  transition:border-color .2s,background .2s}
+.card:hover{border-color:rgba(255,0,0,.25);background:rgba(255,0,0,.03)}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--red),transparent);opacity:0;transition:opacity .2s}
+.card:hover::before{opacity:1}
+.card-icon{width:36px;height:36px;background:rgba(255,0,0,.08);
+  border:1px solid rgba(255,0,0,.15);border-radius:8px;
+  display:flex;align-items:center;justify-content:center;
+  color:var(--red);margin-bottom:12px}
+.card-icon svg{width:16px;height:16px}
+.card h4{font-size:13px;font-weight:700;margin-bottom:6px}
+.card p{font-size:12px;color:var(--text);line-height:1.6}
+.card code{font-family:var(--mono);font-size:11px;color:rgba(255,140,140,.9);
+  background:rgba(255,0,0,.08);padding:1px 5px;border-radius:3px;
+  border:1px solid rgba(255,0,0,.14)}
+/* ── STEPS ── */
+.steps{display:flex;flex-direction:column;gap:0;margin-bottom:24px}
+.step{display:flex;gap:18px;padding:20px 0;
+  border-bottom:1px solid rgba(255,255,255,.04);position:relative}
+.step:last-child{border-bottom:none}
+.step-num{width:32px;height:32px;border-radius:50%;flex-shrink:0;margin-top:2px;
+  background:rgba(255,0,0,.08);border:1px solid rgba(255,0,0,.3);
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:900;color:var(--red)}
+.step-body h4{font-size:13px;font-weight:700;margin-bottom:4px}
+.step-body p{font-size:12px;color:var(--text2);line-height:1.65}
+.step-body code{font-family:var(--mono);font-size:11px;color:rgba(255,140,140,.9);
+  background:rgba(255,0,0,.08);padding:1px 5px;border-radius:3px;
+  border:1px solid rgba(255,0,0,.14)}
+/* ── CODE BLOCK ── */
+.code-wrap{margin:16px 0}
+.code-head{display:flex;align-items:center;justify-content:space-between;
+  background:rgba(255,255,255,.03);border:1px solid var(--border);
+  border-bottom:none;padding:8px 16px;border-radius:10px 10px 0 0}
+.code-label{font-size:10px;letter-spacing:2px;color:rgba(255,0,0,.6);
+  text-transform:uppercase;font-weight:700;font-family:var(--mono)}
+.code-copy{background:transparent;border:1px solid var(--border);color:var(--text);
+  font-size:9px;padding:3px 10px;cursor:pointer;letter-spacing:1px;
+  transition:all .2s;font-family:inherit;text-transform:uppercase;
+  font-weight:700;border-radius:5px}
+.code-copy:hover{border-color:var(--red);color:#fff}
+.code-copy.ok{border-color:var(--green);color:var(--green)}
+pre{background:rgba(0,0,0,.75);border:1px solid var(--border);
+  padding:20px;overflow-x:auto;font-size:11.5px;line-height:1.72;
+  font-family:var(--mono);color:rgba(255,255,255,.82);
+  border-radius:0 0 10px 10px;
+  scrollbar-width:thin;scrollbar-color:rgba(255,0,0,.3) transparent}
+pre::-webkit-scrollbar{height:3px}
+pre::-webkit-scrollbar-thumb{background:rgba(255,0,0,.3);border-radius:2px}
+.kw{color:rgba(255,140,140,.9)}.str{color:rgba(255,210,120,.9)}
+.cm{color:rgba(255,255,255,.3);font-style:italic}
+.val{color:rgba(140,210,255,.9)}
+/* ── TABLE ── */
+table{width:100%;border-collapse:collapse;margin:16px 0 24px;font-size:12px}
+th{text-align:left;padding:10px 16px;font-size:10px;letter-spacing:2px;
+  text-transform:uppercase;color:rgba(255,0,0,.6);font-weight:700;
+  border-bottom:2px solid rgba(255,0,0,.15)}
+td{padding:12px 16px;border-bottom:1px solid rgba(255,255,255,.04);
+  color:rgba(255,255,255,.8);line-height:1.5;vertical-align:top}
+td code{font-family:var(--mono);font-size:11px;color:rgba(255,140,140,.9);
+  background:rgba(255,0,0,.08);padding:1px 5px;border-radius:3px;
+  border:1px solid rgba(255,0,0,.14)}
+tr:hover td{background:rgba(255,255,255,.02)}
+/* ── FAQ ── */
+.faq{margin-bottom:24px}
+.faq-item{border:1px solid var(--border);border-radius:10px;
+  margin-bottom:10px;overflow:hidden;transition:border-color .2s}
+.faq-item.open{border-color:rgba(255,0,0,.25)}
+.faq-q{display:flex;align-items:center;justify-content:space-between;
+  padding:16px 20px;cursor:pointer;transition:background .2s;gap:16px}
+.faq-q:hover{background:rgba(255,255,255,.03)}
+.faq-q span{font-size:13px;font-weight:600;color:#fff;line-height:1.4}
+.faq-q svg{width:16px;height:16px;flex-shrink:0;color:var(--red);
+  transition:transform .25s}
+.faq-item.open .faq-q svg{transform:rotate(180deg)}
+.faq-a{display:none;padding:0 20px 18px;font-size:13px;
+  color:var(--text2);line-height:1.7;border-top:1px solid var(--border)}
+.faq-item.open .faq-a{display:block}
+.faq-a p{margin-top:14px}
+.faq-a code{font-family:var(--mono);font-size:11px;color:rgba(255,140,140,.9);
+  background:rgba(255,0,0,.08);padding:1px 5px;border-radius:3px;
+  border:1px solid rgba(255,0,0,.14)}
+/* ── CALLOUT ── */
+.callout{display:flex;gap:14px;align-items:flex-start;
+  border-radius:10px;padding:16px 18px;margin:16px 0}
+.callout-info{background:rgba(0,120,255,.05);border:1px solid rgba(0,120,255,.2);
+  border-left:3px solid #0078ff}
+.callout-warn{background:rgba(255,165,0,.05);border:1px solid rgba(255,165,0,.2);
+  border-left:3px solid #ff9800}
+.callout-ok{background:rgba(0,230,118,.05);border:1px solid rgba(0,230,118,.18);
+  border-left:3px solid var(--green)}
+.callout svg{width:16px;height:16px;flex-shrink:0;margin-top:1px}
+.callout-info svg{color:#0078ff}.callout-warn svg{color:#ff9800}.callout-ok svg{color:var(--green)}
+.callout p{font-size:12px;color:var(--text2);line-height:1.7}
+.callout p strong{color:#fff}
+.callout p code{font-family:var(--mono);font-size:11px;color:rgba(255,140,140,.9);
+  background:rgba(255,0,0,.08);padding:1px 5px;border-radius:3px;
+  border:1px solid rgba(255,0,0,.14)}
+/* ── KBD ── */
+kbd{display:inline-flex;align-items:center;gap:3px;
+  background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);
+  border-bottom:2px solid rgba(255,255,255,.08);border-radius:5px;
+  font-size:11px;font-family:var(--mono);padding:2px 8px;color:#fff}
+/* ── DIVIDER ── */
+hr.d{border:none;border-top:1px solid var(--border);margin:0}
+/* ── SCROLL REVEAL ── */
+.rv{opacity:0;transform:translateY(20px);transition:opacity .55s ease,transform .55s ease}
+.rv.vi{opacity:1;transform:none}
+/* ── FOOTER ── */
+footer{border-top:1px solid var(--border);padding:40px 72px;
+  font-size:12px;color:var(--text);display:flex;
+  align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px}
+footer a{color:rgba(255,0,0,.5);text-decoration:none;transition:color .2s}
+footer a:hover{color:var(--red)}
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-thumb{background:rgba(255,0,0,.2);border-radius:3px}
+/* ── RESPONSIVE ── */
+@media(max-width:900px){
+  .layout{grid-template-columns:1fr}
+  aside{display:none}
+  main{padding:40px 24px}
+  .cards{grid-template-columns:1fr}
+  footer{padding:32px 24px}
+}
+</style>
+</head>
+<body>
+<div id="prog"></div>
+
+<nav>
+  <a href="../index.html" class="nl">
+    <div class="nd"></div>VS&nbsp;<span style="color:var(--red)">Wizard</span>
+  </a>
+  <a href="#bevezeto" style="display:none">skip</a>
+  <a href="#hasznalat">Használat</a>
+  <a href="#fajlok">Fájlok</a>
+  <a href="#git">Git/GitHub</a>
+  <a href="#deploy">Deploy</a>
+  <a href="#gyik">GYIK</a>
+  <div class="nr">
+    <a class="nbtn" href="../index.html">← Vissza</a>
+    <a class="nbtn" href="https://github.com/koltainorbert/VisualCode-Munkakornyezet" target="_blank">
+      <svg viewBox="0 0 24 24" fill="currentColor" style="width:13px;height:13px"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.168 6.839 9.49.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.604-3.369-1.34-3.369-1.34-.454-1.154-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836a9.59 9.59 0 012.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.741 0 .267.18.579.688.481C19.138 20.165 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
+      GitHub
+    </a>
+  </div>
+</nav>
+
+<div class="layout">
+  <!-- ═══ SIDEBAR ═══ -->
+  <aside>
+    <div class="sg">
+      <div class="sg-title">Bevezetés</div>
+      <a href="#bevezeto" class="act">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4m0 4h.01"/></svg>
+        Mi ez?
+      </a>
+      <a href="#keszult">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        Hogyan készült
+      </a>
+      <a href="#kovetelmenyek">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+        Rendszerkövetelmények
+      </a>
+    </div>
+    <div class="sg">
+      <div class="sg-title">Gyors indulás</div>
+      <a href="#elso-futtatas">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        Első futtatás
+      </a>
+      <a href="#hasznalat">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+        Wizard lépései
+      </a>
+      <a href="#kerdesek">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3M12 17h.01"/></svg>
+        Kérdések & válaszok
+      </a>
+    </div>
+    <div class="sg">
+      <div class="sg-title">Generált fájlok</div>
+      <a href="#fajlok">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3h18v18H3z"/></svg>
+        Áttekintés
+      </a>
+      <a href="#tasks-json">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="18" rx="2"/><path d="m6 8 4 4-4 4"/></svg>
+        tasks.json
+      </a>
+      <a href="#naplo-watcher">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        naplo-watcher.ps1
+      </a>
+      <a href="#autosave">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/></svg>
+        autosave-background
+      </a>
+      <a href="#naplo-md">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        NAPLO.md
+      </a>
+    </div>
+    <div class="sg">
+      <div class="sg-title">Munkafolyamat</div>
+      <a href="#git">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M6 21V9a9 9 0 009 9"/></svg>
+        Git / GitHub
+      </a>
+      <a href="#napibranch">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="6" y1="3" x2="6" y2="15"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M18 9a9 9 0 01-9 9"/></svg>
+        Branch stratégia
+      </a>
+      <a href="#deploy">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+        FTP auto-deploy
+      </a>
+      <a href="#napi-munkarend">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        Napi munkarend
+      </a>
+    </div>
+    <div class="sg">
+      <div class="sg-title">Referencia</div>
+      <a href="#parancsok">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="m6 8 4 4-4 4M12 16h6"/></svg>
+        Parancsok összefoglalója
+      </a>
+      <a href="#gyik">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3M12 17h.01"/></svg>
+        GYIK
+      </a>
+      <a href="#hibaelhárítás">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        Hibaelhárítás
+      </a>
+    </div>
+  </aside>
+
+  <!-- ═══ MAIN ═══ -->
+  <main>
+    <!-- HERO -->
+    <div class="doc-hero rv" id="bevezeto">
+      <div class="doc-badge">Teljes dokumentáció</div>
+      <h1>VS Code Munkaközeg<br><span>Wizard</span> — Docs</h1>
+      <p>Minden amit tudni kell: hogyan készült, hogyan működik, mire jó, hogyan konfiguráld, mi generálódik, és hogyan kezdj el dolgozni azonnal.</p>
+      <div class="version-row">
+        <span class="chip chip-r">v3.0</span>
+        <span class="chip chip-g">MIT License</span>
+        <span class="chip chip-w">PowerShell 5.1+</span>
+        <span class="chip chip-w">Windows 10/11</span>
+        <span class="chip chip-w">Koltai Norbert — 2026</span>
+      </div>
+    </div>
+
+    <!-- MI EZ -->
+    <div class="doc-section rv" id="mi-ez">
+      <h2>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4m0 4h.01"/></svg>
+        Mi ez a rendszer?
+      </h2>
+      <p class="doc-lead">Egy egysoros PowerShell parancs, amely teljesen felépíti a fejlesztői munkakörnyezetet bármilyen típusú projekthez — kérdés-felelet alapon, automatikusan.</p>
+      <div class="cards">
+        <div class="card">
+          <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
+          <h4>Egy parancs — minden kész</h4>
+          <p>Egyetlen <code>irm ... | iex</code> parancs a PowerShell ablakba — minden mást elintéz automatikusan.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3M12 17h.01"/></svg></div>
+          <h4>Kérdés-felelet alapú konfiguráció</h4>
+          <p>8 egyszerű kérdés — az összes értéknek van alapértelmezése, Enter-rel átugorható.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/></svg></div>
+          <h4>Valódi adatokkal tölt ki</h4>
+          <p>Nem template-et hoz létre — minden generált fájlba beírja a te projekt adataidat.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M6 21V9a9 9 0 009 9"/></svg></div>
+          <h4>Git + GitHub azonnal</h4>
+          <p>git init, első commit, push, branch rendszer — mind automatikusan, az általad megadott repo URL-be.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+          <h4>Auto-mentés minden percben</h4>
+          <p>VS Code-ba nyitáskor automatikusan elindul a napló watcher — percenként commit + push ha változás volt.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="18" rx="2"/><path d="m6 8 4 4-4 4"/></svg></div>
+          <h4>VS Code taskok azonnal</h4>
+          <p><kbd>Ctrl+Shift+B</kbd> = Push. Pull, Visszagörgetés, Browser Sync — mind el van készítve.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- HOGYAN KÉSZÜLT -->
+    <div class="doc-section rv" id="keszult">
+      <h2>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        Hogyan készült?
+      </h2>
+      <p class="doc-lead">A rendszer egy statikus HTML dokumentum + egy PowerShell script kombinációja. Semmilyen backend vagy szerver nem szükséges hozzá.</p>
+
+      <h3>Technológiai stack</h3>
+      <table>
+        <thead><tr><th>Réteg</th><th>Technológia</th><th>Leírás</th></tr></thead>
+        <tbody>
+          <tr><td>Frontend (dokumentumdal)</td><td><code>HTML5 + CSS3 + vanilla JS</code></td><td>Egyetlen HTML fájl, sem függőség, sem build lépés. Teljes design system belül.</td></tr>
+          <tr><td>Setup script</td><td><code>PowerShell 5.1</code></td><td>Windows beépített, nincs telepítés, <code>irm | iex</code>-szel futtatható.</td></tr>
+          <tr><td>Auto-commit</td><td><code>PowerShell loop + git</code></td><td>60 másodperces ciklus, <code>git diff</code> alapú detektálás.</td></tr>
+          <tr><td>Biztonsági mentés</td><td><code>Task Scheduler</code></td><td>Windows beépített ütemező, VS Code nélkül is fut.</td></tr>
+          <tr><td>CI/CD deploy</td><td><code>GitHub Actions</code></td><td>SamKirkland FTP-Deploy-Action — push-on-merge stratégia.</td></tr>
+          <tr><td>Verziókezelés</td><td><code>Git</code></td><td>main / staging / develop branch stratégia opcionálisan.</td></tr>
+          <tr><td>AI integráció</td><td><code>GitHub Copilot</code></td><td>copilot-instructions.md automatikusan generálva a projekt adataival.</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Design language</h3>
+      <p style="font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:20px">Az oldal saját design rendszert követ:</p>
+      <div class="cards">
+        <div class="card">
+          <h4>Szín paletta</h4>
+          <p>Háttér: <code>rgb(6,6,6)</code>, accent: <code>#ff0000</code>, szöveg: <code>#fff</code>. Soha nem <code>rgba(255,255,255,0.x)</code> szövegszínként.</p>
+        </div>
+        <div class="card">
+          <h4>Dot grid textúra</h4>
+          <p>Kétféle <code>radial-gradient</code> pont minta: 60px-es piros és 30px-es fehér rács a mélység érzékeltetéséhez.</p>
+        </div>
+        <div class="card">
+          <h4>Animációk</h4>
+          <p>IntersectionObserver alapú scroll-reveal, cubic-bezier easing, CSS keyframe animációk — sem JS könyvtár, sem framework.</p>
+        </div>
+        <div class="card">
+          <h4>Tipográfia</h4>
+          <p>System font stack + monospace a kódhoz (<code>Cascadia Code</code> / <code>Fira Code</code> / <code>Consolas</code>).</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- RENDSZERKÖVETELMÉNYEK -->
+    <div class="doc-section rv" id="kovetelmenyek">
+      <h2>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="18" rx="2"/><path d="m6 8 4 4-4 4"/></svg>
+        Rendszerkövetelmények
+      </h2>
+      <table>
+        <thead><tr><th>Szoftver</th><th>Minimum</th><th>Megjegyzés</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Windows</strong></td><td>Windows 10 (1903+)</td><td>Windows 11-en teljes mértékben tesztelve</td></tr>
+          <tr><td><strong>PowerShell</strong></td><td>5.1</td><td>Beépített — nincs telepítés. PS7 is támogatott.</td></tr>
+          <tr><td><strong>Git</strong></td><td>2.x</td><td>Szükséges ha GitHub-ot használsz. <a href="https://git-scm.com" target="_blank" style="color:rgba(255,0,0,.6)">git-scm.com</a></td></tr>
+          <tr><td><strong>VS Code</strong></td><td>1.85+</td><td>A generált taskok és copilot-instructions.md IDE-specifikus</td></tr>
+          <tr><td><strong>Node.js</strong></td><td>18+ (opcionális)</td><td>Browser Sync használatához kell: <code>npm i -g browser-sync</code></td></tr>
+          <tr><td><strong>GitHub CLI</strong></td><td>2.x (opcionális)</td><td>Ha van: automatikusan beírja a GitHub Secrets-t. Nélküle kézzel.</td></tr>
+        </tbody>
+      </table>
+      <div class="callout callout-info">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4m0 4h.01"/></svg>
+        <p>Az <code>irm | iex</code> futtatáshoz nincs szükség rendszergazdai jogra. A Task Scheduler beregisztrálásakor egyszer megjelenik az UAC ablak — ez szükséges.</p>
+      </div>
+    </div>
+
+    <!-- ELSŐ FUTTATÁS -->
+    <div class="doc-section rv" id="elso-futtatas">
+      <h2>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        Első futtatás — gyors indulás
+      </h2>
+      <p class="doc-lead">3 lépés, kb. 2 perc alatt kész az egész.</p>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <h4>PowerShell megnyitása</h4>
+            <p><kbd>Win</kbd> + <kbd>R</kbd> → gépeld be: <code>powershell</code> → <kbd>Enter</kbd><br>
+            Vagy: Start menüben keresés → <em>Windows PowerShell</em></p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <h4>Parancs beillesztése és futtatása</h4>
+            <div class="code-wrap">
+              <div class="code-head">
+                <span class="code-label">PowerShell</span>
+                <button class="code-copy" onclick="cpCode(this,'irm &quot;https://raw.githubusercontent.com/koltainorbert/VisualCode-Munkakornyezet/main/setup-projekt.ps1&quot; | iex')">Másolás</button>
+              </div>
+              <pre><span class="kw">irm</span> <span class="str">"https://raw.githubusercontent.com/koltainorbert/VisualCode-Munkakornyezet/main/setup-projekt.ps1"</span> <span class="kw">|</span> iex</pre>
+            </div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <h4>Kérdések megválaszolása</h4>
+            <p>8 egyszerű kérdés — minden értéknek van alapértelmezése. <kbd>Enter</kbd> = alapértelmezett elfogadása. kb. 1 perc.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">✓</div>
+          <div class="step-body">
+            <h4>VS Code automatikusan megnyílik</h4>
+            <p>A taskok aktívak, a napló watcher fut, a Browser Sync elindítható. Minden kész — munkához láthatunk.</p>
+          </div>
+        </div>
+      </div>
+      <div class="callout callout-warn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        <p><strong>Első VS Code megnyitásnál:</strong> <kbd>Ctrl+Shift+P</kbd> → <em>Manage Automatic Tasks</em> → <strong>Allow Automatic Tasks</strong> — ez kell hogy a napló watcher automatikusan elinduljon.</p>
+      </div>
+    </div>
+
+    <!-- WIZARD LÉPÉSEI -->
+    <div class="doc-section rv" id="hasznalat">
+      <h2>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+        A wizard lépései
+      </h2>
+      <p class="doc-lead">A script az alábbi sorrendben végzi el a munkát. Minden lépés a teljes kimeneten is nyomon követhető.</p>
+      <div class="steps">
+        <div class="step"><div class="step-num">1</div><div class="step-body"><h4>Kérdések fázis</h4><p>Élős vagy lokális · GitHub URL · projekt típus · mappa · proxy URL · FTP · branch rendszer. Sorrendben, egyenként.</p></div></div>
+        <div class="step"><div class="step-num">2</div><div class="step-body"><h4>Mappa létrehozás</h4><p>Ha a megadott mappa nem létezik: <code>New-Item -ItemType Directory</code> hozza létre. <code>.vscode/</code> és <code>.github/</code> automatikusan belül.</p></div></div>
+        <div class="step"><div class="step-num">3</div><div class="step-body"><h4>Fájlok írása</h4><p><code>tasks.json</code>, <code>naplo-watcher.ps1</code>, <code>autosave-background.ps1</code>, <code>NAPLO.md</code>, <code>settings.json</code>, <code>copilot-instructions.md</code>, <code>NAPI-MUNKAREND.txt</code></p></div></div>
+        <div class="step"><div class="step-num">4</div><div class="step-body"><h4>GitHub Actions workflow</h4><p>Ha FTP deploy kell: <code>deploy-production.yml</code> + opcionálisan <code>deploy-staging.yml</code> generálása. Ha GitHub CLI elérhető: Secrets automatikusan beírva.</p></div></div>
+        <div class="step"><div class="step-num">5</div><div class="step-body"><h4>Git inicializálás</h4><p><code>git init</code> → <code>git add .</code> → <code>git commit -m "Projekt setup"</code> → <code>git push</code>. Branch rendszer ha kérted: staging + develop ágak.</p></div></div>
+        <div class="step"><div class="step-num">6</div><div class="step-body"><h4>Task Scheduler regisztráció</h4><p>UAC ablak jelenik meg — elfogadás szükséges. Bejegyzi az 5 perces autosave taskot Windows ütemezőbe.</p></div></div>
+        <div class="step"><div class="step-num">✓</div><div class="step-body"><h4>VS Code megnyitás</h4><p>Automatikusan megnyitja a projekt mappát VS Code-ban. Ha a <code>code</code> parancs nem elérhető, a script maga keresi meg a telepítési mappát.</p></div></div>
+      </div>
+    </div>
+
+    <!-- KÉRDÉSEK RÉSZLETESEN -->
+    <div class="doc-section rv" id="kerdesek">
+      <h2>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3M12 17h.01"/></svg>
+        Kérdések részletesen
+      </h2>
+      <table>
+        <thead><tr><th>Kérdés</th><th>Mit adj meg</th><th>Alapértelmezett</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>Élős vagy lokális?</strong></td>
+            <td><code>0</code> = csak lokális fejlesztés<br><code>1</code> = van élő szerver is (FTP adatokat kér)</td>
+            <td><code>0</code></td>
+          </tr>
+          <tr>
+            <td><strong>Staging szerver?</strong><br><small>csak ha [1]-et választottál</small></td>
+            <td><code>0</code> = nem kell<br><code>1</code> = legyen külön staging.domain.hu</td>
+            <td><code>0</code></td>
+          </tr>
+          <tr>
+            <td><strong>FTP adatok</strong><br><small>csak ha [1]-et választottál</small></td>
+            <td>FTP szerver, felhasználónév, jelszó, célmappa (pl. <code>/public_html/</code>)</td>
+            <td>—</td>
+          </tr>
+          <tr>
+            <td><strong>Több fejlesztő?</strong></td>
+            <td><code>0</code> = csak én<br><code>1</code> = igen, legyen branching (main/staging/develop)</td>
+            <td><code>0</code></td>
+          </tr>
+          <tr>
+            <td><strong>Projekt típusa</strong></td>
+            <td><code>0</code>=WordPress · <code>1</code>=HTML/CSS/JS · <code>2</code>=React/Vue/Node · <code>3</code>=Laravel · <code>4</code>=Egyéb</td>
+            <td>—</td>
+          </tr>
+          <tr>
+            <td><strong>GitHub repo URL</strong></td>
+            <td>Pl. <code>https://github.com/neved/ujprojekt</code><br>Üresen hagyható (GitHub push kihagyásra kerül)</td>
+            <td>—</td>
+          </tr>
+          <tr>
+            <td><strong>Projekt mappa</strong></td>
+            <td>Teljes elérési út. WordPress esetén <code>Enter</code> = auto-keresés <code>D:\LocalWP</code>-ben.<br>Egyéb: ha megadtad a GitHub URL-t, a repo nevéből javaslatot ad.</td>
+            <td>repo névből vagy aktuális mappa</td>
+          </tr>
+          <tr>
+            <td><strong>Site URL / port</strong></td>
+            <td>WordPress: <code>myproject.local</code> · HTML: <code>.</code> (statikus) · React: <code>localhost:5173</code> · Laravel: <code>localhost:8000</code></td>
+            <td><code>localhost:3000</code></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- FÁJLOK -->
+    <div class="doc-section rv" id="fajlok">
+      <h2>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3h18v18H3z"/></svg>
+        Generált fájlok
+      </h2>
+      <p class="doc-lead">A wizard 7 fájlt hoz létre a te projekt adataiddal kitöltve — minden érték valódi, a te mappáddal és URL-eddel.</p>
+      <table>
+        <thead><tr><th>Fájl</th><th>Hely</th><th>Mire jó?</th></tr></thead>
+        <tbody>
+          <tr><td><code>tasks.json</code></td><td><code>.vscode/</code></td><td>VS Code taskok: Push, Pull, Visszagörgetés, Browser Sync, Watcher</td></tr>
+          <tr><td><code>naplo-watcher.ps1</code></td><td><code>.vscode/</code></td><td>Auto-push script (percenként fut VS Code-ban)</td></tr>
+          <tr><td><code>naplo-watcher-bg.ps1</code></td><td><code>.vscode/</code></td><td>Háttér autosave (Task Scheduler futtatja, VS Code nélkül is)</td></tr>
+          <tr><td><code>settings.json</code></td><td><code>.vscode/</code></td><td>Automatikus taskok engedélyezve: <code>"task.allowAutomaticTasks": "on"</code></td></tr>
+          <tr><td><code>copilot-instructions.md</code></td><td><code>.github/</code></td><td>GitHub Copilot projekt-specifikus instrukciók (URL, Git, design szabályok)</td></tr>
+          <tr><td><code>deploy-production.yml</code></td><td><code>.github/workflows/</code></td><td>FTP auto-deploy GitHub Actions (csak ha élős mode-t választottál)</td></tr>
+          <tr><td><code>deploy-staging.yml</code></td><td><code>.github/workflows/</code></td><td>FTP staging deploy (csak ha staging is kell)</td></tr>
+          <tr><td><code>NAPLO.md</code></td><td>gyökér</td><td>Fejlesztési napló — auto-frissítve minden commitnál</td></tr>
+          <tr><td><code>NAPI-MUNKAREND.txt</code></td><td>gyökér</td><td>Gyors referencia a napi workflow-hoz</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- TASKS.JSON -->
+    <div class="doc-section rv" id="tasks-json">
+      <h2>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="18" rx="2"/><path d="m6 8 4 4-4 4"/></svg>
+        tasks.json — VS Code taskok
+      </h2>
+      <p class="doc-lead">A <code>.vscode/tasks.json</code> tartalmazza az összes VS Code taskot. Ezeket <kbd>Ctrl+Shift+P</kbd> → <em>Run Task</em>-kal éred el, vagy shortcuttal.</p>
+      <table>
+        <thead><tr><th>Task neve</th><th>Shortcut / elérés</th><th>Mit csinál?</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>⬆ Push (feltöltés GitHubra)</td>
+            <td><kbd>Ctrl+Shift+B</kbd></td>
+            <td><code>git add .</code> → commit (auto dátum) → <code>git push</code>. Ha nincs változás: "Nincs változás." üzenet.</td>
+          </tr>
+          <tr>
+            <td>⬇ Pull (frissítés GitHubról)</td>
+            <td>Run Task → Pull</td>
+            <td><code>git pull</code> — letölti a GitHub-on lévő változtatásokat.</td>
+          </tr>
+          <tr>
+            <td>↩ Visszagörgetés</td>
+            <td>Run Task → Visszagörgetés</td>
+            <td>Listázza az utolsó 20 commitot, sorszám alapján visszaállítja a kiválasztott verzióra.</td>
+          </tr>
+          <tr>
+            <td>▶ Napló Watcher</td>
+            <td>VS Code megnyitásakor auto-indul</td>
+            <td>Percenként figyeli a git diff-et — ha változás van, commit + push automatikusan.</td>
+          </tr>
+          <tr>
+            <td>🌐 Browser Sync</td>
+            <td>Run Task → Browser Sync</td>
+            <td>Elindítja a live reload szervert. WordPress esetén proxy módban, HTML esetén static server módban.</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="callout callout-ok">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+        <p><strong>A Push task az alapértelmezett build task</strong> — ezért működik <kbd>Ctrl+Shift+B</kbd>-vel. A többi task a <em>Run Task</em> menüben található.</p>
+      </div>
+    </div>
+
+    <!-- NAPLO WATCHER -->
+    <div class="doc-section rv" id="naplo-watcher">
+      <h2>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        naplo-watcher.ps1 — auto-commit
+      </h2>
+      <p class="doc-lead">Ez a script fut a VS Code terminálban, amikor megnyitod a projektet. Percenként ellenőrzi a változásokat.</p>
+      <div class="steps">
+        <div class="step"><div class="step-num">1</div><div class="step-body"><h4>Változás detektálás</h4><p><code>git diff --name-only HEAD</code> és <code>git ls-files --others</code> — listázza a módosított és új fájlokat.</p></div></div>
+        <div class="step"><div class="step-num">2</div><div class="step-body"><h4>NAPLO.md frissítés</h4><p>Ha az aktuális dátumhoz már van bejegyzés: hozzáadja az új sort. Ha nincs: új dátum fejlécet hoz létre.</p></div></div>
+        <div class="step"><div class="step-num">3</div><div class="step-body"><h4>Commit + push</h4><p><code>git add .</code> → <code>git commit -m "Auto HH:mm — fájlnév"</code> → <code>git push</code>. Ha nincs változás a cached diff-ben: kihagyja.</p></div></div>
+        <div class="step"><div class="step-num">4</div><div class="step-body"><h4>Ismétlés</h4><p><code>Start-Sleep -Seconds 60</code> után újra elölről. Folyamatosan fut amíg a VS Code terminál él.</p></div></div>
+      </div>
+    </div>
+
+    <!-- AUTOSAVE -->
+    <div class="doc-section rv" id="autosave">
+      <h2>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/></svg>
+        autosave-background.ps1 — Task Scheduler
+      </h2>
+      <p class="doc-lead">A VS Code-tól független, háttérben futó backup script. Windows Task Schedulerben van regisztrálva, 5 percenként fut.</p>
+      <div class="cards">
+        <div class="card">
+          <h4>Mikor fut?</h4>
+          <p>Bejelentkezéskor automatikusan elindul. Ezután 5 percenként, minden alkalommal amikor a Windows fut.</p>
+        </div>
+        <div class="card">
+          <h4>Mit csinál?</h4>
+          <p>Ugyanaz mint a watcher, de minimalista: <code>git add .</code> → <code>git diff --cached</code> → ha van változás: commit + push.</p>
+        </div>
+        <div class="card">
+          <h4>Task neve</h4>
+          <p><code>SDH-AutoSave-[projekt-neve]</code> — Task Manager vagy Task Scheduler alkalmazásban látható.</p>
+        </div>
+        <div class="card">
+          <h4>Törlés</h4>
+          <p>Task Scheduler alkalmazásban megtalálod. Jobb klikk → Delete. Vagy: <code>Unregister-ScheduledTask -TaskName "SDH-AutoSave-projektnev"</code></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- NAPLO.MD -->
+    <div class="doc-section rv" id="naplo-md">
+      <h2>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        NAPLO.md — fejlesztési napló
+      </h2>
+      <p class="doc-lead">A napló watcher minden commitnál automatikusan frissíti. Ezen kívül kézzel is vezetheted — ez a Copilot munkamenet-kontextusa.</p>
+      <div class="code-wrap">
+        <div class="code-head"><span class="code-label">NAPLO.md struktúra</span></div>
+        <pre><span class="cm"># Fejlesztési Napló</span>
+
+---
+
+<span class="kw">## 2026. április 14.</span>
+
+<span class="str">### Ma elvégezve:</span>
+- <span class="val">[x]</span> Projekt setup kész
+- <span class="val">[x]</span> Browser Sync konfigurálva
+- <span class="val">[ ]</span> Hero szekció elkészítése
+
+<span class="str">### Nyitott TODO-k:</span>
+- <span class="val">[ ]</span> Contact form validáció
+- <span class="val">[ ]</span> Mobile nav
+
+---
+
+<span class="str">### Változások:</span>
+- 14:35 — style.css, index.html</pre>
+      </div>
+      <div class="callout callout-info">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4m0 4h.01"/></svg>
+        <p>A <code>copilot-instructions.md</code> utasítja a Copilotot, hogy <strong>minden munkamenet elején olvassa el a NAPLO.md-t</strong>, és mondja el hol tartott. Így minden session folytatja ahol abbahagytad.</p>
+      </div>
+    </div>
+
+    <!-- GIT / GITHUB -->
+    <div class="doc-section rv" id="git">
+      <h2>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M6 21V9a9 9 0 009 9"/></svg>
+        Git / GitHub munkafolyamat
+      </h2>
+      <p class="doc-lead">A setup script minden git konfigurációt elvégez. Napi munka durant csak a Push task kell.</p>
+      <table>
+        <thead><tr><th>Parancs</th><th>Mit csinál</th><th>Mikor</th></tr></thead>
+        <tbody>
+          <tr><td><kbd>Ctrl+Shift+B</kbd></td><td>git add + commit + push</td><td>Bármikor, akárhányszor</td></tr>
+          <tr><td>Run Task → Pull</td><td>git pull</td><td>Másik gépen vagy másik fejlesztő után</td></tr>
+          <tr><td>Run Task → Visszagörgetés</td><td>git checkout [commit] -- .</td><td>Ha valami elromlott</td></tr>
+          <tr><td>Auto (watcher)</td><td>percenként commit+push</td><td>Automatikus, háttér</td></tr>
+          <tr><td>Auto (Task Scheduler)</td><td>5 percenként commit+push</td><td>Automatikus, VS Code nélkül is</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- BRANCH STRATÉGIA -->
+    <div class="doc-section rv" id="napibranch">
+      <h2>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="6" y1="3" x2="6" y2="15"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M18 9a9 9 0 01-9 9"/></svg>
+        Branch stratégia
+      </h2>
+      <p class="doc-lead">Ha több fejlesztő dolgozik, vagy staging szerver is van, a wizard automatikusan létrehozza a branch rendszert.</p>
+      <div class="cards">
+        <div class="card">
+          <h4>main</h4>
+          <p>Éles ág. Push ide = deploy <strong>éles szerverre</strong>. Csak staging ágból merge-lj ide.</p>
+        </div>
+        <div class="card">
+          <h4>staging</h4>
+          <p>Tesztkörnyezet ág. Push ide = deploy <strong>staging szerverre</strong>. Develop ágból merge-lj ide tesztelés előtt.</p>
+        </div>
+        <div class="card">
+          <h4>develop</h4>
+          <p>Fejlesztési ág. <strong>Here dolgozz nap mint nap.</strong> Ha kész a feature: merge staging-be.</p>
+        </div>
+        <div class="card">
+          <h4>Merge parancsok</h4>
+          <p>develop → staging: <code>git checkout staging && git merge develop && git push</code><br>staging → main (élesítés): <code>git checkout main && git merge staging && git push</code></p>
+        </div>
+      </div>
+      <div class="callout callout-info">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4m0 4h.01"/></svg>
+        <p>Egy fejlesztő esetén elegendő a <strong>main ág egyedül</strong> — a wizard alapértelmezésben így állítja be (<strong>[0]</strong> válasz a branch kérdésre).</p>
+      </div>
+    </div>
+
+    <!-- FTP DEPLOY -->
+    <div class="doc-section rv" id="deploy">
+      <h2>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+        FTP auto-deploy (GitHub Actions)
+      </h2>
+      <p class="doc-lead">Ha élős szervered is van, a wizard létrehozza a GitHub Actions workflow-t. A main ágra push után automatikusan FTP-n feltölti a változtatásokat.</p>
+      <h3>GitHub Secrets beállítása</h3>
+      <p style="font-size:13px;color:var(--text2);margin-bottom:16px">Ha nincs GitHub CLI telepítve, kézzel kell beírni a Secrets-t:</p>
+      <div class="steps">
+        <div class="step"><div class="step-num">1</div><div class="step-body"><h4>Navigálj a repóhoz</h4><p>github.com → repository → <strong>Settings</strong> tab</p></div></div>
+        <div class="step"><div class="step-num">2</div><div class="step-body"><h4>Secrets and variables → Actions</h4><p>Bal oldali menüben: Security → Secrets and variables → Actions</p></div></div>
+        <div class="step"><div class="step-num">3</div><div class="step-body"><h4>4 Secret beírása</h4>
+          <p>
+            <code>FTP_SERVER</code> — pl. <code>ftp.infostudio.hu</code><br>
+            <code>FTP_USERNAME</code> — FTP felhasználónév<br>
+            <code>FTP_PASSWORD</code> — FTP jelszó<br>
+            <code>FTP_SERVER_DIR</code> — pl. <code>/public_html/</code>
+          </p>
+        </div></div>
+      </div>
+      <div class="callout callout-ok">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+        <p>Ha GitHub CLI (<code>gh</code>) telepítve van és be vagy jelentkezve: a setup script <strong>automatikusan beírja a Secrets-t</strong> — nem kell kézzel.</p>
+      </div>
+      <h3>Mi az exclude lista?</h3>
+      <p style="font-size:13px;color:var(--text2);margin-bottom:12px">A deploy workflow kizárja a feltöltésből:</p>
+      <div class="code-wrap">
+        <div class="code-head"><span class="code-label">deploy.yml — exclude</span></div>
+        <pre>exclude: |
+  **/.git*/**        <span class="cm"># Git belső fájlok</span>
+  **/.vscode/**      <span class="cm"># VS Code beállítások</span>
+  **/NAPLO.md        <span class="cm"># Fejlesztési napló</span>
+  **/NAPI-MUNKAREND.txt
+  **/node_modules/** <span class="cm"># Node modulok</span></pre>
+      </div>
+    </div>
+
+    <!-- NAPI MUNKAREND -->
+    <div class="doc-section rv" id="napi-munkarend">
+      <h2>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        Napi munkarend
+      </h2>
+      <div class="cards">
+        <div class="card">
+          <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 9 15"/></svg></div>
+          <h4>Reggel — munkakezdés</h4>
+          <p>
+            1. VS Code megnyitja a projektet<br>
+            2. Napló watcher auto-indul<br>
+            3. <kbd>Ctrl+Shift+P</kbd> → Run Task → ⬇ Pull<br>
+            4. Run Task → 🌐 Browser Sync<br>
+            5. Munka: <code>localhost:3000</code>
+          </p>
+        </div>
+        <div class="card">
+          <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg></div>
+          <h4>Este — mentés</h4>
+          <p>
+            <kbd>Ctrl+Shift+B</kbd> = Push GitHubra<br><br>
+            <em>(A watcher percenként pusholja a változásokat — az esti manuális push csak biztosíték.)</em>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- PARANCSOK ÖSSZEFOGLALÓJA -->
+    <div class="doc-section rv" id="parancsok">
+      <h2>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="m6 8 4 4-4 4M12 16h6"/></svg>
+        Parancsok összefoglalója
+      </h2>
+      <table>
+        <thead><tr><th>Parancs / Shortcut</th><th>Elérés</th><th>Leírás</th></tr></thead>
+        <tbody>
+          <tr><td><kbd>Ctrl+Shift+B</kbd></td><td>Mindig elérhető</td><td>Push — git add + commit + push</td></tr>
+          <tr><td><kbd>Ctrl+Shift+P</kbd> → Run Task → Pull</td><td>VS Code</td><td>git pull — szinkronizálás GitHubról</td></tr>
+          <tr><td><kbd>Ctrl+Shift+P</kbd> → Run Task → Visszagörgetés</td><td>VS Code</td><td>Utolsó 20 commit listája, visszaállítás</td></tr>
+          <tr><td><kbd>Ctrl+Shift+P</kbd> → Run Task → Browser Sync</td><td>VS Code</td><td>Live reload szerver indítás</td></tr>
+          <tr><td><code>git checkout develop</code></td><td>Terminál</td><td>Váltás fejlesztési ágra</td></tr>
+          <tr><td><code>git merge develop</code></td><td>Terminál staging ágon</td><td>Fejlesztések átvitele stagingre</td></tr>
+          <tr><td><code>git merge staging</code></td><td>Terminál main ágon</td><td>Staging élesítése</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- GYIK -->
+    <div class="doc-section rv" id="gyik">
+      <h2>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3M12 17h.01"/></svg>
+        GYIK — Gyakran ismételt kérdések
+      </h2>
+      <div class="faq">
+
+        <div class="faq-item">
+          <div class="faq-q" onclick="faqToggle(this)">
+            <span>Miért kell a PowerShell futtatás engedélyezése?</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+          <div class="faq-a"><p>Windows alapból tiltja az online letöltött scriptek futtatását (<code>ExecutionPolicy Restricted</code>). Az <code>irm | iex</code> parancs a script tartalmát string-ként futtatja, ezért nem szükséges módosítani a globális policy-t. A script magában biztonságos — forráskódja megtekinthető a GitHubon.</p></div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q" onclick="faqToggle(this)">
+            <span>Mi az a UAC ablak a Task Scheduler regisztrációnál?</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+          <div class="faq-a"><p>A Windows Task Scheduler feladatot csak emelt jogosultsággal lehet regisztrálni. A script <code>Start-Process powershell -Verb RunAs</code> paranccsal kéri ezt a jogot. Az UAC (felhasználói fiókvédelem) ablak egyszer jelenik meg — elfogadás után a háttér autosave task aktív.</p></div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q" onclick="faqToggle(this)">
+            <span>Felülírja a meglévő fájlokat a script?</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+          <div class="faq-a"><p>Igen — a script <code>Set-Content</code>-tel írja a fájlokat, ami felülírja a meglévőt. Ha már van <code>tasks.json</code>-od, azt lecseréli. Meglévő projektre való futtatás előtt mentsd el, amit nem szeretnél elveszíteni.</p></div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q" onclick="faqToggle(this)">
+            <span>Működik offline, GitHub nélkül?</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+          <div class="faq-a"><p>Igen. Ha a GitHub URL kérdésnél üresen hagyod (Enter), a script kihagyja a <code>git push</code> lépéseket. A <code>git init</code>, a taskok, a watcher és a Task Scheduler mind működik lokálisan is — csak a távoli backup nem fut.</p></div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q" onclick="faqToggle(this)">
+            <span>Hogyan tudom leállítani / törölni a háttér auto-save taskot?</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+          <div class="faq-a">
+            <p>Kétféleképpen:</p>
+            <p><strong>A) Task Scheduler GUI:</strong> Start → Task Scheduler → SDH-AutoSave-[projektnev] → jobb klikk → Delete</p>
+            <p><strong>B) PowerShell:</strong></p>
+            <div class="code-wrap"><pre><span class="kw">Unregister-ScheduledTask</span> -TaskName <span class="str">"SDH-AutoSave-projektnev"</span> -Confirm:<span class="val">$false</span></pre></div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q" onclick="faqToggle(this)">
+            <span>Mi a különbség a Napló Watcher és az autosave-background között?</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+          <div class="faq-a">
+            <p><strong>Napló Watcher</strong> (<code>naplo-watcher.ps1</code>): VS Code terminálban fut, 60 mp-enként, frissíti a NAPLO.md-t is, látható outputtal.</p>
+            <p><strong>autosave-background</strong> (<code>naplo-watcher-bg.ps1</code>): Windows Task Schedulerben van, 5 mp-enként, ablak nélkül fut a háttérben, VS Code-tól független. Ha nincs megnyitva a projekt: akkor is pusholja a változásokat.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q" onclick="faqToggle(this)">
+            <span>Browser Sync nem indul el — mit tegyek?</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+          <div class="faq-a">
+            <p>A Browser Sync Node.js-t és az <code>npx</code> parancsot igényli. Ha nincs telepítve:</p>
+            <div class="code-wrap"><pre><span class="cm"># Node.js telepítése: https://nodejs.org</span>
+<span class="cm"># Vagy globálisan telepíteni Browser Syncet:</span>
+<span class="kw">npm</span> install -g browser-sync</pre></div>
+            <p>Ezután a Browser Sync task működni fog.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q" onclick="faqToggle(this)">
+            <span>Hogyan frissítem a scriptet ha megjelenik egy új verzió?</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+          <div class="faq-a">
+            <p>Futtasd újra ugyanazt a parancsot egy meglévő projekten — felülírja a config fájlokat az újabb verzióval. A <code>NAPLO.md</code> és a projekt kódfájlaid érintetlenek maradnak.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q" onclick="faqToggle(this)">
+            <span>Lehet Mac-en vagy Linuxon futtatni?</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+          <div class="faq-a">
+            <p>A script Windows-specifikus (<code>Task Scheduler</code>, <code>Start-Process -Verb RunAs</code>, LocalWP keresés). Mac-en és Linuxon PowerShell Core (PS7) fut, de a Task Scheduler és egyes Windows-specifikus parancsok nem. A script Mac/Linux portja tervben van, de nincs kész.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q" onclick="faqToggle(this)">
+            <span>A GitHub Copilot miért olvassa a NAPLO.md-t?</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+          <div class="faq-a">
+            <p>A <code>.github/copilot-instructions.md</code> fájl utasítja a Copilotot a projekt-specifikus viselkedésre. A "munkamenet elején olvasd a NAPLO.md-t" instrukció azt jelenti, hogy minden chat session elején a Copilot tájékozódik: hol tartottál legutóbb, mi volt nyitott — így nem kell újra magyarázni a kontextust.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- HIBAELHÁRÍTÁS -->
+    <div class="doc-section rv" id="hibaelhárítás">
+      <h2>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        Hibaelhárítás
+      </h2>
+      <table>
+        <thead><tr><th>Hiba</th><th>Ok</th><th>Megoldás</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>"Author identity unknown"</td>
+            <td>git user.name / user.email nincs beállítva</td>
+            <td><code>git config --global user.name "Neved"</code><br><code>git config --global user.email "email@example.com"</code></td>
+          </tr>
+          <tr>
+            <td>Push megkéri a jelszót minden alkalommal</td>
+            <td>HTTPS remote, credential manager nincs</td>
+            <td><code>git config --global credential.helper manager</code> — ezután egyszer be kell jelentkezni GitHub-ra, aztán elmenti.</td>
+          </tr>
+          <tr>
+            <td>A napló watcher nem indul automatikusan</td>
+            <td>Automatic Tasks le van tiltva VS Code-ban</td>
+            <td><kbd>Ctrl+Shift+P</kbd> → <em>Manage Automatic Tasks</em> → <strong>Allow Automatic Tasks</strong></td>
+          </tr>
+          <tr>
+            <td>Browser Sync: "npx not found"</td>
+            <td>Node.js nincs telepítve</td>
+            <td><a href="https://nodejs.org" target="_blank" style="color:rgba(255,0,0,.6)">nodejs.org</a> → telepítés, majd <code>npm i -g browser-sync</code></td>
+          </tr>
+          <tr>
+            <td>GitHub Actions deploy nem fut</td>
+            <td>Secrets nincsenek beírva a repóba</td>
+            <td>GitHub → repo → Settings → Secrets → Actions → 4 FTP Secret beírása</td>
+          </tr>
+          <tr>
+            <td>UAC ablak nem jelenik meg</td>
+            <td>Csoportházirenderr blokkolja</td>
+            <td>Task Schedulert kézzel nyisd meg, és add hozzá manuálisan a <code>naplo-watcher-bg.ps1</code> taskot.</td>
+          </tr>
+          <tr>
+            <td>"remote: Repository not found"</td>
+            <td>Hibás GitHub URL vagy nem létező repo</td>
+            <td>Ellenőrizd az URL-t. A GitHub repót létre kell hozni <em>előre</em> — a script nem hoz létre új repót.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- LICENSE -->
+    <div class="doc-section rv" id="license">
+      <h2>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Licenc
+      </h2>
+      <div class="code-wrap">
+        <div class="code-head"><span class="code-label">MIT License</span></div>
+        <pre>MIT License
+
+Copyright (c) 2026 Koltai Norbert — InfoStudio (www.infostudio.hu)
+
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files, to deal
+in the Software without restriction, including without limitation the
+rights to use, copy, modify, merge, publish, distribute, sublicense,
+and/or sell copies of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND.
+IN NO EVENT SHALL THE AUTHORS BE LIABLE FOR ANY CLAIM, DAMAGES
+OR OTHER LIABILITY ARISING FROM THE USE OF THE SOFTWARE.</pre>
+      </div>
+      <p style="font-size:13px;color:var(--text);margin-top:12px">Szabad felhasználás, módosítás és terjesztés engedélyezett — a copyright sor megtartásával. Teljes szöveg: <a href="https://github.com/koltainorbert/VisualCode-Munkakornyezet/blob/main/LICENSE" target="_blank" style="color:rgba(255,0,0,.6)">GitHub → LICENSE</a></p>
+    </div>
+
+  </main>
+</div>
+
+<footer>
+  <span>© 2026 <strong style="color:rgba(255,255,255,.7)">Koltai Norbert</strong> · <a href="https://www.infostudio.hu" target="_blank">InfoStudio</a> · MIT License</span>
+  <span>VS Code Munkaközeg Wizard v3.0 · <a href="https://github.com/koltainorbert/VisualCode-Munkakornyezet" target="_blank">GitHub</a></span>
+</footer>
+
+<script>
+// Progress bar
+window.addEventListener('scroll',function(){
+  var p=document.getElementById('prog');
+  var h=document.documentElement;
+  var pct=(window.scrollY/(h.scrollHeight-h.clientHeight))*100;
+  p.style.width=pct+'%';
+});
+
+// Scroll reveal
+var obs=new IntersectionObserver(function(entries){
+  entries.forEach(function(e){if(e.isIntersecting){e.target.classList.add('vi')}});
+},{threshold:.08});
+document.querySelectorAll('.rv').forEach(function(el){obs.observe(el)});
+
+// Active sidebar link
+var sects=document.querySelectorAll('.doc-section[id]');
+var links=document.querySelectorAll('aside a');
+window.addEventListener('scroll',function(){
+  var cur='';
+  sects.forEach(function(s){
+    if(window.scrollY>=s.offsetTop-120)cur=s.id;
+  });
+  links.forEach(function(l){
+    l.classList.remove('act');
+    if(l.getAttribute('href')==='#'+cur)l.classList.add('act');
+  });
+},{passive:true});
+
+// FAQ toggle
+function faqToggle(el){
+  var item=el.parentElement;
+  var isOpen=item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(function(i){i.classList.remove('open')});
+  if(!isOpen)item.classList.add('open');
+}
+
+// Copy buttons
+function cpCode(btn,text){
+  navigator.clipboard.writeText(text).then(function(){
+    btn.textContent='Másolva!';btn.classList.add('ok');
+    setTimeout(function(){btn.textContent='Másolás';btn.classList.remove('ok')},2000);
+  });
+}
+</script>
+</body>
+</html>
