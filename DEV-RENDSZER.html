@@ -23,11 +23,6 @@ body{
   min-height:100vh;overflow-x:hidden;
 }
 #cv{position:fixed;top:0;left:0;pointer-events:none;z-index:0;opacity:.55}
-#prog{position:fixed;top:0;left:0;height:2px;z-index:999;
-  background:linear-gradient(90deg,#ff0000,#ff6600,#ff0000);
-  background-size:200% 100%;animation:shimmer 2s linear infinite;
-  width:0;transition:width .1s}
-@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
 nav{position:fixed;top:0;left:0;right:0;z-index:100;
   display:flex;align-items:center;gap:28px;padding:0 40px;height:56px;
   background:rgba(6,6,6,.88);backdrop-filter:blur(20px);
@@ -1245,10 +1240,6 @@ function drawP(){
   requestAnimationFrame(drawP);
 }
 drawP();
-const prog=document.getElementById('prog');
-window.addEventListener('scroll',function(){
-  prog.style.width=(scrollY/(document.body.scrollHeight-innerHeight)*100)+'%';
-});
 const ro=new IntersectionObserver(function(entries){
   entries.forEach(function(e,i){
     if(e.isIntersecting){setTimeout(function(){e.target.classList.add('vi')},i*55);ro.unobserve(e.target);}
