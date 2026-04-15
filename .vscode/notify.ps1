@@ -1,4 +1,4 @@
-﻿param([string]$Title="", [string]$Message="", [string]$Type="")
+param([string]$Title="", [string]$Message="", [string]$Type="")
 
 # Szovegek + szinek type alapjan
 $iconChar = "↑"
@@ -61,8 +61,8 @@ $win.FindName("iconTxt").Text = $iconChar
 $win.FindName("iconTxt").Foreground = [System.Windows.Media.BrushConverter]::new().ConvertFromString($iconFg)
 $win.FindName("iconBox").Background = [System.Windows.Media.BrushConverter]::new().ConvertFromString($iconBg)
 
-$startTop = $screen.Bottom + 10
-$endTop   = $screen.Bottom - 90
+$startTop = $screen.Top - 90
+$endTop   = $screen.Top + 12
 $win.Left    = $screen.Right - 340
 $win.Top     = $startTop
 $win.Opacity = 0
@@ -85,7 +85,7 @@ $win.Add_Loaded({
         $t.Stop()
         $dOut = [System.Windows.Duration]::new([TimeSpan]::FromMilliseconds(300))
         $fo   = [System.Windows.Media.Animation.DoubleAnimation]::new(1, 0, $dOut)
-        $aOut = [System.Windows.Media.Animation.DoubleAnimation]::new($endTop, $endTop + 20, $dOut)
+        $aOut = [System.Windows.Media.Animation.DoubleAnimation]::new($endTop, $endTop - 20, $dOut)
         $fo.Add_Completed({ $win.Close() })
         $win.BeginAnimation([System.Windows.Window]::OpacityProperty, $fo)
         $win.BeginAnimation([System.Windows.Window]::TopProperty, $aOut)
