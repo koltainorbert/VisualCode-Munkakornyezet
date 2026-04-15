@@ -1,5 +1,5 @@
 ===========================================
-  NAPI FEJLESZTÉSI MUNKAREND
+  NAPI FEJLESZTÉSI MUNKAREND — 2026.04.15
 ===========================================
 
 ALAPPARANCSOK:
