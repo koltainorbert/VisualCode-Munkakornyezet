@@ -1700,11 +1700,10 @@ function mrNotifPerm(){
 .wz-back{background:transparent;color:rgba(255,255,255,0.4);
   border:1px solid rgba(255,255,255,0.1);border-radius:6px;padding:10px 18px}
 .wz-back:hover{background:rgba(255,255,255,0.05);color:#fff;border-color:rgba(255,255,255,0.2)}
-.wz-next{background:#ff0000;color:#fff;border-radius:0;padding:13px 32px;
-  clip-path:polygon(0 0,calc(100% - 12px) 0,100% 12px,100% 100%,0 100%)}
-.wz-next::after{content:'';position:absolute;top:0;right:0;width:0;height:0;
-  border-style:solid;border-width:0 12px 12px 0;border-color:transparent rgba(255,255,255,0.25) transparent transparent}
-.wz-next:hover{background:#e60000;transform:translateX(2px)}
+.wz-next{background:#ff0000;color:#fff;border-radius:999px;padding:13px 36px;
+  clip-path:none;box-shadow:0 0 0 0 rgba(255,0,0,0)}
+.wz-next::after{display:none}
+.wz-next:hover{background:#e60000;transform:translateX(2px);box-shadow:0 4px 24px rgba(255,0,0,0.45)}
 .wz-next:hover .wz-arrow{transform:translateX(4px)}
 .wz-arrow{display:inline-block;transition:transform .18s}
 .wz-create{background:#ff0000;color:#fff;font-size:12px;padding:13px 32px;letter-spacing:2px;
