@@ -2095,29 +2095,81 @@ function wzGeneratePs1(){
 function wzRun(){
   var folder=document.getElementById('wz-folder').value;
   if(!folder){ alert('Add meg a projekt mappa elérési útját!'); return; }
-  var ps1=wzGeneratePs1();
 
   document.getElementById('wz-sum').style.display='none';
   document.getElementById('wz-log-wrap').style.display='block';
   document.getElementById('wz-cbtn').style.display='none';
   document.getElementById('wz-bbtn').style.display='none';
 
-  navigator.clipboard.writeText(ps1).then(function(){
-    wzLog('✓ Script másolva a vágólapra!','ok');
-    wzLog('','');
-    wzLog('1.  Win + R  →  powershell  →  Enter','info');
-    wzLog('2.  Ctrl+V  →  Enter','info');
-    wzLog('3.  VS Code automatikusan megnyílik. Kész!','info');
-  }).catch(function(){
-    var blob=new Blob([ps1],{type:'text/plain'});
-    var url=URL.createObjectURL(blob);
-    var a=document.createElement('a');
-    a.href=url; a.download='SDH-Setup.ps1';
-    document.body.appendChild(a); a.click();
-    setTimeout(function(){ document.body.removeChild(a); URL.revokeObjectURL(url); },1000);
-    wzLog('✓ SDH-Setup.ps1 letöltve!','ok');
-    wzLog('► Futtasd: powershell -ExecutionPolicy Bypass -File SDH-Setup.ps1','info');
-  });
+  var ps1=wzGeneratePs1();
+
+  // UTF-8 BOM + base64 (PowerShell 5.1 felismeri)
+  var b64=btoa(unescape(encodeURIComponent('\ufeff'+ps1)));
+
+  // 800 char-os darabok (VBScript sor limit miatt)
+  var ch=[],ci;
+  for(ci=0;ci<b64.length;ci+=800) ch.push('"'+b64.substr(ci,800)+'"');
+  var vbB='b64='+ch[0];
+  for(ci=1;ci<ch.length;ci++) vbB+=' & _\r\n      '+ch[ci];
+
+  var nl='\r\n';
+  var vbs=[
+    'Sub Window_OnLoad',
+    '  window.resizeTo 460,220',
+    '  window.moveTo (screen.availWidth-460)\\2,(screen.availHeight-220)\\2',
+    '  RunSetup',
+    'End Sub',
+    '',
+    'Sub RunSetup',
+    '  Dim b64',
+    '  '+vbB,
+    '',
+    '  Dim dom,el',
+    '  Set dom=CreateObject("MSXML2.DOMDocument.6.0")',
+    '  Set el=dom.createElement("b")',
+    '  el.dataType="bin.base64"',
+    '  el.text=b64',
+    '',
+    '  Randomize',
+    '  Dim sh,tmp',
+    '  Set sh=CreateObject("WScript.Shell")',
+    '  tmp=sh.ExpandEnvironmentStrings("%TEMP%")&"\\sdh"&Int(Rnd()*99999)&".ps1"',
+    '',
+    '  Dim st',
+    '  Set st=CreateObject("ADODB.Stream")',
+    '  st.Type=1 : st.Open',
+    '  st.Write el.NodeTypedValue',
+    '  st.SaveToFile tmp,2 : st.Close',
+    '',
+    '  document.getElementById("s").innerText="Fut a setup script..."',
+    '  sh.Run "powershell.exe -ExecutionPolicy Bypass -File """&tmp&"""",1,True',
+    '  CreateObject("Scripting.FileSystemObject").DeleteFile tmp',
+    '  document.getElementById("s").innerText="Kesz! VS Code megnyilt."',
+    '  window.setTimeout "window.close()",2500',
+    'End Sub'
+  ].join(nl);
+
+  var hta=
+    '<HTA:APPLICATION APPLICATIONNAME="SDH Setup" BORDER="thin" CAPTION="yes"'+
+    ' SHOWINTASKBAR="yes" SINGLEINSTANCE="yes" WINDOWSTATE="normal" SCROLL="no"/>'+nl+
+    '<html><head><title>SDH Setup</title>'+nl+
+    '<style>body{margin:0;padding:28px 32px;background:#060606;color:#fff;'+
+    'font-family:Consolas,monospace;font-size:13px;line-height:2}'+
+    'h3{color:#ff0000;font-size:12px;letter-spacing:3px;margin:0 0 16px}</style>'+nl+
+    '<'+'script language="VBScript">'+nl+vbs+nl+
+    '</'+'script></head>'+nl+
+    '<body><h3>&#9889; SDH PROJEKT SETUP</h3><div id="s">Betoltes...</div></body></html>';
+
+  var blob=new Blob([hta],{type:'application/octet-stream'});
+  var url=URL.createObjectURL(blob);
+  var a=document.createElement('a');
+  a.href=url; a.download='SDH-Setup.hta';
+  document.body.appendChild(a); a.click();
+  setTimeout(function(){document.body.removeChild(a);URL.revokeObjectURL(url);},1000);
+
+  wzLog('✓ SDH-Setup.hta letöltve!','ok');
+  wzLog('► Kattints "Megnyitás"-ra a letöltési sávban!','info');
+  wzLog('  Setup fut → VS Code megnyílik. Kész!','info');
 }
 </script>
 
