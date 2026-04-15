@@ -1,77 +1,96 @@
 ﻿param([string]$Title="", [string]$Message="", [string]$Type="")
 
-if     ($Type -eq "no-change") { $Title="Nincs valtozas a munkaban"; $Message="Nem volt mit feltolteni" }
-elseif ($Type -eq "push-ok")   { if (-not $Title) { $Title="Push sikeres" } }
-elseif ($Type -eq "pull-ok")   { $Title="Letoltes kesz"; $Message="GitHub szinkronizalva" }
+# Szovegek + szinek type alapjan
+$iconChar = "↑"
+$iconBg   = "#1a2a1a"
+$iconFg   = "#00e676"
 
-Add-Type -AssemblyName PresentationFramework
-Add-Type -AssemblyName PresentationCore
-Add-Type -AssemblyName WindowsBase
-Add-Type -AssemblyName System.Windows.Forms
+if ($Type -eq "no-change") {
+    $Title   = "Nincs valtozas a munkaban"
+    $Message = "Nem volt mit feltolteni"
+    $iconChar = "~"
+    $iconBg   = "#2a2a1a"
+    $iconFg   = "#ffb800"
+} elseif ($Type -eq "push-ok") {
+    if (-not $Title) { $Title = "Push sikeres" }
+    $iconChar = "↑"
+    $iconBg   = "#1a2a1a"
+    $iconFg   = "#00e676"
+} elseif ($Type -eq "pull-ok") {
+    $Title    = "Letoltes kesz"
+    $Message  = "GitHub szinkronizalva"
+    $iconChar = "↓"
+    $iconBg   = "#1a2030"
+    $iconFg   = "#60b0ff"
+}
 
-$script:screen = [System.Windows.Forms.Screen]::PrimaryScreen.WorkingArea
+Add-Type -AssemblyName PresentationFramework, PresentationCore, WindowsBase, System.Windows.Forms
+
+$screen = [System.Windows.Forms.Screen]::PrimaryScreen.WorkingArea
 
 [xml]$xaml = @"
 <Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         WindowStyle="None" AllowsTransparency="True" Background="Transparent"
-        Topmost="True" ShowInTaskbar="False" Width="300" Height="84">
-  <Border Name="root" Background="#060606" BorderBrush="#ff0000" BorderThickness="1">
+        Topmost="True" ShowInTaskbar="False" Width="320" Height="72">
+  <Border CornerRadius="12" Background="#161616" BorderThickness="1">
+    <Border.BorderBrush><SolidColorBrush Color="#FFFFFF" Opacity="0.12"/></Border.BorderBrush>
     <Border.Effect>
-      <DropShadowEffect Color="#ff0000" BlurRadius="18" Opacity="0.4" ShadowDepth="0"/>
+      <DropShadowEffect Color="#000000" BlurRadius="40" Opacity="0.8" ShadowDepth="8"/>
     </Border.Effect>
     <Grid Margin="14,12,14,12">
-      <Grid.RowDefinitions>
-        <RowDefinition Height="Auto"/>
-        <RowDefinition Height="Auto"/>
-        <RowDefinition Height="6"/>
-      </Grid.RowDefinitions>
-      <StackPanel Grid.Row="0" Orientation="Horizontal">
-        <Rectangle Width="3" Fill="#ff0000" RadiusX="1" RadiusY="1" Margin="0,1,8,1"/>
-        <TextBlock Name="ttl" Foreground="#ff0000" FontWeight="Bold" FontSize="12" FontFamily="Consolas" VerticalAlignment="Center"/>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto"/>
+        <ColumnDefinition Width="*"/>
+      </Grid.ColumnDefinitions>
+      <Border Name="iconBox" Width="34" Height="34" CornerRadius="8" Margin="0,0,13,0" VerticalAlignment="Center">
+        <TextBlock Name="iconTxt" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" FontWeight="Bold"/>
+      </Border>
+      <StackPanel Grid.Column="1" VerticalAlignment="Center">
+        <TextBlock Name="ttl" FontSize="12" FontWeight="Bold" Foreground="#FFFFFF" Margin="0,0,0,3" TextTrimming="CharacterEllipsis"/>
+        <TextBlock Name="msg" FontSize="11" Foreground="#888888" TextTrimming="CharacterEllipsis"/>
       </StackPanel>
-      <TextBlock Name="msg" Grid.Row="1" Foreground="#888888" FontSize="10" FontFamily="Consolas" Margin="11,5,0,0" TextTrimming="CharacterEllipsis"/>
-      <Grid Grid.Row="2" Margin="0,9,0,0" Height="2">
-        <Rectangle Fill="#1a1a1a" RadiusX="1" RadiusY="1"/>
-        <Rectangle Name="prog" Fill="#ff0000" RadiusX="1" RadiusY="1" HorizontalAlignment="Left" Width="272"/>
-      </Grid>
     </Grid>
   </Border>
 </Window>
 "@
 
-$script:win = [Windows.Markup.XamlReader]::Load([System.Xml.XmlNodeReader]::new($xaml))
-$script:win.FindName("ttl").Text = $Title
-$script:win.FindName("msg").Text = $Message
-$script:prog = $script:win.FindName("prog")
+$win = [Windows.Markup.XamlReader]::Load([System.Xml.XmlNodeReader]::new($xaml))
+$win.FindName("ttl").Text     = $Title
+$win.FindName("msg").Text     = $Message
+$win.FindName("iconTxt").Text = $iconChar
+$win.FindName("iconTxt").Foreground = [System.Windows.Media.BrushConverter]::new().ConvertFromString($iconFg)
+$win.FindName("iconBox").Background = [System.Windows.Media.BrushConverter]::new().ConvertFromString($iconBg)
 
-$script:startTop = $script:screen.Bottom + 10
-$script:endTop   = $script:screen.Bottom - 96
+$startTop = $screen.Bottom + 10
+$endTop   = $screen.Bottom - 90
+$win.Left    = $screen.Right - 340
+$win.Top     = $startTop
+$win.Opacity = 0
 
-$script:win.Left    = $script:screen.Right - 320
-$script:win.Top     = $script:startTop
-$script:win.Opacity = 0
+$win.Add_Loaded({
+    $d = [System.Windows.Duration]::new([TimeSpan]::FromMilliseconds(450))
+    $ease = [System.Windows.Media.Animation.CubicEase]::new()
+    $ease.EasingMode = [System.Windows.Media.Animation.EasingMode]::EaseOut
 
-$script:win.Add_Loaded({
-    $d300 = [System.Windows.Duration]::new([TimeSpan]::FromMilliseconds(300))
-    $d5s  = [System.Windows.Duration]::new([TimeSpan]::FromSeconds(5))
+    $aOp = [System.Windows.Media.Animation.DoubleAnimation]::new(0, 1, [System.Windows.Duration]::new([TimeSpan]::FromMilliseconds(300)))
+    $aTop = [System.Windows.Media.Animation.DoubleAnimation]::new($startTop, $endTop, $d)
+    $aTop.EasingFunction = $ease
 
-    $script:win.BeginAnimation([System.Windows.Window]::OpacityProperty,
-        [System.Windows.Media.Animation.DoubleAnimation]::new(0, 1, $d300))
-    $script:win.BeginAnimation([System.Windows.Window]::TopProperty,
-        [System.Windows.Media.Animation.DoubleAnimation]::new($script:startTop, $script:endTop, $d300))
-    $script:prog.BeginAnimation([System.Windows.FrameworkElement]::WidthProperty,
-        [System.Windows.Media.Animation.DoubleAnimation]::new(272, 0, $d5s))
+    $win.BeginAnimation([System.Windows.Window]::OpacityProperty, $aOp)
+    $win.BeginAnimation([System.Windows.Window]::TopProperty, $aTop)
 
-    $script:t = [System.Windows.Threading.DispatcherTimer]::new()
-    $script:t.Interval = [TimeSpan]::FromSeconds(5)
-    $script:t.Add_Tick({
-        $script:t.Stop()
+    $t = [System.Windows.Threading.DispatcherTimer]::new()
+    $t.Interval = [TimeSpan]::FromSeconds(3.5)
+    $t.Add_Tick({
+        $t.Stop()
         $dOut = [System.Windows.Duration]::new([TimeSpan]::FromMilliseconds(300))
-        $fo = [System.Windows.Media.Animation.DoubleAnimation]::new(1, 0, $dOut)
-        $fo.Add_Completed({ $script:win.Close() })
-        $script:win.BeginAnimation([System.Windows.Window]::OpacityProperty, $fo)
+        $fo   = [System.Windows.Media.Animation.DoubleAnimation]::new(1, 0, $dOut)
+        $aOut = [System.Windows.Media.Animation.DoubleAnimation]::new($endTop, $endTop + 20, $dOut)
+        $fo.Add_Completed({ $win.Close() })
+        $win.BeginAnimation([System.Windows.Window]::OpacityProperty, $fo)
+        $win.BeginAnimation([System.Windows.Window]::TopProperty, $aOut)
     })
-    $script:t.Start()
+    $t.Start()
 })
 
-$script:win.ShowDialog() | Out-Null
+$win.ShowDialog() | Out-Null
