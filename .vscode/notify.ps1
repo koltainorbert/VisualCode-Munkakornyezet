@@ -1,4 +1,4 @@
-param(
+﻿param(
     [string]$Title = "",
     [string]$Message = "",
     [string]$Type = ""
