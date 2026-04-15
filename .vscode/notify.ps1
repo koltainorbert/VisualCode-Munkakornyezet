@@ -1,7 +1,22 @@
 param(
-    [string]$Title = "VS Wizard",
-    [string]$Message = ""
+    [string]$Title = "",
+    [string]$Message = "",
+    [string]$Type = ""
 )
+
+# Szövegek itt, ékezetekkel rendesen
+if ($Type -eq "no-change") {
+    $Title   = "Nincs változás a munkában"
+    $Message = "Nem volt mit feltölteni"
+}
+elseif ($Type -eq "push-ok") {
+    # $Message már tartalmazza a commit nevet
+    $Title = "Push sikeres"
+}
+elseif ($Type -eq "pull-ok") {
+    $Title   = "Letöltés kész"
+    $Message = "GitHub szinkronizálva"
+}
 
 try {
     # Registry: ShowBanner engedélyezése
