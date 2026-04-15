@@ -2,6 +2,10 @@
   NAPI FEJLESZTÉSI MUNKAREND
 ===========================================
 
+ALAPPARANCSOK:
+  Ctrl+Shift+B          = Push (feltöltés GitHubra)   ← munka VÉGÉN
+  Ctrl+Shift+P → ⬇ Pull = Pull (letöltés GitHubról)   ← munka ELEJÉN
+
 REGGEL (projekt megnyitáskor):
   1. VS Code megnyitás → project mappa
   2. Napló Watcher automatikusan elindul (Allow ha kér)

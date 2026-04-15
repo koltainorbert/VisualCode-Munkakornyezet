@@ -186,7 +186,7 @@ Write-Host "`n[1/5] VS Code tasks..." -ForegroundColor Yellow
       "problemMatcher": []
     },
     {
-      "label": "⬇ Pull (frissítés GitHubról)",
+      "label": "⬇ Pull (letöltés GitHubról)",
       "type": "shell",
       "command": "git pull ; Write-Host 'Kész!'",
       "options": { "cwd": "`${workspaceFolder}" },
