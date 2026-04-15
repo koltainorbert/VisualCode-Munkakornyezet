@@ -493,7 +493,54 @@ footer a:hover{color:rgba(255,0,0,.75)}
 ::-webkit-scrollbar{width:6px}
 ::-webkit-scrollbar-thumb{background:rgba(255,0,0,.22);border-radius:3px}
 @media(max-width:768px){
+  nav{padding:0 16px}
   nav a:not(.ngh){display:none}
+  .hero{padding:80px 16px 56px}
+  .wrap{padding:0 16px}
+  .hero div[onclick]{flex-direction:column!important;padding:20px 16px!important;align-items:flex-start!important;gap:12px!important}
+  .hero div[onclick]>div:first-of-type{display:flex!important;flex-direction:column!important;width:100%!important}
+  .hero div[onclick]>div:last-child{width:100%!important;box-sizing:border-box!important;text-align:center!important;padding:12px!important;white-space:normal!important}
+  .hc{gap:8px}
+  .btn{padding:10px 18px;font-size:10px}
+  .tbh{display:none}
+  .mg,.qi{grid-template-columns:1fr}
+  .qp{border-right:none;border-bottom:1px solid var(--border)}
+  .cr{flex-direction:column}
+  .cr code{border-right:none;border-bottom:1px solid var(--border)}
+  .cbtn{padding:12px 20px}
+  section{padding:56px 0}
+  .wz-opts{grid-template-columns:1fr}
+  #wz-steps{flex-wrap:wrap;gap:4px}
+  #wz-btns{flex-direction:column}
+  .wz-btn{width:100%;text-align:center;box-sizing:border-box}
+  footer{padding:36px 16px}
+}
+@media(max-width:480px){
+  .tbtn{min-width:80px;padding:14px 8px 12px}
+  .tbn{font-size:9px;letter-spacing:.5px}
+  .mc{padding:16px 14px}
+  .wc{padding:22px 12px}
+  .wz-srow{flex-direction:column;gap:4px}
+  .wz-sk{width:auto}
+  .wz-step{padding:4px 8px;font-size:10px}
+}
+@media(max-width:402px){
+  nav{padding:0 12px}
+  .hero{padding:70px 12px 44px}
+  .wrap{padding:0 12px}
+  .btn{padding:9px 14px;font-size:9px;gap:5px}
+  .btn svg{width:12px;height:12px}
+  h1.ht{letter-spacing:-1.5px}
+  .mc{padding:14px 12px;gap:10px}
+  .mi{width:32px;height:32px}
+  .mi svg{width:14px;height:14px}
+  .si{gap:10px}
+  .wz-ptitle{font-size:18px}
+  .wz-psub{font-size:13px}
+  #wz-content{padding:18px 14px 20px}
+  #wz-btns{padding:12px 14px}
+  #wz-box{border-radius:12px}
+}
   .hero,.wrap{padding-left:24px;padding-right:24px}
   .tbh{display:none}.mg,.qi{grid-template-columns:1fr}
   .qp{border-right:none;border-bottom:1px solid var(--border)}
