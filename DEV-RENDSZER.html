@@ -43,6 +43,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;
   50%{box-shadow:0 0 0 6px rgba(255,0,0,0)}}
 nav a{font-size:11px;letter-spacing:1.5px;color:var(--text);
   text-decoration:none;text-transform:uppercase;transition:color .2s;position:relative}
+#hbg{display:none;flex-direction:column;justify-content:center;gap:5px;background:none;border:none;padding:8px;cursor:pointer;flex-shrink:0;margin-left:auto}
+#hbg span{display:block;width:22px;height:2px;background:#fff;border-radius:1px;transition:all .25s}
 nav a::after{content:'';position:absolute;bottom:-3px;left:0;right:0;
   height:1px;background:var(--red);transform:scaleX(0);transition:transform .25s;transform-origin:left}
 nav a:hover{color:#fff}nav a:hover::after{transform:scaleX(1)}
@@ -493,8 +495,15 @@ footer a:hover{color:rgba(255,0,0,.75)}
 ::-webkit-scrollbar{width:6px}
 ::-webkit-scrollbar-thumb{background:rgba(255,0,0,.22);border-radius:3px}
 @media(max-width:768px){
-  nav{padding:0 16px}
-  nav a:not(.ngh){display:none}
+  nav{padding:0 16px;flex-wrap:wrap;height:auto;min-height:58px;max-height:58px;overflow:hidden;transition:max-height .35s ease;align-content:flex-start;gap:0}
+  nav .nl{height:58px;display:flex;align-items:center;padding-right:8px}
+  .nr{height:58px;display:flex;align-items:center}
+  #hbg{display:flex}
+  nav.open{max-height:500px}
+  nav a:not(.ngh){display:flex!important;width:100%;padding:13px 16px;font-size:12px;letter-spacing:1.5px;color:#fff;border-top:1px solid rgba(255,255,255,.05)}
+  nav.open #hbg span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+  nav.open #hbg span:nth-child(2){opacity:0;transform:scaleX(0)}
+  nav.open #hbg span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
   .hero{padding:80px 16px 56px}
   .wrap{padding:0 16px}
   .hero div[onclick]{flex-direction:column!important;padding:20px 16px!important;align-items:flex-start!important;gap:12px!important}
@@ -541,16 +550,12 @@ footer a:hover{color:rgba(255,0,0,.75)}
   #wz-btns{padding:12px 14px}
   #wz-box{border-radius:12px}
 }
-  .hero,.wrap{padding-left:24px;padding-right:24px}
-  .tbh{display:none}.mg,.qi{grid-template-columns:1fr}
-  .qp{border-right:none;border-bottom:1px solid var(--border)}
-}
 </style>
 </head>
 <body>
 <canvas id="cv"></canvas>
 <div id="sdh-progress-bar"></div>
-<nav><div class="nl"><div class="nd"></div>VS&nbsp;<span style="color:var(--red)">Wizard</span></div><a href="#hova">Beilllesztés</a><a href="#wizard">Wizard</a><a href="#kerdesek">Kérdések</a><a href="#script">Script</a><a href="docs/index.html" style="color:rgba(255,0,0,.7);font-weight:800">Docs</a><div class="nr"><a href="https://www.infostudio.hu" target="_blank" style="color:#fff;font-size:11px;font-weight:700;letter-spacing:1.5px;text-decoration:none;text-transform:uppercase;opacity:.7;transition:opacity .2s;margin-right:14px" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity='.7'">Koltai Norbert</a><a class="ngh" href="https://github.com/koltainorbert/VisualCode-Munkakornyezet" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.168 6.839 9.49.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.604-3.369-1.34-3.369-1.34-.454-1.154-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836a9.59 9.59 0 012.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.741 0 .267.18.579.688.481C19.138 20.165 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>GitHub</a></div></nav>
+<nav><div class="nl"><div class="nd"></div>VS&nbsp;<span style="color:var(--red)">Wizard</span></div><a href="#hova">Beilllesztés</a><a href="#wizard">Wizard</a><a href="#kerdesek">Kérdések</a><a href="#script">Script</a><a href="docs/index.html" style="color:rgba(255,0,0,.7);font-weight:800">Docs</a><button id="hbg" onclick="document.querySelector('nav').classList.toggle('open')" aria-label="Menu"><span></span><span></span><span></span></button><div class="nr"><a href="https://www.infostudio.hu" target="_blank" style="color:#fff;font-size:11px;font-weight:700;letter-spacing:1.5px;text-decoration:none;text-transform:uppercase;opacity:.7;transition:opacity .2s;margin-right:14px" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity='.7'">Koltai Norbert</a><a class="ngh" href="https://github.com/koltainorbert/VisualCode-Munkakornyezet" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.168 6.839 9.49.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.604-3.369-1.34-3.369-1.34-.454-1.154-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836a9.59 9.59 0 012.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.741 0 .267.18.579.688.481C19.138 20.165 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>GitHub</a></div></nav>
 <div class="hero"><div class="he"><div class="hel"></div>VS Code Munkaközeg · Wizard v2.0</div><h1 class="ht" id="hero-title"><span class="ln"><span class="wd">Egy parancs</span></span><span class="ln"><span class="wd r">— minden</span></span><span class="ln"><span class="wd">kész.</span></span></h1><p class="hs">WordPress, HTML, React, Vue, Node.js, Laravel — bármilyen projekthez. A wizard megkérdez mindent, beállít mindent: Git, auto-mentés, Browser Sync, Task Scheduler, deploy.</p>
 <div onclick="wzOpen()" style="cursor:pointer;margin:36px 0;border:1px solid rgba(255,0,0,0.45);border-radius:14px;background:rgba(255,0,0,0.05);box-shadow:0 0 50px rgba(255,0,0,0.1);animation:wz-pulse 2s ease-in-out infinite;position:relative;overflow:hidden;padding:32px 36px;display:flex;align-items:center;justify-content:space-between;gap:24px"><span style="position:absolute;top:0;right:0;background:#ff0000;color:#fff;font-size:10px;font-weight:900;padding:4px 14px;letter-spacing:2px;border-radius:0 14px 0 12px">ÚJ</span><div style="display:flex;align-items:center;gap:24px"><div style="width:64px;height:64px;background:rgba(255,0,0,0.1);border:1px solid rgba(255,0,0,0.3);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:36px;flex-shrink:0;box-shadow:0 0 20px rgba(255,0,0,0.2)">⚡</div><div><div style="font-size:20px;font-weight:900;letter-spacing:4px;color:#fff;text-transform:uppercase;margin-bottom:6px">Grafikus Wizard</div><div style="font-size:13px;color:rgba(255,255,255,.5);line-height:1.6">Kattints, válaszd ki a projekt típusát, add meg a mappát — a többit elvégziünk.<br>Nem kell parancsot futtatni.</div></div></div><div style="background:#ff0000;color:#fff;font-size:13px;font-weight:900;letter-spacing:3px;padding:16px 36px;border-radius:10px;text-transform:uppercase;flex-shrink:0;box-shadow:0 0 30px rgba(255,0,0,0.5);white-space:nowrap">⚡ Wizard indítása</div></div>
 
@@ -1287,7 +1292,8 @@ function drawP(){
   requestAnimationFrame(drawP);
 }
 drawP();
-const ro=new IntersectionObserver(function(entries){
+const ro=document.querySelectorAll('nav a').forEach(function(a){a.addEventListener('click',function(){document.querySelector('nav').classList.remove('open')})});
+new IntersectionObserver(function(entries){
   entries.forEach(function(e,i){
     if(e.isIntersecting){setTimeout(function(){e.target.classList.add('vi')},i*55);ro.unobserve(e.target);}
   });
