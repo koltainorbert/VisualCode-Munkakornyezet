@@ -514,11 +514,11 @@ pre.cpre.exp{max-height:none}
 .mr-nbtn button{background:rgba(255,0,0,.1);border:1px solid rgba(255,0,0,.25);color:#fff;font-size:11px;font-weight:700;letter-spacing:1px;padding:8px 18px;border-radius:7px;cursor:pointer;font-family:inherit;text-transform:uppercase;transition:all .2s}
 .mr-nbtn button:hover{background:rgba(255,0,0,.25);border-color:var(--red)}
 .mr-nstat{font-size:11px;color:var(--text);font-family:var(--mono)}
-.mr-notif-area{position:relative;height:200px;border:1px solid var(--border);border-radius:12px;background:rgba(0,0,0,.45);margin-top:0;overflow:visible}
-.mr-notif-demo{position:absolute;bottom:16px;right:16px;display:flex;flex-direction:column;gap:10px;align-items:flex-end;pointer-events:none;width:100%}
-.mr-toast{background:rgba(28,28,28,.97);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:13px 16px;width:300px;max-width:calc(100% - 32px);display:flex;align-items:flex-start;gap:12px;box-shadow:0 8px 32px rgba(0,0,0,.7);transform:translateX(calc(100% + 20px));opacity:0;transition:transform .45s cubic-bezier(.16,1,.3,1),opacity .3s;margin-right:16px}
+.mr-notif-area{display:none}
+.mr-notif-demo{position:fixed;top:70px;right:20px;display:flex;flex-direction:column;gap:10px;align-items:flex-end;pointer-events:none;z-index:9999}
+.mr-toast{background:rgba(22,22,22,.97);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:14px 18px;width:320px;display:flex;align-items:flex-start;gap:13px;box-shadow:0 8px 40px rgba(0,0,0,.8),0 0 0 1px rgba(255,0,0,.08);transform:translateX(calc(100% + 40px));opacity:0;transition:transform .45s cubic-bezier(.16,1,.3,1),opacity .3s;pointer-events:all}
 .mr-toast.show{transform:translateX(0);opacity:1}
-.mr-toast.hide{transform:translateX(calc(100% + 20px));opacity:0;transition:transform .3s ease-in,opacity .2s}
+.mr-toast.hide{transform:translateX(calc(100% + 40px));opacity:0;transition:transform .3s ease-in,opacity .2s}
 .mr-ti{width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .mr-ti.green{background:rgba(0,230,118,.15);color:#00e676}
 .mr-ti.red{background:rgba(255,80,80,.15);color:#ff5050}
@@ -1235,13 +1235,9 @@ jobs:
 <div class="mr-na">
   <div class="mr-nstat" id="mr-nstat">Nyomj Demóra a példa értesítések megtekintéséhez</div>
   <div class="mr-nbtn">
-    <button onclick="mrDemo()">▶ Demo</button>
-    <button onclick="mrNotifPerm()">🔔 Böngésző értesítés</button>
+    <button onclick="mrDemo()">&#9654; Demo</button>
+    <button onclick="mrNotifPerm()">&#128276; Böngésző értesítés</button>
   </div>
-</div>
-<div class="mr-notif-area">
-  <div class="mr-desc" id="mr-desc">← kattints a Demo gombra a példa értesítések megtekintéséhez</div>
-  <div class="mr-notif-demo" id="mr-toasts"></div>
 </div>
 </div>
 
@@ -1395,6 +1391,13 @@ function ccPre(btn){
   navigator.clipboard.writeText(p.textContent).then(function(){cbFeedback(btn);});
 }
 // ── Napi Munkarend értesítés demo ──
+// Toast konténer létrehozása body-ba
+(function(){
+  var c=document.createElement('div');
+  c.className='mr-notif-demo';
+  c.id='mr-toasts';
+  document.body.appendChild(c);
+})();
 var mrRunning=false;
 var mrMessages=[
   {type:'green',icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>',title:'Push sikeres',msg:'Mentes_2026.04.15_10.30 → GitHub — 3 fájl'},
@@ -1405,8 +1408,7 @@ var mrMessages=[
 function mrShowToast(msg,delay){
   setTimeout(function(){
     var area=document.getElementById('mr-toasts');
-    var desc=document.getElementById('mr-desc');
-    if(desc)desc.style.opacity='0';
+    var stat=document.getElementById('mr-nstat');
     var t=document.createElement('div');
     t.className='mr-toast';
     t.innerHTML='<div class="mr-ti '+msg.type+'">'+msg.icon+'</div><div class="mr-tm"><strong>'+msg.title+'</strong><span>'+msg.msg+'</span></div>';
@@ -1426,9 +1428,7 @@ function mrDemo(){
   var total=mrMessages.length*1300+3500;
   setTimeout(function(){
     mrRunning=false;
-    stat.textContent='Nyomj \u00dajra a demo ismétléséhez';
-    var desc=document.getElementById('mr-desc');
-    if(desc)desc.style.opacity='1';
+    stat.textContent='Nyomj Újra a demo ismétléséhez';
   },total);
 }
 function mrNotifPerm(){
