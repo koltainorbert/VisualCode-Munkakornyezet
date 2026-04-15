@@ -297,6 +297,9 @@ $win.Add_Loaded({
 $win.ShowDialog() | Out-Null
 '@ | Set-Content ".vscode/notify.ps1" -Encoding UTF8
 
+# update-notify.ps1 másolása (meglévő projektekhez)
+Copy-Item "$PSScriptRoot\.vscode\update-notify.ps1" ".vscode\update-notify.ps1" -ErrorAction SilentlyContinue
+
 Write-Host "[3/5] Napló watcher script..." -ForegroundColor Yellow
 @'
 $temaMappa = (Get-Location).Path
