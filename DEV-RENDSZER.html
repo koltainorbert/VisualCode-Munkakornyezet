@@ -496,11 +496,11 @@ footer a:hover{color:rgba(255,0,0,.75)}
 ::-webkit-scrollbar-thumb{background:rgba(255,0,0,.22);border-radius:3px}
 @media(max-width:768px){
   nav{padding:0 16px;flex-wrap:wrap;height:auto;min-height:58px;max-height:58px;overflow:hidden;transition:max-height .35s ease;align-content:flex-start;gap:0}
-  nav .nl{height:58px;display:flex;align-items:center;padding-right:8px}
-  .nr{height:58px;display:flex;align-items:center}
-  #hbg{display:flex}
+  nav .nl{height:58px;display:flex;align-items:center;padding-right:8px;order:0}
+  .nr{height:58px;display:flex;align-items:center;order:1}
+  #hbg{display:flex;order:1}
   nav.open{max-height:500px}
-  nav a:not(.ngh){display:flex!important;width:100%;padding:13px 16px;font-size:12px;letter-spacing:1.5px;color:#fff;border-top:1px solid rgba(255,255,255,.05)}
+  nav a:not(.ngh){display:flex!important;width:100%;padding:13px 16px;font-size:12px;letter-spacing:1.5px;color:#fff;border-top:1px solid rgba(255,255,255,.05);order:2}
   nav.open #hbg span:nth-child(1){transform:translateY(7px) rotate(45deg)}
   nav.open #hbg span:nth-child(2){opacity:0;transform:scaleX(0)}
   nav.open #hbg span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
