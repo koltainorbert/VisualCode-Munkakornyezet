@@ -1,8 +1,11 @@
-param([string]$Title="", [string]$Message="", [string]$Type="")
+﻿param([string]$Title="", [string]$Message="", [string]$Type="")
 
-# Szovegek + szinek type alapjan
-$iconMain = "↑"
-$iconTop  = "☁"
+$cloud = [char]0x2601
+$up    = [char]0x2191
+$down  = [char]0x2193
+
+$iconMain = $up
+$iconTop  = $cloud
 $iconTopFg = "#60b0ff"
 $iconBg    = "#1a2a1a"
 $iconFg    = "#00e676"
@@ -12,22 +15,21 @@ if ($Type -eq "no-change") {
     $Title    = "Nincs valtozas a munkaban"
     $Message  = "Nem volt mit feltolteni"
     $iconMain = "~"
-    $iconTop  = ""
     $showTop  = $false
     $iconBg   = "#2a2a1a"
     $iconFg   = "#ffb800"
 } elseif ($Type -eq "push-ok") {
     if (-not $Title) { $Title = "Push sikeres" }
-    $iconMain  = "↑"
-    $iconTop   = "☁"
+    $iconMain  = $up
+    $iconTop   = $cloud
     $iconTopFg = "#60b0ff"
     $iconBg    = "#1a2a1a"
     $iconFg    = "#00e676"
 } elseif ($Type -eq "pull-ok") {
     $Title     = "Letoltes kesz"
     $Message   = "GitHub szinkronizalva"
-    $iconMain  = "↓"
-    $iconTop   = "☁"
+    $iconMain  = $down
+    $iconTop   = $cloud
     $iconTopFg = "#60b0ff"
     $iconBg    = "#1a2030"
     $iconFg    = "#60b0ff"
@@ -37,7 +39,7 @@ Add-Type -AssemblyName PresentationFramework, PresentationCore, WindowsBase, Sys
 
 $screen = [System.Windows.Forms.Screen]::PrimaryScreen.WorkingArea
 
-[xml]$xaml = @"
+[xml]$xaml = @'
 <Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         WindowStyle="None" AllowsTransparency="True" Background="Transparent"
         Topmost="True" ShowInTaskbar="False" Width="320" Height="72">
@@ -53,7 +55,7 @@ $screen = [System.Windows.Forms.Screen]::PrimaryScreen.WorkingArea
       </Grid.ColumnDefinitions>
       <Border Name="iconBox" Width="34" Height="34" CornerRadius="8" Margin="0,0,13,0" VerticalAlignment="Center">
         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-          <TextBlock Name="iconTopTxt" HorizontalAlignment="Center" FontSize="9" Margin="0,0,0,0"/>
+          <TextBlock Name="iconTopTxt" HorizontalAlignment="Center" FontSize="9"/>
           <TextBlock Name="iconTxt" HorizontalAlignment="Center" FontSize="14" FontWeight="Bold"/>
         </StackPanel>
       </Border>
@@ -64,7 +66,7 @@ $screen = [System.Windows.Forms.Screen]::PrimaryScreen.WorkingArea
     </Grid>
   </Border>
 </Window>
-"@
+'@
 
 $win = [Windows.Markup.XamlReader]::Load([System.Xml.XmlNodeReader]::new($xaml))
 $win.FindName("ttl").Text      = $Title
@@ -86,14 +88,11 @@ $win.Add_Loaded({
     $d = [System.Windows.Duration]::new([TimeSpan]::FromMilliseconds(450))
     $ease = [System.Windows.Media.Animation.CubicEase]::new()
     $ease.EasingMode = [System.Windows.Media.Animation.EasingMode]::EaseOut
-
-    $aOp = [System.Windows.Media.Animation.DoubleAnimation]::new(0, 1, [System.Windows.Duration]::new([TimeSpan]::FromMilliseconds(300)))
+    $aOp  = [System.Windows.Media.Animation.DoubleAnimation]::new(0, 1, [System.Windows.Duration]::new([TimeSpan]::FromMilliseconds(300)))
     $aTop = [System.Windows.Media.Animation.DoubleAnimation]::new($startTop, $endTop, $d)
     $aTop.EasingFunction = $ease
-
     $win.BeginAnimation([System.Windows.Window]::OpacityProperty, $aOp)
     $win.BeginAnimation([System.Windows.Window]::TopProperty, $aTop)
-
     $t = [System.Windows.Threading.DispatcherTimer]::new()
     $t.Interval = [TimeSpan]::FromSeconds(3.5)
     $t.Add_Tick({
