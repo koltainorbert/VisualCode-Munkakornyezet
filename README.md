@@ -1,6 +1,59 @@
 # VS Code Fejlesztői Munkaközeg
+### One-command VS Code Developer Environment Setup Wizard
 
-**Teljes professzionális fejlesztői workflow** – GitHub sync, auto-mentés, FTP deploy, visszagörgetés, branch rendszer.
+> **HU:** Egy parancs — és a teljes fejlesztői környezet kész. Git, auto-mentés, Browser Sync, FTP deploy, branch rendszer, visszagörgetés.
+>
+> **EN:** One command sets up your entire VS Code development environment. Git, auto-save, Browser Sync, FTP deploy, branch strategy, rollback — everything automated.
+
+---
+
+## 🚀 Gyors indítás / Quick Start
+
+**PowerShell-be másold be és futtasd:**
+
+```powershell
+irm "https://raw.githubusercontent.com/koltainorbert/VisualCode-Munkakornyezet/main/setup-projekt.ps1" | iex
+```
+
+> Win+R → `powershell` → Enter → illeszd be → wizard elindul
+
+Vagy nyisd meg: **[DEV-RENDSZER.html](https://koltainorbert.github.io/VisualCode-Munkakornyezet/)** — grafikus wizard, kérdések alapján generál mindent.
+
+---
+
+## Mit csinál? / What does it do?
+
+| | Magyar | English |
+|---|---|---|
+| ⚡ | Projekt típus választás (WordPress, HTML, React, Vue, Laravel, Node.js, Python, Shopify) | Choose project type |
+| 📁 | Mappa létrehozása, GitHub repo bekötése | Creates folder, connects GitHub repo |
+| 🔄 | Git init + auto-push minden mentésnél | Git init + auto-push on every save |
+| 🌐 | Browser Sync — azonnali live reload | Browser Sync live reload |
+| 📅 | Task Scheduler — VS Code nélkül is menti | Task Scheduler backup even without VS Code |
+| 🚀 | FTP auto-deploy GitHub push-kor | FTP auto-deploy on GitHub push |
+| ↩ | Visszagörgetés az utolsó 20 verzió bármelyikére | Rollback to any of the last 20 versions |
+
+---
+
+## Fájlok / Files
+
+| Fájl | Leírás |
+|------|--------|
+| `DEV-RENDSZER.html` | **Grafikus wizard dashboard** — nyisd meg böngészőben |
+| `setup-projekt.ps1` | Projekt setup script (wizard futtat) |
+| `.vscode/tasks.json` | VS Code task template |
+| `.vscode/naplo-watcher.ps1` | Percenkénti auto-push (háttérben) |
+| `.vscode/autosave-background.ps1` | Task Scheduler script (5 percenként) |
+
+---
+
+## Támogatott projekttípusok / Supported project types
+
+`WordPress` · `HTML/CSS/JS` · `React/Next.js` · `Vue/Nuxt` · `Laravel/PHP` · `Node.js/Express` · `Python/Django/Flask` · `Shopify/WooCommerce` · `Egyéb`
+
+---
+
+*Készítette / Made by: [Koltai Norbert](https://www.infostudio.hu) · SDH Infostudio*
 
 ## Mi van itt?
 
