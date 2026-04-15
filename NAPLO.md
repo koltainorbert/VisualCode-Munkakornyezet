@@ -15,7 +15,26 @@ Ez a napló automatikusan frissül a Napló Watcher script által.
 
 ---
 
-## 2026. április 14.
+## 2026. április 15.
+
+### Elvégezve: [x]
+- [x] notify.ps1: WPF custom popup toast — dark #161616 háttér, színes ikon doboz, slide-down animáció jobb felülről
+- [x] notify.ps1: Unicode ikonok [char] kóddal (PS5.1 kompatibilis): ↑ zöld push, ↓ kék pull, ~ sárga no-change, ☁ felhő ikon
+- [x] notify.ps1: `$script:t` scope fix, 3.5 mp után auto fade-out + slide-up eltűnés
+- [x] tasks.json: `-Type push-ok / pull-ok / no-change` paraméter — ékezetes szövegek a ps1-ben, nem az argumentumban
+- [x] NAPI-MUNKAREND.txt: dátum fejléc hozzáadva
+- [x] Git identity: koltainorbert / koltainorbert@users.noreply.github.com beállítva globálisan
+
+### Értesítési rendszer összefoglalója:
+| Esemény | Ikon | Szín | Szöveg |
+|---|---|---|---|
+| Push (változás volt) | ☁↑ | zöld | Push sikeres + commit neve |
+| Push (nincs változás) | ~ | sárga | Nincs változás a munkában |
+| Pull | ☁↓ | kék | Letöltés kész / GitHub szinkronizálva |
+
+---
+
+
 
 ### Elvégezve: [x]
 - [x] setup-projekt.ps1: `powershell -File` → `& script.ps1` (ugyanaz a PS session, automata)
