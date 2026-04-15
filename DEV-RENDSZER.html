@@ -1655,65 +1655,118 @@ function mrNotifPerm(){
     <!-- P1: Típus -->
     <div class="wz-panel wact" id="wp1">
       <div class="wz-ptitle">Milyen projekt?</div>
-      <div class="wz-psub">Válaszd ki a projekt típusát.</div>
+      <div class="wz-psub">Válaszd ki a tech stack-et — az eszközök, workflow és konfiguráció automatikusan ehhez igazodik.</div>
       <div class="wz-opts">
+        <div class="wz-cat-sep"><span>CMS &amp; Weboldalak</span></div>
         <div class="wz-opt wsel" id="wo0" onclick="wzSelOpt(0)" style="--ic:#21759b">
           <div class="wz-opt-icon">WP</div>
           <div class="wz-opt-body">
-            <div class="wz-opt-row"><span class="wz-opt-title">WordPress</span><div class="wz-tags"><span class="wz-tag">LocalWP</span><span class="wz-tag">PHP</span><span class="wz-tag">MySQL</span><span class="wz-tag">WP-CLI</span></div></div>
-            <div class="wz-opt-sub">LocalWP, Bricks, Elementor, ACF, custom téma fejlesztés</div>
+            <div class="wz-opt-row"><span class="wz-opt-title">WordPress</span><span class="wz-type-badge" style="background:rgba(33,117,155,.2);color:#21759b">CMS</span></div>
+            <div class="wz-tags"><span class="wz-tag">LocalWP</span><span class="wz-tag">PHP 8.2</span><span class="wz-tag">MySQL 8</span><span class="wz-tag">WP-CLI</span><span class="wz-tag">ACF</span><span class="wz-tag">Bricks</span></div>
+            <div class="wz-opt-sub">Téma fejlesztés, Bricks/Elementor, ACF custom fields, WooCommerce, headless WP API</div>
           </div>
         </div>
         <div class="wz-opt" id="wo1" onclick="wzSelOpt(1)" style="--ic:#e34c26">
           <div class="wz-opt-icon">HT</div>
           <div class="wz-opt-body">
-            <div class="wz-opt-row"><span class="wz-opt-title">HTML / CSS / JS</span><div class="wz-tags"><span class="wz-tag">Statikus</span><span class="wz-tag">LiveReload</span><span class="wz-tag">SCSS</span><span class="wz-tag">FTP</span></div></div>
-            <div class="wz-opt-sub">Statikus oldal, landing page, egyszerű frontend projekt</div>
+            <div class="wz-opt-row"><span class="wz-opt-title">HTML / CSS / JS</span><span class="wz-type-badge" style="background:rgba(227,76,38,.2);color:#e34c26">Statikus</span></div>
+            <div class="wz-tags"><span class="wz-tag">SCSS/Sass</span><span class="wz-tag">Browser-sync</span><span class="wz-tag">Vite/Gulp</span><span class="wz-tag">FTP Deploy</span><span class="wz-tag">GSAP</span></div>
+            <div class="wz-opt-sub">Landing page, statikus oldal, portfólió, vanilla JS, scroll animáció, FTP deploy</div>
           </div>
         </div>
+        <div class="wz-cat-sep"><span>Frontend Keretrendszerek</span></div>
         <div class="wz-opt" id="wo2" onclick="wzSelOpt(2)" style="--ic:#61dafb">
           <div class="wz-opt-icon">RV</div>
           <div class="wz-opt-body">
-            <div class="wz-opt-row"><span class="wz-opt-title">React / Vue / Node</span><div class="wz-tags"><span class="wz-tag">Vite</span><span class="wz-tag">NPM</span><span class="wz-tag">HMR</span><span class="wz-tag">localhost:5173</span></div></div>
-            <div class="wz-opt-sub">Modern JS framework, Vite, HMR, SPA alkalmazás fejlesztés</div>
+            <div class="wz-opt-row"><span class="wz-opt-title">React / Vue.js</span><span class="wz-type-badge" style="background:rgba(97,218,251,.15);color:#61dafb">SPA</span></div>
+            <div class="wz-tags"><span class="wz-tag">Vite</span><span class="wz-tag">TypeScript</span><span class="wz-tag">Pinia/Redux</span><span class="wz-tag">HMR</span><span class="wz-tag">localhost:5173</span></div>
+            <div class="wz-opt-sub">Modern SPA, Vite dev szerver, állapotkezelés, komponens alapú UI fejlesztés</div>
           </div>
         </div>
-        <div class="wz-opt" id="wo3" onclick="wzSelOpt(3)" style="--ic:#ff2d20">
-          <div class="wz-opt-icon">LP</div>
+        <div class="wz-opt" id="wo3" onclick="wzSelOpt(3)" style="--ic:#dd0031">
+          <div class="wz-opt-icon">ANG</div>
           <div class="wz-opt-body">
-            <div class="wz-opt-row"><span class="wz-opt-title">Laravel / PHP</span><div class="wz-tags"><span class="wz-tag">PHP 8+</span><span class="wz-tag">Composer</span><span class="wz-tag">MySQL</span><span class="wz-tag">artisan</span></div></div>
-            <div class="wz-opt-sub">PHP MVC keretrendszer, Eloquent ORM, artisan CLI, Blade</div>
+            <div class="wz-opt-row"><span class="wz-opt-title">Angular</span><span class="wz-type-badge" style="background:rgba(221,0,49,.2);color:#dd0031">Enterprise</span></div>
+            <div class="wz-tags"><span class="wz-tag">TypeScript</span><span class="wz-tag">RxJS</span><span class="wz-tag">NgRx</span><span class="wz-tag">Angular CLI</span><span class="wz-tag">Material</span></div>
+            <div class="wz-opt-sub">Enterprise SPA, DI rendszer, Angular Material UI, Observable adatfolyamok, NgRx store</div>
           </div>
         </div>
-        <div class="wz-opt" id="wo4" onclick="wzSelOpt(4)" style="--ic:#ffffff">
+        <div class="wz-cat-sep"><span>Fullstack &amp; SSR / SSG</span></div>
+        <div class="wz-opt" id="wo4" onclick="wzSelOpt(4)" style="--ic:#b0b0b0">
           <div class="wz-opt-icon">NX</div>
           <div class="wz-opt-body">
-            <div class="wz-opt-row"><span class="wz-opt-title">Next.js / Nuxt</span><div class="wz-tags"><span class="wz-tag">Node</span><span class="wz-tag">SSR</span><span class="wz-tag">SSG</span><span class="wz-tag">Vercel</span></div></div>
-            <div class="wz-opt-sub">SSR / SSG fullstack JS, deploy Vercel vagy saját szerver</div>
+            <div class="wz-opt-row"><span class="wz-opt-title">Next.js / Nuxt.js</span><span class="wz-type-badge" style="background:rgba(200,200,200,.1);color:#b0b0b0">SSR/SSG</span></div>
+            <div class="wz-tags"><span class="wz-tag">App Router</span><span class="wz-tag">API Routes</span><span class="wz-tag">Prisma</span><span class="wz-tag">Vercel</span><span class="wz-tag">localhost:3000</span></div>
+            <div class="wz-opt-sub">Fullstack JS, SSR/SSG/ISR, file-based routing, API routes, deploy Vercel vagy VPS</div>
           </div>
         </div>
-        <div class="wz-opt" id="wo5" onclick="wzSelOpt(5)" style="--ic:#ffd43b">
+        <div class="wz-opt" id="wo5" onclick="wzSelOpt(5)" style="--ic:#8b5cf6">
+          <div class="wz-opt-icon">RA</div>
+          <div class="wz-opt-body">
+            <div class="wz-opt-row"><span class="wz-opt-title">Remix / Astro</span><span class="wz-type-badge" style="background:rgba(139,92,246,.2);color:#8b5cf6">Islands</span></div>
+            <div class="wz-tags"><span class="wz-tag">Islands Arch.</span><span class="wz-tag">Zero JS default</span><span class="wz-tag">MDX</span><span class="wz-tag">Content Layer</span></div>
+            <div class="wz-opt-sub">Content-first web, blog, dokumentáció, részleges hidratáció, ultra-gyors build</div>
+          </div>
+        </div>
+        <div class="wz-cat-sep"><span>Backend &amp; API</span></div>
+        <div class="wz-opt" id="wo6" onclick="wzSelOpt(6)" style="--ic:#ff2d20">
+          <div class="wz-opt-icon">LP</div>
+          <div class="wz-opt-body">
+            <div class="wz-opt-row"><span class="wz-opt-title">Laravel / PHP</span><span class="wz-type-badge" style="background:rgba(255,45,32,.2);color:#ff2d20">MVC</span></div>
+            <div class="wz-tags"><span class="wz-tag">PHP 8.3</span><span class="wz-tag">Composer</span><span class="wz-tag">Artisan</span><span class="wz-tag">Livewire</span><span class="wz-tag">Inertia.js</span></div>
+            <div class="wz-opt-sub">PHP MVC, Eloquent ORM, Blade/Livewire, REST API, Sanctum auth, Queue/Jobs</div>
+          </div>
+        </div>
+        <div class="wz-opt" id="wo7" onclick="wzSelOpt(7)" style="--ic:#68a063">
+          <div class="wz-opt-icon">NE</div>
+          <div class="wz-opt-body">
+            <div class="wz-opt-row"><span class="wz-opt-title">Node.js / Express</span><span class="wz-type-badge" style="background:rgba(104,160,99,.2);color:#68a063">REST API</span></div>
+            <div class="wz-tags"><span class="wz-tag">Express/Fastify</span><span class="wz-tag">MongoDB</span><span class="wz-tag">Prisma</span><span class="wz-tag">JWT Auth</span><span class="wz-tag">Socket.io</span></div>
+            <div class="wz-opt-sub">RESTful/GraphQL API szerver, Prisma ORM, real-time WebSocket, microservice arch.</div>
+          </div>
+        </div>
+        <div class="wz-opt" id="wo8" onclick="wzSelOpt(8)" style="--ic:#ffd43b">
           <div class="wz-opt-icon">PY</div>
           <div class="wz-opt-body">
-            <div class="wz-opt-row"><span class="wz-opt-title">Python / Django / Flask</span><div class="wz-tags"><span class="wz-tag">Python 3</span><span class="wz-tag">pip</span><span class="wz-tag">venv</span><span class="wz-tag">REST API</span></div></div>
-            <div class="wz-opt-sub">Backend API, admin panel, adattudomány, gépi tanulás, ML</div>
+            <div class="wz-opt-row"><span class="wz-opt-title">Python / Django / Flask</span><span class="wz-type-badge" style="background:rgba(255,212,59,.15);color:#ffd43b">Backend</span></div>
+            <div class="wz-tags"><span class="wz-tag">Python 3.12</span><span class="wz-tag">pip/poetry</span><span class="wz-tag">FastAPI</span><span class="wz-tag">SQLAlchemy</span><span class="wz-tag">Celery</span></div>
+            <div class="wz-opt-sub">Web API, Django admin panel, ML/AI integráció, adattudomány, async FastAPI</div>
           </div>
         </div>
-        <div class="wz-opt" id="wo6" onclick="wzSelOpt(6)" style="--ic:#47848f">
+        <div class="wz-opt" id="wo9" onclick="wzSelOpt(9)" style="--ic:#512bd4">
+          <div class="wz-opt-icon">DN</div>
+          <div class="wz-opt-body">
+            <div class="wz-opt-row"><span class="wz-opt-title">.NET / ASP.NET Core</span><span class="wz-type-badge" style="background:rgba(81,43,212,.25);color:#a78bfa">Enterprise</span></div>
+            <div class="wz-tags"><span class="wz-tag">C# 12</span><span class="wz-tag">.NET 8</span><span class="wz-tag">Entity Framework</span><span class="wz-tag">SQL Server</span><span class="wz-tag">Blazor</span></div>
+            <div class="wz-opt-sub">Enterprise REST API, Blazor SPA, EF Core, Azure deploy, SignalR real-time</div>
+          </div>
+        </div>
+        <div class="wz-cat-sep"><span>Desktop &amp; Mobil</span></div>
+        <div class="wz-opt" id="wo10" onclick="wzSelOpt(10)" style="--ic:#47848f">
           <div class="wz-opt-icon">EL</div>
           <div class="wz-opt-body">
-            <div class="wz-opt-row"><span class="wz-opt-title">Electron / Tauri</span><div class="wz-tags"><span class="wz-tag">Desktop</span><span class="wz-tag">Chromium</span><span class="wz-tag">Rust/Node</span></div></div>
-            <div class="wz-opt-sub">Cross-platform asztali alkalmazás, rendszerszintű hozzáférés</div>
+            <div class="wz-opt-row"><span class="wz-opt-title">Electron / Tauri</span><span class="wz-type-badge" style="background:rgba(71,132,143,.2);color:#47848f">Desktop</span></div>
+            <div class="wz-tags"><span class="wz-tag">Chromium</span><span class="wz-tag">Rust/Node</span><span class="wz-tag">Cross-platform</span><span class="wz-tag">IPC Bridge</span><span class="wz-tag">Auto-Update</span></div>
+            <div class="wz-opt-sub">Cross-platform asztali app, OS API hozzáférés, auto-updater, tray icon, natív UI</div>
           </div>
         </div>
-        <div class="wz-opt" id="wo7" onclick="wzSelOpt(7)" style="--ic:#555">
+        <div class="wz-opt" id="wo11" onclick="wzSelOpt(11)" style="--ic:#0ea5e9">
+          <div class="wz-opt-icon">RN</div>
+          <div class="wz-opt-body">
+            <div class="wz-opt-row"><span class="wz-opt-title">React Native / Expo</span><span class="wz-type-badge" style="background:rgba(14,165,233,.2);color:#0ea5e9">Mobil</span></div>
+            <div class="wz-tags"><span class="wz-tag">iOS &amp; Android</span><span class="wz-tag">Expo SDK</span><span class="wz-tag">EAS Build</span><span class="wz-tag">React Navigation</span><span class="wz-tag">NativeWind</span></div>
+            <div class="wz-opt-sub">Natív iOS/Android app React-tal, Expo managed workflow, OTA updates, EAS build</div>
+          </div>
+        </div>
+        <div class="wz-cat-sep"><span>Egyéb</span></div>
+        <div class="wz-opt" id="wo12" onclick="wzSelOpt(12)" style="--ic:#555;grid-column:1/-1">
           <div class="wz-opt-icon">~/</div>
           <div class="wz-opt-body">
-            <div class="wz-opt-row"><span class="wz-opt-title">Egyéb / Saját</span><div class="wz-tags"><span class="wz-tag">Git</span><span class="wz-tag">Egyéni</span><span class="wz-tag">Manuális</span></div></div>
-            <div class="wz-opt-sub">Teljesen egyéni projekt, saját workflow, bármi más technika</div>
+            <div class="wz-opt-row"><span class="wz-opt-title">Egyéb / Saját konfiguráció</span><span class="wz-type-badge" style="background:rgba(255,255,255,.07);color:#888">Custom</span></div>
+            <div class="wz-tags"><span class="wz-tag">Git</span><span class="wz-tag">Egyéni Config</span><span class="wz-tag">Manuális</span><span class="wz-tag">Bármilyen stack</span></div>
+            <div class="wz-opt-sub">Teljesen egyéni projekt, saját workflow, bármi más technika vagy stack</div>
           </div>
         </div>
-      </div>
       </div>
     </div>
     <!-- P2: Mappa + GitHub -->
@@ -1800,10 +1853,10 @@ function wzClose(){
 }
 
 function wzSelOpt(n){
-  for(var i=0;i<8;i++) document.getElementById('wo'+i).className='wz-opt';
+  for(var i=0;i<13;i++) document.getElementById('wo'+i).className='wz-opt';
   document.getElementById('wo'+n).className='wz-opt wsel';
   wzType=n;
-  var ph=['sdh2026.local','.','localhost:5173','localhost:8000','localhost:3000','localhost:8000','localhost:4200','localhost'];
+  var ph=['sdh2026.local','localhost:3001','localhost:5173','localhost:4200','localhost:3000','localhost:4321','localhost:8000','localhost:3000','localhost:8000','localhost:5000','localhost:1420','localhost:8081','localhost:3000'];
   document.getElementById('wz-siteurl').placeholder='pl. '+ph[n];
 }
 
@@ -1852,7 +1905,7 @@ function wzShowStep(s){
 }
 
 function wzBuildSum(){
-  var types=['WordPress','HTML / CSS / JS','React / Vue / Node','Laravel / PHP'];
+  var types=['WordPress','HTML / CSS / JS','React / Vue.js','Angular','Next.js / Nuxt.js','Remix / Astro','Laravel / PHP','Node.js / Express','Python / Django / Flask','.NET / ASP.NET Core','Electron / Tauri','React Native / Expo','Egyéb / Saját'];
   var f=document.getElementById('wz-folder').value||'(nincs megadva)';
   var g=document.getElementById('wz-github').value||'—';
   var u=document.getElementById('wz-siteurl').value||'—';
@@ -1890,7 +1943,16 @@ function wzGeneratePs1(){
     "npx browser-sync start --proxy 'localhost' --files '**/*.css,**/*.php,**/*.js' --port 3000 --open",
     "npx browser-sync start --server --files '**/*.css,**/*.html,**/*.js' --port 3000 --open",
     "npx browser-sync start --proxy '"+siteurl.replace(/^https?:\/\//,'')+"' --files '**/*.css,**/*.js' --port 3000 --open",
-    "npx browser-sync start --proxy 'localhost:8000' --files '**/*.css,**/*.php,**/*.blade.php' --port 3000 --open"
+    "npx browser-sync start --proxy 'localhost:4200' --files '**/*.css,**/*.js' --port 3000 --open",
+    "npx browser-sync start --proxy 'localhost:3000' --files '**/*.css,**/*.js,**/*.ts' --port 3001 --open",
+    "npx browser-sync start --proxy 'localhost:4321' --files '**/*.css,**/*.js,**/*.astro' --port 3000 --open",
+    "npx browser-sync start --proxy 'localhost:8000' --files '**/*.css,**/*.php,**/*.blade.php' --port 3000 --open",
+    "npx browser-sync start --proxy 'localhost:3000' --files '**/*.css,**/*.js' --port 3001 --open",
+    "npx browser-sync start --proxy 'localhost:8000' --files '**/*.css,**/*.py,**/*.html' --port 3000 --open",
+    "npx browser-sync start --proxy 'localhost:5000' --files '**/*.css,**/*.js' --port 3000 --open",
+    "npx browser-sync start --proxy 'localhost:1420' --files '**/*.css,**/*.js,**/*.ts' --port 3000 --open",
+    "npx browser-sync start --proxy 'localhost:8081' --files '**/*.css,**/*.js,**/*.ts' --port 3000 --open",
+    "npx browser-sync start --proxy '"+siteurl.replace(/^https?:\/\//,'')+"' --files '**/*' --port 3000 --open"
   ];
   var bsCmd=bsCmds[wzType];
   var pushCmd="git add . ; $d = git diff --cached --quiet ; if ($LASTEXITCODE -ne 0) { $m = 'Mentes_' + (Get-Date -Format 'yyyy.MM.dd_HH.mm') ; git commit -m $m ; git push ; Write-Host 'Kesz!' } else { Write-Host 'Nincs valtozas.' }";
