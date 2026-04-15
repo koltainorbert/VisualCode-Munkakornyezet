@@ -1,27 +1,36 @@
 param([string]$Title="", [string]$Message="", [string]$Type="")
 
 # Szovegek + szinek type alapjan
-$iconChar = "↑"
-$iconBg   = "#1a2a1a"
-$iconFg   = "#00e676"
+$iconMain = "↑"
+$iconTop  = "☁"
+$iconTopFg = "#60b0ff"
+$iconBg    = "#1a2a1a"
+$iconFg    = "#00e676"
+$showTop   = $true
 
 if ($Type -eq "no-change") {
-    $Title   = "Nincs valtozas a munkaban"
-    $Message = "Nem volt mit feltolteni"
-    $iconChar = "~"
+    $Title    = "Nincs valtozas a munkaban"
+    $Message  = "Nem volt mit feltolteni"
+    $iconMain = "~"
+    $iconTop  = ""
+    $showTop  = $false
     $iconBg   = "#2a2a1a"
     $iconFg   = "#ffb800"
 } elseif ($Type -eq "push-ok") {
     if (-not $Title) { $Title = "Push sikeres" }
-    $iconChar = "↑"
-    $iconBg   = "#1a2a1a"
-    $iconFg   = "#00e676"
+    $iconMain  = "↑"
+    $iconTop   = "☁"
+    $iconTopFg = "#60b0ff"
+    $iconBg    = "#1a2a1a"
+    $iconFg    = "#00e676"
 } elseif ($Type -eq "pull-ok") {
-    $Title    = "Letoltes kesz"
-    $Message  = "GitHub szinkronizalva"
-    $iconChar = "↓"
-    $iconBg   = "#1a2030"
-    $iconFg   = "#60b0ff"
+    $Title     = "Letoltes kesz"
+    $Message   = "GitHub szinkronizalva"
+    $iconMain  = "↓"
+    $iconTop   = "☁"
+    $iconTopFg = "#60b0ff"
+    $iconBg    = "#1a2030"
+    $iconFg    = "#60b0ff"
 }
 
 Add-Type -AssemblyName PresentationFramework, PresentationCore, WindowsBase, System.Windows.Forms
@@ -43,7 +52,10 @@ $screen = [System.Windows.Forms.Screen]::PrimaryScreen.WorkingArea
         <ColumnDefinition Width="*"/>
       </Grid.ColumnDefinitions>
       <Border Name="iconBox" Width="34" Height="34" CornerRadius="8" Margin="0,0,13,0" VerticalAlignment="Center">
-        <TextBlock Name="iconTxt" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" FontWeight="Bold"/>
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+          <TextBlock Name="iconTopTxt" HorizontalAlignment="Center" FontSize="9" Margin="0,0,0,0"/>
+          <TextBlock Name="iconTxt" HorizontalAlignment="Center" FontSize="14" FontWeight="Bold"/>
+        </StackPanel>
       </Border>
       <StackPanel Grid.Column="1" VerticalAlignment="Center">
         <TextBlock Name="ttl" FontSize="12" FontWeight="Bold" Foreground="#FFFFFF" Margin="0,0,0,3" TextTrimming="CharacterEllipsis"/>
@@ -55,11 +67,14 @@ $screen = [System.Windows.Forms.Screen]::PrimaryScreen.WorkingArea
 "@
 
 $win = [Windows.Markup.XamlReader]::Load([System.Xml.XmlNodeReader]::new($xaml))
-$win.FindName("ttl").Text     = $Title
-$win.FindName("msg").Text     = $Message
-$win.FindName("iconTxt").Text = $iconChar
-$win.FindName("iconTxt").Foreground = [System.Windows.Media.BrushConverter]::new().ConvertFromString($iconFg)
-$win.FindName("iconBox").Background = [System.Windows.Media.BrushConverter]::new().ConvertFromString($iconBg)
+$win.FindName("ttl").Text      = $Title
+$win.FindName("msg").Text      = $Message
+$win.FindName("iconTxt").Text  = $iconMain
+$win.FindName("iconTxt").Foreground    = [System.Windows.Media.BrushConverter]::new().ConvertFromString($iconFg)
+$win.FindName("iconBox").Background    = [System.Windows.Media.BrushConverter]::new().ConvertFromString($iconBg)
+$win.FindName("iconTopTxt").Text       = $iconTop
+$win.FindName("iconTopTxt").Foreground = [System.Windows.Media.BrushConverter]::new().ConvertFromString($iconTopFg)
+if (-not $showTop) { $win.FindName("iconTopTxt").Visibility = "Collapsed" }
 
 $startTop = $screen.Top - 90
 $endTop   = $screen.Top + 12
