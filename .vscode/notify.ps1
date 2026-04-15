@@ -13,10 +13,11 @@ try {
     [Windows.UI.Notifications.ToastNotificationManager, Windows.UI.Notifications, ContentType = WindowsRuntime] | Out-Null
     [Windows.Data.Xml.Dom.XmlDocument, Windows.Data.Xml.Dom.XmlDocument, ContentType = WindowsRuntime] | Out-Null
 
-    $xml = "<toast duration='long'><visual><binding template='ToastGeneric'><text>$Title</text><text>$Message</text></binding></visual></toast>"
+    $xml = "<toast duration='short'><visual><binding template='ToastGeneric'><text>$Title</text><text>$Message</text></binding></visual></toast>"
     $doc = [Windows.Data.Xml.Dom.XmlDocument]::new()
     $doc.LoadXml($xml)
     $toast = [Windows.UI.Notifications.ToastNotification]::new($doc)
+    $toast.ExpirationTime = [DateTimeOffset]::Now.AddSeconds(5)
     [Windows.UI.Notifications.ToastNotificationManager]::CreateToastNotifier("Microsoft.VisualStudioCode").Show($toast)
     Start-Sleep -Milliseconds 800
 } catch {}
