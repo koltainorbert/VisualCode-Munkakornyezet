@@ -600,7 +600,6 @@ footer a:hover{color:var(--red)}
         <thead><tr><th>Fájl</th><th>Hely</th><th>Mire jó?</th></tr></thead>
         <tbody>
           <tr><td><code>tasks.json</code></td><td><code>.vscode/</code></td><td>VS Code taskok: Push, Pull, Visszagörgetés, Browser Sync, Watcher</td></tr>
-          <tr><td><code>notify.ps1</code></td><td><code>.vscode/</code></td><td>WPF popup értesítés — Push/Pull után jelenik meg jobb felső sarokban, 3.5 mp után tűnik el</td></tr>
           <tr><td><code>naplo-watcher.ps1</code></td><td><code>.vscode/</code></td><td>Auto-push script (percenként fut VS Code-ban)</td></tr>
           <tr><td><code>naplo-watcher-bg.ps1</code></td><td><code>.vscode/</code></td><td>Háttér autosave (Task Scheduler futtatja, VS Code nélkül is)</td></tr>
           <tr><td><code>settings.json</code></td><td><code>.vscode/</code></td><td>Automatikus taskok engedélyezve: <code>"task.allowAutomaticTasks": "on"</code></td></tr>
@@ -626,12 +625,12 @@ footer a:hover{color:var(--red)}
           <tr>
             <td>⬆ Push (feltöltés GitHubra)</td>
             <td><kbd>Ctrl+Shift+B</kbd></td>
-            <td><code>git add .</code> → commit (auto dátum) → <code>git push</code> → <strong>WPF popup értesítés</strong> (zöld ☁↑). Ha nincs változás: sárga ~ toast.</td>
+            <td><code>git add .</code> → commit (auto dátum) → <code>git push</code>. Ha nincs változás: "Nincs változás." üzenet.</td>
           </tr>
           <tr>
             <td>⬇ Pull (frissítés GitHubról)</td>
             <td>Run Task → Pull</td>
-            <td><code>git pull</code> — letölti a GitHub-on lévő változtatásokat → <strong>WPF popup értesítés</strong> (kék ☁↓).</td>
+            <td><code>git pull</code> — letölti a GitHub-on lévő változtatásokat.</td>
           </tr>
           <tr>
             <td>↩ Visszagörgetés</td>
@@ -654,16 +653,6 @@ footer a:hover{color:var(--red)}
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
         <p><strong>A Push task az alapértelmezett build task</strong> — ezért működik <kbd>Ctrl+Shift+B</kbd>-vel. A többi task a <em>Run Task</em> menüben található.</p>
       </div>
-      <h3>notify.ps1 — WPF popup értesítések</h3>
-      <p class="doc-lead" style="margin-top:0">Push és Pull után automatikusan megjelenik egy animált értesítő ablak jobb felül. A <code>.vscode/notify.ps1</code> WPF alapon fut, nem a Windows beépített toast rendszerét használja.</p>
-      <table>
-        <thead><tr><th>Esemény</th><th>Ikon</th><th>Szín</th><th>Szöveg</th></tr></thead>
-        <tbody>
-          <tr><td>Push (változás volt)</td><td>☁ ↑</td><td style="color:#00e676">zöld</td><td>Push sikeres + commit neve</td></tr>
-          <tr><td>Push (nincs változás)</td><td>~</td><td style="color:#ffb800">sárga</td><td>Nincs változás a munkában</td></tr>
-          <tr><td>Pull</td><td>☁ ↓</td><td style="color:#60b0ff">kék</td><td>Letöltés kész / GitHub szinkronizálva</td></tr>
-        </tbody>
-      </table>
     </div>
 
     <!-- NAPLO WATCHER -->

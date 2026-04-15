@@ -170,7 +170,7 @@ Write-Host "`n[1/5] VS Code tasks..." -ForegroundColor Yellow
     {
       "label": "⬆ Push (feltöltés GitHubra)",
       "type": "shell",
-      "command": "git add . ; `$d = git diff --cached --quiet ; if (`$LASTEXITCODE -ne 0) { `$msg = 'Mentes_' + (Get-Date -Format 'yyyy.MM.dd_HH.mm') ; git commit -m `$msg ; git push ; Write-Host 'Kesz!' ; Start-Process powershell -WindowStyle Hidden -ArgumentList '-ExecutionPolicy','Bypass','-File','.vscode\\notify.ps1','-Type','push-ok','-Message',`$msg } else { Write-Host 'Nincs valtozas.' ; Start-Process powershell -WindowStyle Hidden -ArgumentList '-ExecutionPolicy','Bypass','-File','.vscode\\notify.ps1','-Type','no-change' }",
+      "command": "git add . ; `$d = git diff --cached --quiet ; if (`$LASTEXITCODE -ne 0) { `$msg = 'Mentes_' + (Get-Date -Format 'yyyy.MM.dd_HH.mm') ; git commit -m `$msg ; git push ; Write-Host 'Kesz!' } else { Write-Host 'Nincs valtozas.' }",
       "options": { "cwd": "`${workspaceFolder}" },
       "group": { "kind": "build", "isDefault": true },
       "presentation": { "reveal": "always", "panel": "shared", "clear": true },
@@ -186,9 +186,9 @@ Write-Host "`n[1/5] VS Code tasks..." -ForegroundColor Yellow
       "problemMatcher": []
     },
     {
-      "label": "⬇ Pull (letöltés GitHubról)",
+      "label": "⬇ Pull (frissítés GitHubról)",
       "type": "shell",
-      "command": "git pull ; Write-Host 'Kesz!' ; Start-Process powershell -WindowStyle Hidden -ArgumentList '-ExecutionPolicy','Bypass','-File','.vscode\\notify.ps1','-Type','pull-ok'",
+      "command": "git pull ; Write-Host 'Kész!'",
       "options": { "cwd": "`${workspaceFolder}" },
       "group": "none",
       "presentation": { "reveal": "always", "panel": "shared", "clear": true },
@@ -219,22 +219,7 @@ Write-Host "`n[1/5] VS Code tasks..." -ForegroundColor Yellow
 }
 "@ | Set-Content ".vscode/tasks.json" -Encoding UTF8
 
-Write-Host "[2/5] Notify popup script..." -ForegroundColor Yellow
-$notifyUrl = "https://raw.githubusercontent.com/koltainorbert/VisualCode-Munkakornyezet/main/.vscode/notify.ps1"
-try {
-    Invoke-WebRequest $notifyUrl -OutFile ".vscode\notify.ps1" -Encoding UTF8 -ErrorAction Stop
-    Write-Host "  notify.ps1 letoltve OK" -ForegroundColor Green
-} catch {
-    Write-Host "  notify.ps1 letoltes sikertelen (offline?) — kihagyva" -ForegroundColor Yellow
-}
-
-$notifyUpdateUrl = "https://raw.githubusercontent.com/koltainorbert/VisualCode-Munkakornyezet/main/.vscode/update-notify.ps1"
-try {
-    Invoke-WebRequest $notifyUpdateUrl -OutFile ".vscode\update-notify.ps1" -Encoding UTF8 -ErrorAction Stop
-} catch { }
-
-
-Write-Host "[3/5] Napló watcher script..." -ForegroundColor Yellow
+Write-Host "[2/5] Napló watcher script..." -ForegroundColor Yellow
 @'
 $temaMappa = (Get-Location).Path
 $naplo = "$temaMappa\NAPLO.md"

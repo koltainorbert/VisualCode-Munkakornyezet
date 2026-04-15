@@ -4,7 +4,7 @@
     {
       "label": "⬆ Push (feltöltés GitHubra)",
       "type": "shell",
-      "command": "git add . ; $d = git diff --cached --quiet ; if ($LASTEXITCODE -ne 0) { $msg = 'Mentes_' + (Get-Date -Format 'yyyy.MM.dd_HH.mm') ; git commit -m $msg ; git push ; Write-Host 'Kesz!' ; Start-Process powershell -WindowStyle Hidden -ArgumentList '-ExecutionPolicy','Bypass','-File','.vscode\\notify.ps1','-Type','push-ok','-Message',$msg } else { Write-Host 'Nincs valtozas.' ; Start-Process powershell -WindowStyle Hidden -ArgumentList '-ExecutionPolicy','Bypass','-File','.vscode\\notify.ps1','-Type','no-change' }"
+      "command": "git add . ; $d = git diff --cached --quiet ; if ($LASTEXITCODE -ne 0) { $msg = 'Mentes_' + (Get-Date -Format 'yyyy.MM.dd_HH.mm') ; git commit -m $msg ; git push ; Write-Host 'Kesz!' } else { Write-Host 'Nincs valtozas.' }",
       "options": { "cwd": "${workspaceFolder}" },
       "group": { "kind": "build", "isDefault": true },
       "presentation": { "reveal": "always", "panel": "shared", "clear": true },
@@ -13,7 +13,7 @@
     {
       "label": "⬇ Pull (letöltés GitHubról)",
       "type": "shell",
-      "command": "git pull ; Write-Host 'Frissites kesz!' ; Start-Process powershell -WindowStyle Hidden -ArgumentList '-ExecutionPolicy','Bypass','-File','.vscode\\notify.ps1','-Type','pull-ok'",
+      "command": "git pull ; Write-Host 'Frissítés kész!'",
       "options": { "cwd": "${workspaceFolder}" },
       "group": "none",
       "presentation": { "reveal": "always", "panel": "shared", "clear": true },

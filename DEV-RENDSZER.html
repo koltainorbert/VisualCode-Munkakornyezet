@@ -23,6 +23,11 @@ body{
   min-height:100vh;overflow-x:hidden;
 }
 #cv{position:fixed;top:0;left:0;pointer-events:none;z-index:0;opacity:.55}
+#prog{position:fixed;top:0;left:0;height:2px;z-index:999;
+  background:linear-gradient(90deg,#ff0000,#ff6600,#ff0000);
+  background-size:200% 100%;animation:shimmer 2s linear infinite;
+  width:0;transition:width .1s}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
 nav{position:fixed;top:0;left:0;right:0;z-index:100;
   display:flex;align-items:center;gap:28px;padding:0 40px;height:56px;
   background:rgba(6,6,6,.88);backdrop-filter:blur(20px);
@@ -485,50 +490,7 @@ pre.cpre.exp{max-height:none}
   font-size:10px;color:rgba(255,255,255,.28);font-family:var(--mono);letter-spacing:1px;
   background:rgba(255,255,255,.04);padding:2px 10px;border:1px solid var(--border);border-radius:6px}
 .qd::before{content:'default: ';color:rgba(255,0,0,.38);font-size:10px}
-/* ── NAPI MUNKAREND ── */
-#munkarend{position:relative;z-index:1}
-.mr-cmds{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:44px}
-.mr-cmd{border:1px solid var(--border);border-radius:12px;padding:24px 26px;position:relative;overflow:hidden;background:rgba(255,255,255,.02);transition:border-color .25s,background .25s}
-.mr-cmd:hover{border-color:rgba(255,0,0,.3);background:rgba(255,0,0,.03)}
-.mr-cmd::after{content:'';position:absolute;top:0;right:0;width:40px;height:40px;background:linear-gradient(225deg,#ff0000 50%,transparent 50%)}
-.mr-cl{font-size:9px;font-weight:800;letter-spacing:3px;color:rgba(255,0,0,.5);text-transform:uppercase;margin-bottom:12px}
-.mr-ck{display:flex;align-items:center;gap:6px;margin-bottom:12px;flex-wrap:wrap}
-.mr-ck kbd{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);border-bottom:2px solid rgba(255,255,255,.28);border-radius:5px;padding:3px 10px;font-size:13px;font-family:var(--mono);color:#fff;font-weight:700}
-.mr-ck kbd.red{background:rgba(255,0,0,.15);border-color:rgba(255,0,0,.4);border-bottom-color:rgba(255,0,0,.5);color:#ff7070}
-.mr-ck .plus{color:var(--text);font-size:12px}
-.mr-cd{font-size:12.5px;color:var(--text);line-height:1.65}
-.mr-cd strong{color:#fff}
-.mr-phases{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border-radius:14px;overflow:hidden;margin-top:44px}
-.mr-phase{background:var(--bg);padding:32px 28px;position:relative;overflow:hidden;transition:background .3s}
-.mr-phase::before{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--red);transform:scaleX(0);transition:transform .4s;transform-origin:left}
-.mr-phase:hover{background:rgba(255,0,0,.03)}.mr-phase:hover::before{transform:scaleX(1)}
-.mr-pn{font-size:9px;font-weight:800;letter-spacing:3px;color:rgba(255,0,0,.4);text-transform:uppercase;margin-bottom:20px}
-.mr-ph{font-size:19px;font-weight:800;margin-bottom:22px;letter-spacing:-.3px}
-.mr-step{display:flex;align-items:flex-start;gap:12px;margin-bottom:14px}
-.mr-sn{width:20px;height:20px;border-radius:50%;border:1px solid rgba(255,0,0,.3);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:800;color:rgba(255,0,0,.6);flex-shrink:0;margin-top:1px}
-.mr-st{font-size:12.5px;color:var(--text2);line-height:1.65}
-.mr-st strong{color:#fff}
-.mr-st code{font-family:var(--mono);font-size:11px;color:rgba(255,120,120,.9);background:rgba(255,0,0,.08);padding:1px 5px;border:1px solid rgba(255,0,0,.14)}
-.mr-na{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:10px}
-.mr-nbtn{display:flex;gap:8px;flex-wrap:wrap}
-.mr-nbtn button{background:rgba(255,0,0,.1);border:1px solid rgba(255,0,0,.25);color:#fff;font-size:11px;font-weight:700;letter-spacing:1px;padding:8px 18px;border-radius:7px;cursor:pointer;font-family:inherit;text-transform:uppercase;transition:all .2s}
-.mr-nbtn button:hover{background:rgba(255,0,0,.25);border-color:var(--red)}
-.mr-nstat{font-size:11px;color:var(--text);font-family:var(--mono)}
-.mr-notif-area{display:none}
-.mr-notif-demo{position:fixed;top:70px;right:20px;display:flex;flex-direction:column;gap:10px;align-items:flex-end;pointer-events:none;z-index:9999}
-.mr-toast{background:rgba(22,22,22,.97);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:14px 18px;width:320px;display:flex;align-items:flex-start;gap:13px;box-shadow:0 8px 40px rgba(0,0,0,.8),0 0 0 1px rgba(255,0,0,.08);transform:translateX(calc(100% + 40px));opacity:0;transition:transform .45s cubic-bezier(.16,1,.3,1),opacity .3s;pointer-events:all}
-.mr-toast.show{transform:translateX(0);opacity:1}
-.mr-toast.hide{transform:translateX(calc(100% + 40px));opacity:0;transition:transform .3s ease-in,opacity .2s}
-.mr-ti{width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.mr-ti.green{background:rgba(0,230,118,.15);color:#00e676}
-.mr-ti.red{background:rgba(255,80,80,.15);color:#ff5050}
-.mr-ti.blue{background:rgba(60,160,255,.15);color:#60b0ff}
-.mr-ti.yellow{background:rgba(255,180,0,.15);color:#ffb800}
-.mr-ti svg{width:17px;height:17px}
-.mr-tm strong{display:block;font-size:12px;font-weight:700;color:#fff;margin-bottom:3px}
-.mr-tm span{font-size:11px;color:rgba(255,255,255,.5)}
-.mr-desc{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:12px;color:rgba(255,255,255,.2);font-style:italic;pointer-events:none;white-space:nowrap;text-align:center}
-@media(max-width:768px){.mr-phases,.mr-cmds{grid-template-columns:1fr}}text-align:center;padding:60px 24px;border-top:1px solid var(--border);
+footer{text-align:center;padding:60px 24px;border-top:1px solid var(--border);
   color:var(--text);font-size:12px;position:relative;z-index:1}
 footer strong{color:#fff}
 footer a{color:rgba(255,0,0,.38);text-decoration:none;transition:color .2s}
@@ -544,15 +506,13 @@ footer a:hover{color:rgba(255,0,0,.75)}
 </style>
 </head>
 <body>
+<div id="prog"></div>
 <canvas id="cv"></canvas>
 <div id="sdh-progress-bar"></div>
-<nav><div class="nl"><div class="nd"></div>VS&nbsp;<span style="color:var(--red)">Wizard</span></div><a href="#hova">Beilllesztés</a><a href="#wizard">Wizard</a><a href="#kerdesek">Kérdések</a><a href="#script">Script</a><a href="#munkarend">Munkarend</a><a href="docs/index.html" style="color:rgba(255,0,0,.7);font-weight:800">Docs</a><div class="nr"><a href="https://www.infostudio.hu" target="_blank" style="color:#fff;font-size:11px;font-weight:700;letter-spacing:1.5px;text-decoration:none;text-transform:uppercase;opacity:.7;transition:opacity .2s;margin-right:14px" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity='.7'">Koltai Norbert</a><a class="ngh" href="https://github.com/koltainorbert/VisualCode-Munkakornyezet" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.168 6.839 9.49.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.604-3.369-1.34-3.369-1.34-.454-1.154-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836a9.59 9.59 0 012.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.741 0 .267.18.579.688.481C19.138 20.165 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>GitHub</a></div></nav>
+<nav><div class="nl"><div class="nd"></div>VS&nbsp;<span style="color:var(--red)">Wizard</span></div><a href="#hova">Beilllesztés</a><a href="#wizard">Wizard</a><a href="#kerdesek">Kérdések</a><a href="#script">Script</a><a href="docs/index.html" style="color:rgba(255,0,0,.7);font-weight:800">Docs</a><div class="nr"><a href="https://www.infostudio.hu" target="_blank" style="color:#fff;font-size:11px;font-weight:700;letter-spacing:1.5px;text-decoration:none;text-transform:uppercase;opacity:.7;transition:opacity .2s;margin-right:14px" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity='.7'">Koltai Norbert</a><a class="ngh" href="https://github.com/koltainorbert/VisualCode-Munkakornyezet" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.168 6.839 9.49.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.604-3.369-1.34-3.369-1.34-.454-1.154-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836a9.59 9.59 0 012.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.741 0 .267.18.579.688.481C19.138 20.165 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>GitHub</a></div></nav>
 <div class="hero"><div class="he"><div class="hel"></div>VS Code Munkaközeg · Wizard v2.0</div><h1 class="ht" id="hero-title"><span class="ln"><span class="wd">Egy parancs</span></span><span class="ln"><span class="wd r">— minden</span></span><span class="ln"><span class="wd">kész.</span></span></h1><p class="hs">WordPress, HTML, React, Vue, Node.js, Laravel — bármilyen projekthez. A wizard megkérdez mindent, beállít mindent: Git, auto-mentés, Browser Sync, Task Scheduler, deploy.</p>
-<div style="margin-bottom:20px">
-<div style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.45);margin-bottom:10px;font-weight:600">▼ Ezt kell megnyitni</div>
-<a href="javascript:void(0)" onclick="wzOpen()" class="btn btn-r" style="font-size:16px;padding:20px 44px;letter-spacing:3px;animation:wz-pulse 2s ease-in-out infinite;box-shadow:0 0 32px rgba(255,0,0,0.5),0 4px 16px rgba(0,0,0,0.4);position:relative">⚡ Grafikus Wizard indítása<span style="position:absolute;top:-11px;right:-12px;background:#fff;color:#ff0000;font-size:9px;font-weight:900;padding:3px 8px;letter-spacing:1px;line-height:1;border-radius:3px;white-space:nowrap">NEW Ver 2.1</span></a>
-</div>
-<div class="hc"><a href="#hova" class="btn btn-r"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>Hova illesztem be?</a><a href="#wizard" class="btn btn-g"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v8m-4-4h8"/></svg>Mit csinál?</a><a href="https://github.com/koltainorbert/VisualCode-Munkakornyezet" target="_blank" class="btn btn-g"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.168 6.839 9.49.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.604-3.369-1.34-3.369-1.34-.454-1.154-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836a9.59 9.59 0 012.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.741 0 .267.18.579.688.481C19.138 20.165 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>GitHub repo</a></div>
+<div class="mb"><div class="mbi"><div class="mbl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>Varázsparancs — másold be és futtasd</div><div class="mbr"><div class="mbc"><span class="kw">irm</span> <span class="str" id="magic-irm">&quot;https://raw.githubusercontent.com/koltainorbert/VisualCode-Munkakornyezet/main/setup-projekt.ps1&quot;</span> <span class="kw">|</span> iex</div><button class="mcp" onclick="copyMagic(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>Másolás</button></div><div class="mbf"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4m0 4h.01"/></svg><span>Win+R → <code style="font-family:var(--mono);color:rgba(255,130,80,.9);font-size:10px">powershell</code> → Enter → fekete ablakba illeszd be | <a href="#hova">Részletes útmutató ↓</a></span></div></div></div>
+<div class="hc"><a href="#hova" class="btn btn-r"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>Hova illesztem be?</a><a href="javascript:void(0)" onclick="wzOpen()" class="btn btn-r" style="background:#ff0000;border:2px solid #ff0000;color:#fff;font-size:13px;font-weight:900;letter-spacing:3px;padding:14px 28px;box-shadow:0 0 24px rgba(255,0,0,0.6),0 0 60px rgba(255,0,0,0.25);animation:wz-pulse 2s ease-in-out infinite;position:relative">⚡ GRAFIKUS WIZARD<span style="position:absolute;top:-8px;right:-8px;background:#fff;color:#ff0000;font-size:9px;font-weight:900;padding:2px 6px;letter-spacing:1px;line-height:1">ÚJ</span></a><a href="#wizard" class="btn btn-g"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v8m-4-4h8"/></svg>Mit csinál?</a><a href="https://github.com/koltainorbert/VisualCode-Munkakornyezet" target="_blank" class="btn btn-g"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.168 6.839 9.49.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.604-3.369-1.34-3.369-1.34-.454-1.154-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836a9.59 9.59 0 012.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.741 0 .267.18.579.688.481C19.138 20.165 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>GitHub repo</a></div>
 </div>
 <hr class="d">
 <section id="hova"><div class="wrap">
@@ -1183,69 +1143,6 @@ jobs:
             **/node_modules/**
             **/.vscode/**</pre></div>
 </div></section>
-<hr class="d">
-<section id="munkarend"><div class="wrap">
-<div class="se rv">Napi Munkarend</div>
-<h2 class="st rv">Minden nap ugyanígy</h2>
-<p class="ss rv">Reggeltől estig — mi mikor kell, miért, és hogyan.</p>
-
-<div class="mr-cmds rv">
-  <div class="mr-cmd">
-    <div class="mr-cl">Munka végén — feltöltés</div>
-    <div class="mr-ck"><kbd>Ctrl</kbd><span class="plus">+</span><kbd>Shift</kbd><span class="plus">+</span><kbd class="red">B</kbd></div>
-    <div class="mr-cd"><strong>Push</strong> — összegyűjt minden változást, dátummal commitol (<code style="font-family:var(--mono);font-size:11px;color:rgba(255,120,120,.9);background:rgba(255,0,0,.08);padding:1px 5px;border:1px solid rgba(255,0,0,.14)">Mentes_2026.04.15_10.30</code>), majd pusholja GitHubra. Ha nincs változás, nem csinál semmit.</div>
-  </div>
-  <div class="mr-cmd">
-    <div class="mr-cl">Munka elején — letöltés</div>
-    <div class="mr-ck" style="flex-direction:column;align-items:flex-start;gap:4px">
-      <div style="display:flex;align-items:center;gap:6px"><kbd>Ctrl</kbd><span class="plus">+</span><kbd>Shift</kbd><span class="plus">+</span><kbd class="red">P</kbd></div>
-      <span style="font-size:11px;color:var(--text);font-family:var(--mono)">→ Run Task → ⬇ Pull</span>
-    </div>
-    <div class="mr-cd"><strong>Pull</strong> — letölti a másik gépen végzett munkát GitHubról. <strong>Mindig csináld meg munkakezdéskor</strong> ha két gépen dolgozol — különben merge conflict lesz.</div>
-  </div>
-</div>
-
-<div class="mr-phases rv">
-  <div class="mr-phase">
-    <div class="mr-pn">01</div>
-    <div class="mr-ph">☀️ Reggel</div>
-    <div class="mr-step"><div class="mr-sn">1</div><div class="mr-st">VS Code megnyitás → project mappa</div></div>
-    <div class="mr-step"><div class="mr-sn">2</div><div class="mr-st">Napló Watcher <strong>automatikusan elindul</strong> — ha engedélyt kér: Allow</div></div>
-    <div class="mr-step"><div class="mr-sn">3</div><div class="mr-st">Ha másik gépen dolgoztál: <code>Ctrl+Shift+P → ⬇ Pull</code></div></div>
-    <div class="mr-step"><div class="mr-sn">4</div><div class="mr-st">Browser Sync: <code>Run Task → 🌐 Browser Sync</code> → <strong>localhost:3000</strong></div></div>
-  </div>
-  <div class="mr-phase">
-    <div class="mr-pn">02</div>
-    <div class="mr-ph">💻 Közben</div>
-    <div class="mr-step"><div class="mr-sn">→</div><div class="mr-st">Fejlesztés közben a watcher <strong>percenként automatikusan commitol</strong></div></div>
-    <div class="mr-step"><div class="mr-sn">→</div><div class="mr-st">Task Scheduler <strong>5 percenként pushol</strong> — akkor is, ha VS Code nincs nyitva</div></div>
-    <div class="mr-step"><div class="mr-sn">→</div><div class="mr-st">Manuális push: <code>Ctrl+Shift+B</code> — ha fontos ponthoz érsz</div></div>
-    <div class="mr-step"><div class="mr-sn">→</div><div class="mr-st">Ha elromlott: <code>Run Task → ↩ Visszagörgetés</code> → utolsó 20 verzió</div></div>
-  </div>
-  <div class="mr-phase">
-    <div class="mr-pn">03</div>
-    <div class="mr-ph">🌙 Este</div>
-    <div class="mr-step"><div class="mr-sn">1</div><div class="mr-st"><code>Ctrl+Shift+B</code> → <strong>végső push</strong> GitHubra</div></div>
-    <div class="mr-step"><div class="mr-sn">2</div><div class="mr-st">NAPLO.md automatikusan frissül a változások listájával</div></div>
-    <div class="mr-step"><div class="mr-sn">3</div><div class="mr-st">GitHub-on megvan minden — holnap másik gépen <strong>Pull</strong>, és folytatod</div></div>
-  </div>
-</div>
-
-<div class="rv" style="margin-top:60px">
-<div class="se" style="margin-bottom:14px">Értesítések</div>
-<h3 style="font-size:22px;font-weight:800;letter-spacing:-.5px;margin-bottom:6px">Mindig tudod mi történt</h3>
-<p style="font-size:13px;color:var(--text);margin-bottom:24px">A Push task és a watcher értesítést küldhet minden mentés után — így sosem kérdéses hogy szinkronban vagy-e.</p>
-<div class="mr-na">
-  <div class="mr-nstat" id="mr-nstat">Nyomj Demóra a példa értesítések megtekintéséhez</div>
-  <div class="mr-nbtn">
-    <button onclick="mrDemo()">&#9654; Demo</button>
-    <button onclick="mrNotifPerm()">&#128276; Böngésző értesítés</button>
-  </div>
-</div>
-</div>
-
-</div></section>
-<hr class="d">
 <footer><div class="wrap">
   <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:40px;text-align:left;margin-bottom:40px;padding-bottom:40px;border-bottom:1px solid rgba(255,255,255,0.06)">
     <!-- Impresszum -->
@@ -1348,6 +1245,10 @@ function drawP(){
   requestAnimationFrame(drawP);
 }
 drawP();
+const prog=document.getElementById('prog');
+window.addEventListener('scroll',function(){
+  prog.style.width=(scrollY/(document.body.scrollHeight-innerHeight)*100)+'%';
+});
 const ro=new IntersectionObserver(function(entries){
   entries.forEach(function(e,i){
     if(e.isIntersecting){setTimeout(function(){e.target.classList.add('vi')},i*55);ro.unobserve(e.target);}
@@ -1392,58 +1293,6 @@ function expById(id,btn){
 function ccPre(btn){
   var p=btn.closest('.cw').querySelector('pre');
   navigator.clipboard.writeText(p.textContent).then(function(){cbFeedback(btn);});
-}
-// ── Napi Munkarend értesítés demo ──
-// Toast konténer létrehozása body-ba
-(function(){
-  var c=document.createElement('div');
-  c.className='mr-notif-demo';
-  c.id='mr-toasts';
-  document.body.appendChild(c);
-})();
-var mrRunning=false;
-var mrMessages=[
-  {type:'blue',icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg>',title:'Pull kész',msg:'↓  GitHub szinkronizálva — minden naprakész'},
-  {type:'green',icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/><polyline points="12 2 12 12 8 8"/></svg>',title:'Push sikeres',msg:'↑  Mentes_2026.04.15_10.30 → GitHub'},
-  {type:'yellow',icon:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>',title:'Nincs változás a munkában',msg:'~  Nem volt mit feltölteni'},
-];
-function mrShowToast(msg,delay){
-  setTimeout(function(){
-    var area=document.getElementById('mr-toasts');
-    var stat=document.getElementById('mr-nstat');
-    var t=document.createElement('div');
-    t.className='mr-toast';
-    t.innerHTML='<div class="mr-ti '+msg.type+'">'+msg.icon+'</div><div class="mr-tm"><strong>'+msg.title+'</strong><span>'+msg.msg+'</span></div>';
-    area.appendChild(t);
-    requestAnimationFrame(function(){requestAnimationFrame(function(){t.classList.add('show');});});
-    setTimeout(function(){t.classList.add('hide');setTimeout(function(){if(t.parentNode)t.parentNode.removeChild(t);},380);},3200);
-  },delay);
-}
-function mrDemo(){
-  if(mrRunning)return;
-  mrRunning=true;
-  var stat=document.getElementById('mr-nstat');
-  stat.textContent='Demo fut...';
-  var area=document.getElementById('mr-toasts');
-  area.innerHTML='';
-  mrMessages.forEach(function(m,i){mrShowToast(m,i*1300);});
-  var total=mrMessages.length*1300+3500;
-  setTimeout(function(){
-    mrRunning=false;
-    stat.textContent='Nyomj Újra a demo ismétléséhez';
-  },total);
-}
-function mrNotifPerm(){
-  if(!('Notification' in window)){alert('Ez a böngésző nem támogatja az értesítéseket.');return;}
-  Notification.requestPermission().then(function(p){
-    var stat=document.getElementById('mr-nstat');
-    if(p==='granted'){
-      new Notification('VS Wizard',{body:'Push után valódi böngésző értesítést kapsz!'});
-      stat.textContent='✓ Értesítések engedélyezve';
-    } else {
-      stat.textContent='Értesítések blokkolva — böngésző beállításokban engedélyezhető';
-    }
-  });
 }
 </script>
 
@@ -1798,12 +1647,12 @@ function wzGeneratePs1(){
     "npx browser-sync start --proxy 'localhost:8000' --files '**/*.css,**/*.php,**/*.blade.php' --port 3000 --open"
   ];
   var bsCmd=bsCmds[wzType];
-  var pushCmd="git add . ; $d = git diff --cached --quiet ; if ($LASTEXITCODE -ne 0) { $m = 'Mentes_' + (Get-Date -Format 'yyyy.MM.dd_HH.mm') ; git commit -m $m ; git push ; Write-Host 'Kesz!' ; Start-Process powershell -WindowStyle Hidden -ArgumentList '-ExecutionPolicy','Bypass','-File','.vscode\\notify.ps1','-Type','push-ok','-Message',$m } else { Write-Host 'Nincs valtozas.' ; Start-Process powershell -WindowStyle Hidden -ArgumentList '-ExecutionPolicy','Bypass','-File','.vscode\\notify.ps1','-Type','no-change' }";
+  var pushCmd="git add . ; $d = git diff --cached --quiet ; if ($LASTEXITCODE -ne 0) { $m = 'Mentes_' + (Get-Date -Format 'yyyy.MM.dd_HH.mm') ; git commit -m $m ; git push ; Write-Host 'Kesz!' } else { Write-Host 'Nincs valtozas.' }";
   var tasks={
     "version":"2.0.0",
     "tasks":[
       {"label":"Push","type":"shell","command":pushCmd,"options":{"cwd":"${workspaceFolder}"},"group":{"kind":"build","isDefault":true},"problemMatcher":[]},
-      {"label":"Pull","type":"shell","command":"git pull ; Write-Host 'Kesz!' ; Start-Process powershell -WindowStyle Hidden -ArgumentList '-ExecutionPolicy','Bypass','-File','.vscode\\notify.ps1','-Type','pull-ok'","options":{"cwd":"${workspaceFolder}"},"group":"none","problemMatcher":[]},
+      {"label":"Pull","type":"shell","command":"git pull ; Write-Host 'Kesz!'","options":{"cwd":"${workspaceFolder}"},"group":"none","problemMatcher":[]},
       {"label":"Watcher","type":"shell","command":"powershell -ExecutionPolicy Bypass -File .vscode/naplo-watcher.ps1","options":{"cwd":"${workspaceFolder}"},"group":"none","isBackground":true,"runOptions":{"runOn":"folderOpen"},"problemMatcher":[]},
       {"label":"BrowserSync","type":"shell","command":bsCmd,"options":{"cwd":"${workspaceFolder}"},"group":"none","isBackground":true,"problemMatcher":[]}
     ]
@@ -1823,8 +1672,6 @@ function wzGeneratePs1(){
   s+='\'@\n';
   s+='$tasksContent | Set-Content ".vscode/tasks.json" -Encoding UTF8\n\n';
   s+='\'{"task.allowAutomaticTasks": "on"}\' | Set-Content ".vscode/settings.json" -Encoding UTF8\n\n';
-  s+='Write-Host "notify.ps1 letoltese..." -ForegroundColor Yellow\n';
-  s+='try { Invoke-WebRequest "https://raw.githubusercontent.com/koltainorbert/VisualCode-Munkakornyezet/main/.vscode/notify.ps1" -OutFile ".vscode\\notify.ps1" -Encoding UTF8 -ErrorAction Stop ; Write-Host "  OK" -ForegroundColor Green } catch { Write-Host "  sikertelen (offline?)" -ForegroundColor Yellow }\n\n';
   s+='@\'\nnode_modules/\n.env\n.env.local\n*.log\ndist/\n\'@ | Set-Content ".gitignore" -Encoding UTF8\n\n';
   s+='@\'\n$p = (Get-Location).Path\nwhile ($true) {\n    $fj = @(git diff --name-only HEAD 2>$null) + @(git ls-files --others --exclude-standard 2>$null) | Where-Object { $_ -ne "" }\n    if ($fj.Count -gt 0) {\n        git add .\n        git diff --cached --quiet\n        if ($LASTEXITCODE -ne 0) {\n            git commit -m ("Auto_" + (Get-Date -Format "yyyy.MM.dd_HH.mm"))\n            git push\n        }\n    }\n    Start-Sleep -Seconds 60\n}\n\'@ | Set-Content ".vscode/naplo-watcher.ps1" -Encoding UTF8\n\n';
   s+='@\'\n# Copilot fejlesztesi szabalyok\n## Naplo\n- Minden session vegen frissitsd a NAPLO.md fajlt\n- Session elejen olvasd el az utolso bejegyzest\n## Design\n- Szoveg: color:#fff\n- Accent: #ff0000\n- Hatter: rgb(6,6,6) + dot grid\n\'@ | Set-Content ".github/copilot-instructions.md" -Encoding UTF8\n\n';

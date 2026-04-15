@@ -1,10 +1,6 @@
 ===========================================
-  NAPI FEJLESZTÉSI MUNKAREND — 2026.04.15
+  NAPI FEJLESZTÉSI MUNKAREND
 ===========================================
-
-ALAPPARANCSOK:
-  Ctrl+Shift+B          = Push (feltöltés GitHubra)   ← munka VÉGÉN
-  Ctrl+Shift+P → ⬇ Pull = Pull (letöltés GitHubról)   ← munka ELEJÉN
 
 REGGEL (projekt megnyitáskor):
   1. VS Code megnyitás → project mappa
