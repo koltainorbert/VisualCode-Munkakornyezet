@@ -2097,32 +2097,27 @@ function wzRun(){
   if(!folder){ alert('Add meg a projekt mappa elérési útját!'); return; }
   var ps1=wzGeneratePs1();
 
-  // BAT fejléc: pontosan 6 sor, utána PS1
-  // more +6 kihagyja az első 6 sort → temp .ps1 fájlba menti → futtatja
-  var bat='@echo off\r\n';
-  bat+='set "T=%TEMP%\\sdh%RANDOM%.ps1"\r\n';
-  bat+='more +6 "%~f0" > "%T%"\r\n';
-  bat+='powershell -ExecutionPolicy Bypass -File "%T%"\r\n';
-  bat+='del "%T%"\r\n';
-  bat+='exit /b\r\n';
-  bat+=ps1.replace(/\r\n/g,'\n').replace(/\n/g,'\r\n');
-
-  var blob=new Blob([bat],{type:'application/octet-stream'});
-  var url=URL.createObjectURL(blob);
-  var a=document.createElement('a');
-  a.href=url; a.download='SDH-Setup.bat';
-  document.body.appendChild(a); a.click();
-  setTimeout(function(){ document.body.removeChild(a); URL.revokeObjectURL(url); },1000);
-
   document.getElementById('wz-sum').style.display='none';
   document.getElementById('wz-log-wrap').style.display='block';
   document.getElementById('wz-cbtn').style.display='none';
   document.getElementById('wz-bbtn').style.display='none';
-  wzLog('✓ SDH-Setup.bat letöltve!','ok');
-  wzLog('','');
-  wzLog('► Letöltési sávban kattints: "Megnyitás" / "Open"','info');
-  wzLog('  PowerShell ablak megnyílik → project létrejön →','info');
-  wzLog('  VS Code automatikusan megnyílik. Kész!','info');
+
+  navigator.clipboard.writeText(ps1).then(function(){
+    wzLog('✓ Script másolva a vágólapra!','ok');
+    wzLog('','');
+    wzLog('1.  Win + R  →  powershell  →  Enter','info');
+    wzLog('2.  Ctrl+V  →  Enter','info');
+    wzLog('3.  VS Code automatikusan megnyílik. Kész!','info');
+  }).catch(function(){
+    var blob=new Blob([ps1],{type:'text/plain'});
+    var url=URL.createObjectURL(blob);
+    var a=document.createElement('a');
+    a.href=url; a.download='SDH-Setup.ps1';
+    document.body.appendChild(a); a.click();
+    setTimeout(function(){ document.body.removeChild(a); URL.revokeObjectURL(url); },1000);
+    wzLog('✓ SDH-Setup.ps1 letöltve!','ok');
+    wzLog('► Futtasd: powershell -ExecutionPolicy Bypass -File SDH-Setup.ps1','info');
+  });
 }
 </script>
 
