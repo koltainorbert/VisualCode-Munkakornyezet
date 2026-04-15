@@ -1,22 +1,18 @@
 param(
     [string]$Title = "VS Wizard",
-    [string]$Message = "",
-    [string]$Type = "success"
+    [string]$Message = ""
 )
 
-try {
-    [Windows.UI.Notifications.ToastNotificationManager, Windows.UI.Notifications, ContentType = WindowsRuntime] | Out-Null
-    [Windows.Data.Xml.Dom.XmlDocument, Windows.Data.Xml.Dom.XmlDocument, ContentType = WindowsRuntime] | Out-Null
+Add-Type -AssemblyName System.Windows.Forms
+Add-Type -AssemblyName System.Drawing
 
-    $xml = [Windows.UI.Notifications.ToastNotificationManager]::GetTemplateContent(
-        [Windows.UI.Notifications.ToastTemplateType]::ToastText02
-    )
-    $nodes = $xml.GetElementsByTagName("text")
-    $nodes[0].AppendChild($xml.CreateTextNode($Title))   | Out-Null
-    $nodes[1].AppendChild($xml.CreateTextNode($Message)) | Out-Null
+$balloon = New-Object System.Windows.Forms.NotifyIcon
+$balloon.Icon = [System.Drawing.SystemIcons]::Application
+$balloon.BalloonTipIcon = [System.Windows.Forms.ToolTipIcon]::Info
+$balloon.BalloonTipTitle = $Title
+$balloon.BalloonTipText = $Message
+$balloon.Visible = $true
+$balloon.ShowBalloonTip(5000)
+Start-Sleep -Seconds 5
+$balloon.Dispose()
 
-    $toast = [Windows.UI.Notifications.ToastNotification]::new($xml)
-    [Windows.UI.Notifications.ToastNotificationManager]::CreateToastNotifier("VS Wizard").Show($toast)
-} catch {
-    # csendben megy tovabb ha nem tamogatott
-}
