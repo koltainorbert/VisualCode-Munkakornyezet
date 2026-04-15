@@ -93,10 +93,10 @@ $win.Add_Loaded({
     $aTop.EasingFunction = $ease
     $win.BeginAnimation([System.Windows.Window]::OpacityProperty, $aOp)
     $win.BeginAnimation([System.Windows.Window]::TopProperty, $aTop)
-    $t = [System.Windows.Threading.DispatcherTimer]::new()
-    $t.Interval = [TimeSpan]::FromSeconds(3.5)
-    $t.Add_Tick({
-        $t.Stop()
+    $script:t = [System.Windows.Threading.DispatcherTimer]::new()
+    $script:t.Interval = [TimeSpan]::FromSeconds(3.5)
+    $script:t.Add_Tick({
+        $script:t.Stop()
         $dOut = [System.Windows.Duration]::new([TimeSpan]::FromMilliseconds(300))
         $fo   = [System.Windows.Media.Animation.DoubleAnimation]::new(1, 0, $dOut)
         $aOut = [System.Windows.Media.Animation.DoubleAnimation]::new($endTop, $endTop - 20, $dOut)
@@ -104,7 +104,7 @@ $win.Add_Loaded({
         $win.BeginAnimation([System.Windows.Window]::OpacityProperty, $fo)
         $win.BeginAnimation([System.Windows.Window]::TopProperty, $aOut)
     })
-    $t.Start()
+    $script:t.Start()
 })
 
 $win.ShowDialog() | Out-Null
