@@ -1612,10 +1612,47 @@ function mrNotifPerm(){
       <div class="wz-ptitle">Milyen projekt?</div>
       <div class="wz-psub">Válaszd ki a projekt típusát.</div>
       <div class="wz-opts">
-        <div class="wz-opt wsel" id="wo0" onclick="wzSelOpt(0)"><span class="wz-opt-mark"></span><span class="wz-opt-title">WordPress</span><div class="wz-opt-sub">LocalWP, Bricks, Elementor, custom téma</div></div>
-        <div class="wz-opt" id="wo1" onclick="wzSelOpt(1)"><span class="wz-opt-mark"></span><span class="wz-opt-title">HTML / CSS / JS</span><div class="wz-opt-sub">Statikus oldal, egyszerű frontend</div></div>
-        <div class="wz-opt" id="wo2" onclick="wzSelOpt(2)"><span class="wz-opt-mark"></span><span class="wz-opt-title">React / Vue / Node</span><div class="wz-opt-sub">Modern JS framework, dev szerver</div></div>
-        <div class="wz-opt" id="wo3" onclick="wzSelOpt(3)"><span class="wz-opt-mark"></span><span class="wz-opt-title">Laravel / PHP</span><div class="wz-opt-sub">PHP keretrendszer, artisan szerver</div></div>
+        <div class="wz-opt wsel" id="wo0" onclick="wzSelOpt(0)">
+          <span class="wz-opt-mark"></span><span class="wz-opt-title">WordPress</span>
+          <div class="wz-opt-sub">LocalWP, Bricks, Elementor, ACF, custom t\u00e9ma fejleszt\u00e9s</div>
+          <div class="wz-tags"><span class="wz-tag">LocalWP</span><span class="wz-tag">PHP</span><span class="wz-tag">MySQL</span><span class="wz-tag">WP-CLI</span></div>
+        </div>
+        <div class="wz-opt" id="wo1" onclick="wzSelOpt(1)">
+          <span class="wz-opt-mark"></span><span class="wz-opt-title">HTML / CSS / JS</span>
+          <div class="wz-opt-sub">Statikus oldal, landing page, egyszer\u0171 frontend projekt</div>
+          <div class="wz-tags"><span class="wz-tag">Statikus</span><span class="wz-tag">Browser Sync</span><span class="wz-tag">SCSS</span><span class="wz-tag">FTP</span></div>
+        </div>
+        <div class="wz-opt" id="wo2" onclick="wzSelOpt(2)">
+          <span class="wz-opt-mark"></span><span class="wz-opt-title">React / Vue / Node</span>
+          <div class="wz-opt-sub">Modern JS framework, Vite, HMR, SPA alkalmaz\u00e1s</div>
+          <div class="wz-tags"><span class="wz-tag">Vite</span><span class="wz-tag">NPM</span><span class="wz-tag">HMR</span><span class="wz-tag">localhost:5173</span></div>
+        </div>
+        <div class="wz-opt" id="wo3" onclick="wzSelOpt(3)">
+          <span class="wz-opt-mark"></span><span class="wz-opt-title">Laravel / PHP</span>
+          <div class="wz-opt-sub">PHP MVC keretrendszer, Eloquent ORM, artisan CLI</div>
+          <div class="wz-tags"><span class="wz-tag">PHP 8+</span><span class="wz-tag">Composer</span><span class="wz-tag">MySQL</span><span class="wz-tag">artisan</span></div>
+        </div>
+        <div class="wz-opt" id="wo4" onclick="wzSelOpt(4)">
+          <span class="wz-opt-mark"></span><span class="wz-opt-title">Next.js / Nuxt</span>
+          <div class="wz-opt-sub">SSR / SSG fullstack JS framework, Vercel vagy \u00f6n\u00e1ll\u00f3an</div>
+          <div class="wz-tags"><span class="wz-tag">Node</span><span class="wz-tag">SSR</span><span class="wz-tag">SSG</span><span class="wz-tag">Vercel</span></div>
+        </div>
+        <div class="wz-opt" id="wo5" onclick="wzSelOpt(5)">
+          <span class="wz-opt-mark"></span><span class="wz-opt-title">Python / Django / Flask</span>
+          <div class="wz-opt-sub">Backend API, admin panel, adattudom\u00e1ny, ML projekt</div>
+          <div class="wz-tags"><span class="wz-tag">Python 3</span><span class="wz-tag">pip</span><span class="wz-tag">venv</span><span class="wz-tag">REST API</span></div>
+        </div>
+        <div class="wz-opt" id="wo6" onclick="wzSelOpt(6)">
+          <span class="wz-opt-mark"></span><span class="wz-opt-title">Electron / Tauri</span>
+          <div class="wz-opt-sub">Cross-platform asztali alkalmaz\u00e1s, rendszerszint\u0171 hozz\u00e1f\u00e9r\u00e9s</div>
+          <div class="wz-tags"><span class="wz-tag">Desktop</span><span class="wz-tag">Chromium</span><span class="wz-tag">Rust / Node</span></div>
+        </div>
+        <div class="wz-opt" id="wo7" onclick="wzSelOpt(7)">
+          <span class="wz-opt-mark"></span><span class="wz-opt-title">Egy\u00e9b / Saj\u00e1t</span>
+          <div class="wz-opt-sub">Teljesen egy\u00e9ni projekt, saj\u00e1t workflow, b\u00e1rmi m\u00e1s</div>
+          <div class="wz-tags"><span class="wz-tag">Git</span><span class="wz-tag">Egy\u00e9ni</span><span class="wz-tag">Manu\u00e1lis</span></div>
+        </div>
+      </div>
       </div>
     </div>
     <!-- P2: Mappa + GitHub -->
@@ -1702,10 +1739,10 @@ function wzClose(){
 }
 
 function wzSelOpt(n){
-  for(var i=0;i<4;i++) document.getElementById('wo'+i).className='wz-opt';
+  for(var i=0;i<8;i++) document.getElementById('wo'+i).className='wz-opt';
   document.getElementById('wo'+n).className='wz-opt wsel';
   wzType=n;
-  var ph=['sdh2026.local','.','localhost:5173','localhost:8000'];
+  var ph=['sdh2026.local','.','localhost:5173','localhost:8000','localhost:3000','localhost:8000','localhost:4200','localhost'];
   document.getElementById('wz-siteurl').placeholder='pl. '+ph[n];
 }
 
