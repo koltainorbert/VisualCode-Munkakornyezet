@@ -1798,12 +1798,12 @@ function wzGeneratePs1(){
     "npx browser-sync start --proxy 'localhost:8000' --files '**/*.css,**/*.php,**/*.blade.php' --port 3000 --open"
   ];
   var bsCmd=bsCmds[wzType];
-  var pushCmd="git add . ; $d = git diff --cached --quiet ; if ($LASTEXITCODE -ne 0) { $m = 'Mentes_' + (Get-Date -Format 'yyyy.MM.dd_HH.mm') ; git commit -m $m ; git push ; Write-Host 'Kesz!' } else { Write-Host 'Nincs valtozas.' }";
+  var pushCmd="git add . ; $d = git diff --cached --quiet ; if ($LASTEXITCODE -ne 0) { $m = 'Mentes_' + (Get-Date -Format 'yyyy.MM.dd_HH.mm') ; git commit -m $m ; git push ; Write-Host 'Kesz!' ; Start-Process powershell -WindowStyle Hidden -ArgumentList '-ExecutionPolicy','Bypass','-File','.vscode\\notify.ps1','-Type','push-ok','-Message',$m } else { Write-Host 'Nincs valtozas.' ; Start-Process powershell -WindowStyle Hidden -ArgumentList '-ExecutionPolicy','Bypass','-File','.vscode\\notify.ps1','-Type','no-change' }";
   var tasks={
     "version":"2.0.0",
     "tasks":[
       {"label":"Push","type":"shell","command":pushCmd,"options":{"cwd":"${workspaceFolder}"},"group":{"kind":"build","isDefault":true},"problemMatcher":[]},
-      {"label":"Pull","type":"shell","command":"git pull ; Write-Host 'Kesz!'","options":{"cwd":"${workspaceFolder}"},"group":"none","problemMatcher":[]},
+      {"label":"Pull","type":"shell","command":"git pull ; Write-Host 'Kesz!' ; Start-Process powershell -WindowStyle Hidden -ArgumentList '-ExecutionPolicy','Bypass','-File','.vscode\\notify.ps1','-Type','pull-ok'","options":{"cwd":"${workspaceFolder}"},"group":"none","problemMatcher":[]},
       {"label":"Watcher","type":"shell","command":"powershell -ExecutionPolicy Bypass -File .vscode/naplo-watcher.ps1","options":{"cwd":"${workspaceFolder}"},"group":"none","isBackground":true,"runOptions":{"runOn":"folderOpen"},"problemMatcher":[]},
       {"label":"BrowserSync","type":"shell","command":bsCmd,"options":{"cwd":"${workspaceFolder}"},"group":"none","isBackground":true,"problemMatcher":[]}
     ]
@@ -1823,6 +1823,8 @@ function wzGeneratePs1(){
   s+='\'@\n';
   s+='$tasksContent | Set-Content ".vscode/tasks.json" -Encoding UTF8\n\n';
   s+='\'{"task.allowAutomaticTasks": "on"}\' | Set-Content ".vscode/settings.json" -Encoding UTF8\n\n';
+  s+='Write-Host "notify.ps1 letoltese..." -ForegroundColor Yellow\n';
+  s+='try { Invoke-WebRequest "https://raw.githubusercontent.com/koltainorbert/VisualCode-Munkakornyezet/main/.vscode/notify.ps1" -OutFile ".vscode\\notify.ps1" -Encoding UTF8 -ErrorAction Stop ; Write-Host "  OK" -ForegroundColor Green } catch { Write-Host "  sikertelen (offline?)" -ForegroundColor Yellow }\n\n';
   s+='@\'\nnode_modules/\n.env\n.env.local\n*.log\ndist/\n\'@ | Set-Content ".gitignore" -Encoding UTF8\n\n';
   s+='@\'\n$p = (Get-Location).Path\nwhile ($true) {\n    $fj = @(git diff --name-only HEAD 2>$null) + @(git ls-files --others --exclude-standard 2>$null) | Where-Object { $_ -ne "" }\n    if ($fj.Count -gt 0) {\n        git add .\n        git diff --cached --quiet\n        if ($LASTEXITCODE -ne 0) {\n            git commit -m ("Auto_" + (Get-Date -Format "yyyy.MM.dd_HH.mm"))\n            git push\n        }\n    }\n    Start-Sleep -Seconds 60\n}\n\'@ | Set-Content ".vscode/naplo-watcher.ps1" -Encoding UTF8\n\n';
   s+='@\'\n# Copilot fejlesztesi szabalyok\n## Naplo\n- Minden session vegen frissitsd a NAPLO.md fajlt\n- Session elejen olvasd el az utolso bejegyzest\n## Design\n- Szoveg: color:#fff\n- Accent: #ff0000\n- Hatter: rgb(6,6,6) + dot grid\n\'@ | Set-Content ".github/copilot-instructions.md" -Encoding UTF8\n\n';
