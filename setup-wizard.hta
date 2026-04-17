@@ -183,15 +183,35 @@ input[type=text]::placeholder{color:rgba(255,255,255,0.2)}
       </div>
       <div class="opt" id="opt1" onmousedown="selOpt(1)">
         <span class="opt-mark"></span><span class="opt-title">HTML / CSS / JS</span>
-        <div class="opt-sub">Statikus oldal, egyszerű frontend</div>
+        <div class="opt-sub">Statikus oldal, landing page, portfolio</div>
       </div>
       <div class="opt" id="opt2" onmousedown="selOpt(2)">
-        <span class="opt-mark"></span><span class="opt-title">React / Vue / Node</span>
-        <div class="opt-sub">Modern JS framework, dev szerver</div>
+        <span class="opt-mark"></span><span class="opt-title">React / Next.js</span>
+        <div class="opt-sub">Vite, CRA, Next.js — modern frontend</div>
       </div>
       <div class="opt" id="opt3" onmousedown="selOpt(3)">
+        <span class="opt-mark"></span><span class="opt-title">Vue / Nuxt</span>
+        <div class="opt-sub">Vue 3, Nuxt, Vite dev szerver</div>
+      </div>
+      <div class="opt" id="opt4" onmousedown="selOpt(4)">
         <span class="opt-mark"></span><span class="opt-title">Laravel / PHP</span>
         <div class="opt-sub">PHP keretrendszer, artisan szerver</div>
+      </div>
+      <div class="opt" id="opt5" onmousedown="selOpt(5)">
+        <span class="opt-mark"></span><span class="opt-title">Node.js / Express</span>
+        <div class="opt-sub">Backend API, REST, WebSocket</div>
+      </div>
+      <div class="opt" id="opt6" onmousedown="selOpt(6)">
+        <span class="opt-mark"></span><span class="opt-title">Python / Django / Flask</span>
+        <div class="opt-sub">Python web, virtualenv, pip</div>
+      </div>
+      <div class="opt" id="opt7" onmousedown="selOpt(7)">
+        <span class="opt-mark"></span><span class="opt-title">Shopify / WooCommerce</span>
+        <div class="opt-sub">E-commerce téma fejlesztés</div>
+      </div>
+      <div class="opt" id="opt8" onmousedown="selOpt(8)">
+        <span class="opt-mark"></span><span class="opt-title">Egyéb</span>
+        <div class="opt-sub">Egyedi projekt, saját konfiguráció</div>
       </div>
     </div>
   </div>
@@ -288,14 +308,14 @@ var branchOn = false;
 
 // Típus választás
 function selOpt(n) {
-  for (var i = 0; i < 4; i++) {
+  for (var i = 0; i < 9; i++) {
     document.getElementById('opt'+i).className = 'opt';
   }
   document.getElementById('opt'+n).className = 'opt sel';
   projType = n;
 
   // Site URL placeholder
-  var ph = ['sdh2026.local', '.', 'localhost:5173', 'localhost:8000'];
+  var ph = ['sdh2026.local', '.', 'localhost:5173', 'localhost:5173', 'localhost:8000', 'localhost:3000', 'localhost:8000', 'localhost:3000', '.'];
   document.getElementById('siteurl').placeholder = 'pl. ' + ph[n];
 }
 
@@ -379,7 +399,7 @@ function showStep(s) {
 }
 
 function buildSummary() {
-  var types = ['WordPress', 'HTML / CSS / JS', 'React / Vue / Node', 'Laravel / PHP'];
+  var types = ['WordPress', 'HTML / CSS / JS', 'React / Next.js', 'Vue / Nuxt', 'Laravel / PHP', 'Node.js / Express', 'Python / Django / Flask', 'Shopify / WooCommerce', 'Egyéb'];
   var folder = document.getElementById('folder').value || '(nincs megadva)';
   var github = document.getElementById('github').value || '—';
   var siteurl = document.getElementById('siteurl').value || '—';
