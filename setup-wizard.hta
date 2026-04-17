@@ -177,7 +177,7 @@ input[type=text]::placeholder{color:rgba(255,255,255,0.2)}
     <div class="panel-title">Milyen projekt?</div>
     <div class="panel-sub">Válaszd ki a projekt típusát — ez befolyásolja a generált konfigurációt.</div>
     <div class="options">
-      <div class="opt sel" id="opt0" onmousedown="selOpt(0)">
+      <div class="opt" id="opt0" onmousedown="selOpt(0)">
         <span class="opt-mark"></span><span class="opt-title">WordPress</span>
         <div class="opt-sub">LocalWP, Bricks, Elementor, custom téma</div>
       </div>
@@ -307,14 +307,25 @@ var deployOn = false;
 var branchOn = false;
 
 // Típus választás
+var currentOpt = null;
 function selOpt(n) {
   for (var i = 0; i < 9; i++) {
-    document.getElementById('opt'+i).className = 'opt';
+    var el = document.getElementById('opt'+i);
+    if (el) {
+      el.style.borderColor = 'rgba(255,255,255,0.07)';
+      el.style.background = 'rgba(255,255,255,0.02)';
+      var m = el.getElementsByTagName('span')[0];
+      if (m) { m.style.background=''; m.style.borderColor='rgba(255,255,255,0.2)'; m.style.boxShadow=''; }
+    }
   }
-  document.getElementById('opt'+n).className = 'opt sel';
+  var sel = document.getElementById('opt'+n);
+  if (sel) {
+    sel.style.borderColor = 'rgba(255,0,0,0.6)';
+    sel.style.background = 'rgba(255,0,0,0.08)';
+    var m = sel.getElementsByTagName('span')[0];
+    if (m) { m.style.background='#ff0000'; m.style.borderColor='#ff0000'; m.style.boxShadow='0 0 6px rgba(255,0,0,0.5)'; }
+  }
   projType = n;
-
-  // Site URL placeholder
   var ph = ['sdh2026.local', '.', 'localhost:5173', 'localhost:5173', 'localhost:8000', 'localhost:3000', 'localhost:8000', 'localhost:3000', '.'];
   document.getElementById('siteurl').placeholder = 'pl. ' + ph[n];
 }
